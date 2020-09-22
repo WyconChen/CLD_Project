@@ -10,19 +10,19 @@ Base = declarative_base()
 
 class Program(Base):
     __tablename__ = "CLD_Program"
-    id = Column(Integer, primary_key = True, auto_increment = True)
+    id = Column(Integer, primary_key = True)
     program_id = Column(Integer)
     program_name = Column(String(250))
 
 class Baoyun18(Base):
     __tablename__ = "CLD_Baoyun18"
-    id = Column(Integer, primary_key = True, auto_increment = True)
+    id = Column(Integer, primary_key = True)
     program_id = Column(Integer)
     temp_id = Column(Integer, nullable = False)
     product_id = Column(Integer, nullable = False)
     product_name = Column(String(250), nullable = False)
     payDesc = Column(String(250), nullable = False)
-    insureDesc = Column(String(250),nullable = False, default = 0)
+    insureDesc = Column(String(250),nullable = False)
     first_rate = Column(Float, nullable = True)
     second_rate = Column(Float, nullable = True)
 

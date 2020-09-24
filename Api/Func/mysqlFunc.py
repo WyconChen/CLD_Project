@@ -15,10 +15,14 @@ class mysqlFunc:
     def insertDataToBaiyun18(self, DataDict:dict):
         # Add_Detail = Program(program_id = DataDict["program_id"], product_id = DataDict["product_id"])
         # self.session.add(Add_Detail)
-        Add_Detail = Program(program_id = DataDict["program_id"], temp_id = DataDict["temp_id"], product_id = DataDict["product_id"],
-                            product_name = DataDict["product_name"], payDesc = DataDict["payDesc"], insureDesc = DataDict["insureDesc"],
-                            first_rate = DataDict["first_rate"], second_rate = DataDict["second_rate"])
-        self.session.add(Add_Detail)
+        try:
+            Add_Detail = Program(program_id = DataDict["program_id"], temp_id = DataDict["temp_id"], product_id = DataDict["product_id"],
+                                product_name = DataDict["product_name"], payDesc = DataDict["payDesc"], insureDesc = DataDict["insureDesc"],
+                                first_rate = DataDict["first_rate"], second_rate = DataDict["second_rate"])
+            self.session.add(Add_Detail)
+            return True
+        except:
+            return False
 
     def __del__(self):
         self.session.commit()

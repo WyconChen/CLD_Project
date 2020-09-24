@@ -2,7 +2,10 @@ import requests
 import json
 import time
 import requests
-from manageDB.manage import engine, Program, Baoyun18
+try:
+	from manageDB.manage import engine, Program, Baoyun18
+except:
+	from CLD_Project.manageDB.manage import engine, Program, Baoyun18
 
 class BaoYun18:
 

@@ -1,5 +1,8 @@
 from sqlalchemy.orm import sessionmaker
-from CLD_Project.manageDB.manage import engine, Program, Baoyun18
+try:
+    from CLD_Project.manageDB.manage import engine, Program, Baoyun18
+except:
+    from manageDB.manage import engine, Program, Baoyun18
 
 class mysqlFunc:
 

@@ -12,7 +12,7 @@ mysqlFunc = mysqlFunc()
 @app.post("/insert/Program")
 async def insertDataToProgram(request_data: ProgramModel):
     DataDict = {
-    	  "program_id": ProgramModel.program_id
+    	  "program_id": ProgramModel.program_id,
     	  "program_name": ProgramModel.program_name
     }
     mysqlFunc.insertDataToProgram(DataDict)

@@ -23,6 +23,7 @@ class mysqlFunc:
                                 product_name = DataDict["product_name"], payDesc = DataDict["payDesc"], insureDesc = DataDict["insureDesc"],
                                 first_rate = DataDict["first_rate"], second_rate = DataDict["second_rate"])
             self.session.add(Add_Detail)
+            self.session.commit()
             return True
 
     def __del__(self):

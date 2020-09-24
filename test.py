@@ -1,0 +1,1 @@
+{'product_id': 104101, 'product_name': '百惠保重大疾病保险', 'plan_Id': 128604, 'company_id': 1105, 'company_name': '百 年人寿', 'isDetails': True, 'yearPolicyText': '次年', 'insureAgeText': '20年,30年缴', 'economyText': '终身 ', 'feeRateList_1': 7.0, 'feeRateList_2': 0.0}

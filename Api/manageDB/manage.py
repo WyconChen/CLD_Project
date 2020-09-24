@@ -2,7 +2,7 @@ import pymysql
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
-from sqlalchemy import Integer, String, Float
+from sqlalchemy import Integer, String, Float, Boolean
 
 engine = create_engine("mysql+pymysql://root:chenweicong11@127.0.0.1:3306/CLD?charset=utf8mb4")
 
@@ -40,7 +40,21 @@ class Baoyun18(Base):
         self.first_rate = first_rate
         self.second_rate = second_rate
 
-
+class Qixin18(Base):
+    __tablename__ = "CLD_Qixin18"
+    id = Column(Integer, primary_key = True)
+    program_id = Column(Integer)
+    product_id = Column(Integer, nullable = False)
+    product_name = Column(String(250), nullable = False)
+    plan_Id = Column(Integer, nullable = False)
+    company_id = Column(Integer, nullable = False)
+    company_name = Column(String(250), nullable = False)
+    isDetails = Column(Boolean(250),nullable = False)
+    yearPolicyText = Column(String(250), nullable = True)
+    insureAgeText = Column(String(250), nullable = True)
+    economyText = Column(String(250), nullable = True)
+    feeRateList_1 = Column(Float, nullable = True)
+    feeRateList_2 = Column(Float, nullable = True)
 
 if __name__ == "__main__":
     Base.metadata.create_all(engine)

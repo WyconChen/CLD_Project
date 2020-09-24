@@ -4,13 +4,15 @@ try:
     from Api.Func.mysqlFunc import mysqlFunc
 except:
     from Api.Func.mysqlFunc import mysqlFunc
-from Api.Model.model import ProgramModel, Baoyun18Model
+from Api.Func.MysqlModule import MysqlModule
+from Api.Model.model import ProgramModel, Baoyun18Model, Qixin18Model
 
 import json
 
 app = FastAPI()
 
 mysqlFunc = mysqlFunc()
+MysqlModule = MysqlModule()
 
 @app.post("/insert/Program")
 async def insertDataToProgram(request_data: ProgramModel):
@@ -39,6 +41,22 @@ async def insertDataToProgram(request_data: Baoyun18Model):
     else:
         return {"result":"failed"}
 
-
+@app.post("/insert/Qixin18")
+async def saveDataToQixin18(request_data: Qixin18Model):
+    DataDict = {
+        "program_id": request_data.program_id,
+        "product_id": request_data.product_id,
+        "product_name": request_data.product_name,
+        "plan_Id": request_data.plan_Id,
+        "company_id": request_data.company_id,
+        "company_name": request_data.company_name,
+        "isDetails": request_data.isDetails,
+        "yearPolicyText": request_data.yearPolicyText,
+        "insureAgeText": request_data.insureAgeText,
+        "economyText": request_data.economyText,
+        "feeRateList_1": request_data.feeRateList_1,
+        "feeRateList_2": request_data.feeRateList_2
+    }
+    MysqlModule.SaveDataToQixin18(DataDict)
 if __name__ == "__main__":
  	uvicorn.run(app=app, host="0.0.0.0", port=8001)

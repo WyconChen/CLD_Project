@@ -1,6 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
-from Func.mysqlFunc import mysqlFunc
+try:
+    from Func.mysqlFunc import mysqlFunc
+except:
+    from CLD_Project.Func.mysqlFunc import mysqlFunc
 from Model.model import ProgramModel, Baoyun18Model
 
 import json

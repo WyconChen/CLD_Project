@@ -1,11 +1,15 @@
 import requests
 import json
 import time
+import requests
 from manageDB.manage import engine, Program, Baoyun18
 
 class BaoYun18:
 
 	def __init__(self):
+
+		self.program_id = 1000
+
 		# User Info
 		self.userName = "13539869933"
 		self.password = "QWEqwe123"
@@ -57,9 +61,28 @@ class BaoYun18:
 					tempId = Product_Dict["tempId"]
 					productId = Product_Dict["productId"]
 					# print(tempId, productId)
-					Product_Detail = self.Get_Product_Detail(tempId, productId)
-					print(planName, Product_Detail)
+					Product_Details = self.Get_Product_Detail(tempId, productId)
+					Product_Details_Content = Product_Details["content"] if "content" in Product_Details else {}
+					for Product_Details_Content_Dict in iter(Product_Details_Content):
+						requests_data = {
+							"program_id" : self.program_id if self.program_id else 0,
+							"product_id" : productId,
+							"product_name": planName if planName else "unknown",
+							"tempId" : tempId,
+							"payDesc" : Product_Details_Content_Dict["payDesc"],
+							"insureDesc": Product_Details_Content_Dict["insureDesc"],
+							"first_rate" : float(Product_Details_Content_Dict["firstRate"]),
+							"second_rate" : float(Product_Details_Content_Dict["secondRate"])
+						}
+
+						res = requests.post(url = "http://127.0.0.1:8001/insert/Baoyun18", data = json.dumps(requests_data))
+						print(res.text)
+
+
+
+					# print(planName, Product_Detail)
 				current_page += 1
+				break
 				time.sleep(3)
 			else:
 				break

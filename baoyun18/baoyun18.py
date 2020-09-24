@@ -74,7 +74,7 @@ class BaoYun18:
 							"second_rate" : float(Product_Details_Content_Dict["secondRate"])
 						}
 
-						res = requests.post(url = "http://127.0.0.1:8001/insert/Baoyun18", data = json.dumps(requests_data))
+						res = requests.post(url = "http://106.12.160.222:8001/insert/Baoyun18", data = json.dumps(requests_data))
 						print(res.text)
 					# print(planName, Product_Detail)
 				current_page += 1

@@ -19,7 +19,7 @@ class mysqlFunc:
         # Add_Detail = Program(program_id = DataDict["program_id"], product_id = DataDict["product_id"])
         # self.session.add(Add_Detail)
             print(DataDict)
-            Add_Detail = Baoyun18(program_id = DataDict["program_id"], temp_id = DataDict["temp_id"], product_id = DataDict["product_id"],
+            Add_Detail = Baoyun18(program_id = DataDict["program_id"], temp_id = int(DataDict["temp_id"]), product_id = int(DataDict["product_id"]),
                                 product_name = DataDict["product_name"], payDesc = DataDict["payDesc"], insureDesc = DataDict["insureDesc"],
                                 first_rate = DataDict["first_rate"], second_rate = DataDict["second_rate"])
             self.session.add(Add_Detail)
@@ -27,5 +27,5 @@ class mysqlFunc:
             return True
 
     def __del__(self):
-        self.session.commit()
+        # self.session.commit()
         self.session.close()

@@ -1,10 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 try:
-    from Func.mysqlFunc import mysqlFunc
+    from Api.Func.mysqlFunc import mysqlFunc
 except:
-    from CLD_Project.Func.mysqlFunc import mysqlFunc
-from Model.model import ProgramModel, Baoyun18Model
+    from Api.Func.mysqlFunc import mysqlFunc
+from Api.Model.model import ProgramModel, Baoyun18Model
 
 import json
 

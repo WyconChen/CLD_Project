@@ -2,10 +2,6 @@ import requests
 import json
 import time
 import requests
-try:
-	from manageDB.manage import engine, Program, Baoyun18
-except:
-	from CLD_Project.manageDB.manage import engine, Program, Baoyun18
 
 class BaoYun18:
 
@@ -89,6 +85,4 @@ class BaoYun18:
 
 
 if __name__ == "__main__":
-	print(engine)
-	print(Program)
-	print(BaoYun18)
+	pass

@@ -15,10 +15,10 @@ class MysqlModule:
         )
 
     def SaveDataToBaoyun18(self, DataDict:dict):
-        select_sql = "SELECT `temp_id`, `product_id` FROM `Baoyun18` WHERE `temp_id` = %s AND `product_id` = %s AND payDesc = %s AND insureDesc = %s;"
-        insert_sql = "INSERT INTO `Baoyun18` (`program_id`, `temp_id`, `product_id`, `product_name`, `payDesc`, `insureDesc`, `first_rate`, `second_rate`)\
+        select_sql = "SELECT `temp_id`, `product_id` FROM `CLD_Baoyun18` WHERE `temp_id` = %s AND `product_id` = %s AND payDesc = %s AND insureDesc = %s;"
+        insert_sql = "INSERT INTO `CLD_Baoyun18` (`program_id`, `temp_id`, `product_id`, `product_name`, `payDesc`, `insureDesc`, `first_rate`, `second_rate`)\
                       values (%s, %s, %s, %s, %s, %s, %s, %s);"
-        update_sql = "UPDATE Baoyun18 SET product_name = %s, first_rate = %s, second_rate = %s \
+        update_sql = "UPDATE CLD_Baoyun18 SET product_name = %s, first_rate = %s, second_rate = %s \
                       WHERE temp_id = %s AND product_id = %s AND payDesc = %s AND insureDesc = %s;"
         with self.DBConnection.cursor() as cursor:
             cursor.execute(select_sql, (DataDict["temp_id"],DataDict["product_id"], DataDict["payDesc"],DataDict["insureDesc"]))

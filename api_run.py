@@ -29,9 +29,9 @@ async def insertDataToProgram(request_data: Baoyun18Model):
     	"program_id" : request_data.program_id,
     	"temp_id" : request_data.temp_id,
         "product_id" : request_data.product_id,
-        "product_name": request_data.product_name,
-        "payDesc":request_data.payDesc,
-        "insureDesc":request_data.insureDesc,
+        "product_name": request_data.product_name.encode("utf-8"),
+        "payDesc":request_data.payDesc.encode("utf-8"),
+        "insureDesc":request_data.insureDesc.encode("utf-8"),
         "first_rate":request_data.first_rate,
         "second_rate":request_data.second_rate
     }

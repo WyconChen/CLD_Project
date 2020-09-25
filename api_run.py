@@ -7,7 +7,6 @@ except:
 from Api.Func.MysqlModule import MysqlModule
 from Api.Model.model import ProgramModel, Baoyun18Model, Qixin18Model
 
-import json
 
 app = FastAPI()
 

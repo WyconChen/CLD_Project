@@ -32,7 +32,6 @@ class BaoYun18:
 		Login_Res = self.Baoyun_Session.post(url=self.Login_Api, headers = self.Headers, data = Login_PayLoad)
 		Login_Res_Data = json.loads(Login_Res.text)
 		subUserId = Login_Res_Data["content"]["userId"]
-		print(subUserId)
 		return subUserId
 
 	def Get_Products_Menu(self, subUserId, current_page):
@@ -73,13 +72,11 @@ class BaoYun18:
 							"first_rate" : float(Product_Details_Content_Dict["firstRate"]),
 							"second_rate" : float(Product_Details_Content_Dict["secondRate"])
 						}
-
 						res = requests.post(url = "http://106.12.160.222:8001/insert/Baoyun18", data = json.dumps(requests_data))
 						# res = requests.post(url = "http://127.0.0.1:8001/insert/Baoyun18", data = json.dumps(requests_data))
-						print(res.text)
+					print(planName + ": 记录保存成功")
 					# print(planName, Product_Detail)
 				current_page += 1
-				break
 				time.sleep(3)
 			else:
 				break

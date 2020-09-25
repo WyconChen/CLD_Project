@@ -41,6 +41,11 @@ async def insertDataToProgram(request_data: Baoyun18Model):
     else:
         return {"result":"failed"}
 
+@app.get("/getDataFrom/Baoyun18")
+async def getDataFromBaoyun18():
+    result = MysqlModule.GetDataFromBaoyun18()
+    return {"result": result}
+
 @app.post("/insert/Qixin18")
 async def saveDataToQixin18(request_data: Qixin18Model):
     DataDict = {

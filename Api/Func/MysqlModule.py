@@ -35,6 +35,14 @@ class MysqlModule:
         self.DBConnection.commit()
         return True
     
+    def GetDataFromBaoyun18(self):
+        select_sql = "SELECT * FROM `CLD_Baoyun18` LIMIT 1;"
+        with self.DBConnection.cursor() as cursor:
+            cursor.execute(select_sql)
+            select_result = cursor.fetchone()
+        # self.DBConnection.commit()
+        return select_result
+    
     def SaveDataToQixin18(self, DataDict:dict):
         print(DataDict)
 

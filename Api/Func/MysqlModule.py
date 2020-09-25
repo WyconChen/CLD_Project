@@ -24,7 +24,7 @@ class MysqlModule:
             cursor.execute(select_sql, (DataDict["temp_id"],DataDict["product_id"], DataDict["payDesc"],DataDict["insureDesc"]))
             select_result = cursor.fetchone()
             # 存在数据就更新，不存在就插入
-            if len(select_result)>0:
+            if select_result:
                 cursor.execute(update_sql, (DataDict["product_name"], DataDict["first_rate"], DataDict["second_rate"], DataDict["temp_id"],
                                 DataDict["product_id"], DataDict["payDesc"], DataDict["insureDesc"]
                             ))

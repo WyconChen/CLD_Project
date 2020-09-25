@@ -67,7 +67,7 @@ class BaoYun18:
 							"program_id" : self.program_id if self.program_id else 0,
 							"product_id" : productId,
 							"product_name": planName if planName else "unknown",
-							"tempId" : tempId,
+							"temp_id" : tempId,
 							"payDesc" : Product_Details_Content_Dict["payDesc"],
 							"insureDesc": Product_Details_Content_Dict["insureDesc"],
 							"first_rate" : float(Product_Details_Content_Dict["firstRate"]),

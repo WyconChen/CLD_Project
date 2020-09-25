@@ -85,14 +85,14 @@ class QiXin18:
             res = requests.post(url="http://127.0.0.1:8001/insert/Qixin18", data=json.dumps(result_dict))
             print(res.text)
     def run(self):
+        page = 1
         while True:
-            page = 1
             Products_Data_List = self.Get_Produts_Menu(page = page)
             if len(Products_Data_List)>0:
                 Products_Data_Iter = iter(Products_Data_List)
                 for Products_Data_Dict in Products_Data_Iter:
                     self.Get_Product_Details(Products_Data_Dict)            
-                break
+            page += 1
 
 if __name__ == "__main__":
     q = QiXin18()

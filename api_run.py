@@ -35,7 +35,7 @@ async def insertDataToProgram(request_data: Baoyun18Model):
         "first_rate":request_data.first_rate,
         "second_rate":request_data.second_rate
     }
-    result = mysqlFunc.insertDataToBaiyun18(DataDict)
+    result = MysqlModule.SaveDataToBaoyun18(DataDict)
     if result:
         return {"result":"success"}
     else:

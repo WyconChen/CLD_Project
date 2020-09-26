@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/index.js"></script>
+</head>
+<body>
+    <div id="searchPanel">
+        平台名称:
+        <select name="program_name" id="program_name">
+            <option value="1001">123</option>
+            <option value="1002">456</option>
+            <option value="1003">789</option>
+        </select>
+        <span class="products">
+            产品：<input type="text" name="product_name" id="product_name" placeholder="请输入产品名称或者关键字">
+        </span>
+        <button id="searchBtn">搜索</button>
+    </div>
+    <div id="products_list_panel">
+        <table class="baoyun18">
+            <p>产品名称：123131就是很厉害的产品</p>
+            <th>
+                <tr>
+                    <td>pyDesc</td>
+                    <td>insureDesc</td>
+                    <td>首年费率</td>
+                    <td>次年费率</td>
+                </tr>
+            </th>
+            <tbody>
+                <td>30年缴费</td>
+                <td>终身</td>
+                <td>20%</td>
+                <td>30%</td>
+            </tbody>
+        </table>
+        
+        <table class="qixin18">
+            <p>产品名称：qixin18产品</p>
+            <th>
+                <tr>
+                    <td>pyDesc</td>
+                    <td>insureDesc</td>
+                    <td>首年费率</td>
+                    <td>次年费率</td>
+                    <td>次年费率</td>
+                    <td>次年费率</td>
+                    <td>次年费率</td>
+                </tr>
+            </th>
+            <tbody>
+                <td>30年缴费</td>
+                <td>终身</td>
+                <td>20%</td>
+                <td>30%</td>
+                <td>次年费率</td>
+                <td>次年费率</td>
+                <td>次年费率</td>
+            </tbody>
+        </table>
+    </div>
+    <div id="pagefoot">
+        <button class="nextPage">上一页</button>
+        <input type="text" name="pageNo" id="pageNo" value="1" class="pageNo">
+        <button class="previousPage">下一页</button>
+    </div>
+</body>
+</html>

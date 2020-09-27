@@ -44,7 +44,7 @@ class MysqlModule:
         return select_result
     
     def SaveDataToQixin18(self, DataDict:dict):
-        select_sql = "SELECT `product_id`,`plan_Id` WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND `enconmyText` = %s;"
+        select_sql = "SELECT `product_id`,`plan_Id` FROM `CLD_Qixin18` WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND `enconmyText` = %s;"
         insert_sql = "INSERT INTO `CLD_Qixin18` (`program_id`, `product_id`, `product_name`, `plan_Id`, `company_id`, `company_name`, `isDetails`, `yearPolicyText`, `insureAgeText`, `enconomyText`, `feeRateList_1`, `feeRateList_2`)\
                       values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
         update_sql = "UPDATE CLD_Qixin18 SET `product_name` = %s, `company_id` = %s, `company_name` = %s, `isDetails` = %s, `feeRateList_1` = %s, `feeRateList_2` = %s\

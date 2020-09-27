@@ -55,7 +55,11 @@ async def saveDataToQixin18(request_data: Qixin18Model):
         "feeRateList_1": request_data.feeRateList_1,
         "feeRateList_2": request_data.feeRateList_2
     }
-    MysqlModule.SaveDataToQixin18(DataDict)
+    result = MysqlModule.SaveDataToQixin18(DataDict)
+    if result:
+        return {"result":"success"}
+    else:
+        return {"result":"failed"}
 
     
 if __name__ == "__main__":

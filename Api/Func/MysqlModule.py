@@ -44,13 +44,14 @@ class MysqlModule:
         return select_result
     
     def SaveDataToQixin18(self, DataDict:dict):
-        select_sql = "SELECT `product_id`,`plan_Id` WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND enconmyText = %s;"
+        select_sql = "SELECT `product_id`,`plan_Id` WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND `enconmyText` = %s;"
         insert_sql = "INSERT INTO `CLD_Qixin18` (`program_id`, `product_id`, `product_name`, `plan_Id`, `company_id`, `company_name`, `isDetails`, `yearPolicyText`, `insureAgeText`, `enconomyText`, `feeRateList_1`, `feeRateList_2`)\
                       values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
         update_sql = "UPDATE CLD_Qixin18 SET `product_name` = %s, `company_id` = %s, `company_name` = %s, `isDetails` = %s, `feeRateList_1` = %s, `feeRateList_2` = %s\
                      WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND enconmyText = %s;"
+        print("DataDict is: "+ DataDict)
         with self.DBConnection.cursor() as cursor:
-            cursor.execute(select_sql, (DataDict["product_id"],DataDict["plan_Id"], DataDict["yearPolicyText"],DataDict["insureAgeText"], DataDict["enconmyText"]))
+            cursor.execute(select_sql, (DataDict["product_id"], DataDict["plan_Id"], DataDict["yearPolicyText"],DataDict["insureAgeText"], DataDict["economyText"]))
             select_result = cursor.fetchone()
             if select_result:
                 cursor.execute(update_sql, (DataDict["product_name"], DataDict["company_id"], DataDict["company_name"], DataDict["isDetails"],
@@ -60,7 +61,7 @@ class MysqlModule:
             else:
                 cursor.execute(insert_sql, (DataDict["program_id"], DataDict["product_id"], DataDict["product_name"], DataDict["plan_Id"],
                                 DataDict["company_id"], DataDict["company_id"], DataDict["company_name"], DataDict["isDetails"], DataDict["yearPolicyText"], 
-                                DataDict["insureAgeText"], DataDict["enconmyText"], DataDict["feeRateList_1"], DataDict["feeRateList_2"]
+                                DataDict["insureAgeText"], DataDict["economyText"], DataDict["feeRateList_1"], DataDict["feeRateList_2"]
                             ))
         self.DBConnection.commit()
         return True

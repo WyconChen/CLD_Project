@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
-from Func.MysqlModule import MysqlModule
-from Model.model import ProgramModel, Baoyun18Model, Qixin18Model
+from Api.Func.MysqlModule import MysqlModule
+from Api.Model.model import ProgramModel, Baoyun18Model, Qixin18Model
 
 app = FastAPI()
 

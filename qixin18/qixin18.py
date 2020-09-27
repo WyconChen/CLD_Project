@@ -38,6 +38,7 @@ class QiXin18:
         # print("Products_Res.text: "+ Products_Res.text)
         Products_Res_Data = json.loads(Products_Res.text)
         Products_Data_List = Products_Res_Data["data"]["data"]
+        print("page: " + str(page))
         return Products_Data_List
 
     def Get_Product_Details(self, Products_Data_Dict:dict):
@@ -59,13 +60,13 @@ class QiXin18:
             Details_Res_List = Details_Res_Data["data"]["yearPolicyFeeDtoList"]
             Details_Intetor = iter(Details_Res_List)
             for Details_Dict in Details_Intetor:
-                result_dict["yearPolicyText"] = Details_Dict["yearPolicyText"]
+                result_dict["yearPolicyText"] = Details_Dict["yearPolicyText"] if "yearPolicyText" in Details_Dict else "---"
                 insureAgeFeeDtoList = Details_Dict["insureAgeFeeDtoList"]
                 for insureAgeFeeDto in iter(insureAgeFeeDtoList):
-                    result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if len(insureAgeFeeDto["insureAgeText"]) > 2 else "unknown"
+                    result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if "insureAgeText" in insureAgeFeeDto else "---"
                     partnerProductFeeItemDtoList = insureAgeFeeDto["partnerProductFeeItemDtoList"]
                     for partnerProductFeeItemDto in iter(partnerProductFeeItemDtoList):
-                        result_dict["economyText"] = partnerProductFeeItemDto["economyText"] if len(partnerProductFeeItemDto["economyText"]) > 2 else "unknown"
+                        result_dict["economyText"] = partnerProductFeeItemDto["economyText"] if "economyText" in partnerProductFeeItemDto else "unknown"
                         result_dict["feeRateList_1"] = float(partnerProductFeeItemDto["feeRateList"][0])
                         try:
                             result_dict["feeRateList_2"] = float(partnerProductFeeItemDto["feeRateList"][1]) if len(partnerProductFeeItemDto["feeRateList"])>1  else 0.0
@@ -74,7 +75,7 @@ class QiXin18:
                         # insert
                         # print(result_dict)
                         res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
-                        print(result_dict["product_name"] + ": 保存成功")
+            print(result_dict["product_name"] + ": 保存成功")
         else:
             result_dict["isDetails"] = False
             result_dict["yearPolicyText"] = "unknown"
@@ -84,7 +85,8 @@ class QiXin18:
             result_dict["feeRateList_2"] = 0.0
             # print(result_dict)
             res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
-            print(result_dict["product_name"] + ": 保存成功")
+            print(result_dict["product_name"] + ": 保存成功 " )
+
     def run(self):
         page = 1
         while True:
@@ -93,7 +95,9 @@ class QiXin18:
                 Products_Data_Iter = iter(Products_Data_List)
                 for Products_Data_Dict in Products_Data_Iter:
                     self.Get_Product_Details(Products_Data_Dict)            
-            page += 1
+                page += 1
+            else:
+                break
 
 if __name__ == "__main__":
     q = QiXin18()

@@ -56,7 +56,7 @@ class MysqlModule:
             if select_result:
                 cursor.execute(update_sql, (DataDict["product_name"], DataDict["company_id"], DataDict["company_name"], DataDict["isDetails"],
                                 DataDict["feeRateList_1"], DataDict["feeRateList_2"], DataDict["product_id"], DataDict["plan_Id"], DataDict["yearPolicyText"], 
-                                DataDict["insureAgeText"], DataDict["enconmyText"]
+                                DataDict["insureAgeText"], DataDict["economyText"]
                             ))
             else:
                 cursor.execute(insert_sql, (DataDict["program_id"], DataDict["product_id"], DataDict["product_name"], DataDict["plan_Id"],

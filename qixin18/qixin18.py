@@ -62,7 +62,7 @@ class QiXin18:
                 result_dict["yearPolicyText"] = Details_Dict["yearPolicyText"]
                 insureAgeFeeDtoList = Details_Dict["insureAgeFeeDtoList"]
                 for insureAgeFeeDto in iter(insureAgeFeeDtoList):
-                    result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"]
+                    result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if len(insureAgeFeeDto["insureAgeText"]) > 2 else "unknown"
                     partnerProductFeeItemDtoList = insureAgeFeeDto["partnerProductFeeItemDtoList"]
                     for partnerProductFeeItemDto in iter(partnerProductFeeItemDtoList):
                         result_dict["economyText"] = partnerProductFeeItemDto["economyText"] if len(partnerProductFeeItemDto["economyText"]) > 2 else "unknown"
@@ -83,7 +83,7 @@ class QiXin18:
             result_dict["feeRateList_1"] = 0.0
             result_dict["feeRateList_2"] = 0.0
             # print(result_dict)
-            res = requests.post(url="http://127.0.0.1:8001/insert/Qixin18", data=json.dumps(result_dict))
+            res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
             print(result_dict["product_name"] + ": 保存成功")
     def run(self):
         page = 1

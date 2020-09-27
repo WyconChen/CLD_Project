@@ -12,7 +12,7 @@ class QiXin18:
         
         self.QiXin_Session = requests.Session()
         self.Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
-                "Cookie": r"beidoudata2015jssdkcross=%7B%22distinct_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%2C%22first_id%22%3A%22%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%7D; auth-tips=1; orderTips=true; acw_tc=2f6a1fb516008680168562803e0da090e7ca6c3d929026ff1472108400bb1d; env=preview; qx_trip_pc_sid=s%3AR8vMcFJH-MR69EOaJFBLotske7azffGK.Ps2on73bNqsABHU97SMIWLI%2FvXenaLtgftO%2BFbVwdL4; hz_guest_key=3oAiy3WyAHZ1gd2SrDlc_1600869511124_0_1048581_0; hz_visit_key=2ztiulyYtHZ3cmL4laqR_1600868039379_6_1600868039379; hz_view_key=3oAiy3WyAHZ1gd2SrDlc2CjlWcGhFHZ3mOr0f4Uc_1600869521140_https%253A%252F%252Fwww.qixin18.com%252Fgoods%253Fis_from_new_merchant_pc%253Dtrue"
+                "Cookie": r"acw_tc=2f6a1fe016011933803435847e047c7aa36fce9ebbb8379af1fd93982f39b0; qx_trip_pc_sid=s%3APwRES3MHGJrg4nJ6ppXRRUJc74fQIItd.Gnn5Ze4Meb1FxfO4v0HsO29FNqdOXCgW26yR40hFy8g; hz_guest_key=2iqY9PhbGHZ3B3TUo1UO_1601193384304_1_0_0; env=preview; beidoudata2015jssdkcross=%7B%22distinct_id%22%3A%22174ce902d06791-06a4af140aa4b4-37c143e-2073600-174ce902d071d6%22%2C%22first_id%22%3A%22%22%2C%22props%22%3A%7B%7D%2C%22%24device_id%22%3A%22174ce902d06791-06a4af140aa4b4-37c143e-2073600-174ce902d071d6%22%7D; beidoujssdk_2015_cross_new_user=1; hz_visit_key=4rTAcnAzXHZ2KSJmGWhd_1601193384304_3_1601193384304; hz_view_key=2iqY9PhbGHZ3B3TUo1UO2qX8v62cdHZ3VX3KyB1Z_1601193398089_https%253A%252F%252Fwww.qixin18.com%252Fmerchant%252Fhome"
         }
 
     def Get_Produts_Menu(self, page:int) -> list:
@@ -35,6 +35,7 @@ class QiXin18:
             "srcFromMobile": "false"
         }
         Products_Res = self.QiXin_Session.post(url=self.Products_Api, headers = self.Headers, data = Form_Data)
+        # print("Products_Res.text: "+ Products_Res.text)
         Products_Res_Data = json.loads(Products_Res.text)
         Products_Data_List = Products_Res_Data["data"]["data"]
         return Products_Data_List
@@ -64,7 +65,7 @@ class QiXin18:
                     result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"]
                     partnerProductFeeItemDtoList = insureAgeFeeDto["partnerProductFeeItemDtoList"]
                     for partnerProductFeeItemDto in iter(partnerProductFeeItemDtoList):
-                        result_dict["economyText"] = partnerProductFeeItemDto["economyText"]
+                        result_dict["economyText"] = partnerProductFeeItemDto["economyText"] if len(partnerProductFeeItemDto["economyText"]) > 2 else "unknown"
                         result_dict["feeRateList_1"] = float(partnerProductFeeItemDto["feeRateList"][0])
                         try:
                             result_dict["feeRateList_2"] = float(partnerProductFeeItemDto["feeRateList"][1]) if len(partnerProductFeeItemDto["feeRateList"])>1  else 0.0
@@ -72,8 +73,8 @@ class QiXin18:
                             result_dict["feeRateList_2"] = 0.0
                         # insert
                         # print(result_dict)
-                        res = requests.post(url="http://127.0.0.1:8001/insert/Qixin18", data=json.dumps(result_dict))
-                        print(res.text)
+                        res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
+                        print(result_dict["product_name"] + ": 保存成功")
         else:
             result_dict["isDetails"] = False
             result_dict["yearPolicyText"] = "unknown"
@@ -83,7 +84,7 @@ class QiXin18:
             result_dict["feeRateList_2"] = 0.0
             # print(result_dict)
             res = requests.post(url="http://127.0.0.1:8001/insert/Qixin18", data=json.dumps(result_dict))
-            print(res.text)
+            print(result_dict["product_name"] + ": 保存成功")
     def run(self):
         page = 1
         while True:

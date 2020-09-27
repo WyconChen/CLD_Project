@@ -49,7 +49,7 @@ class MysqlModule:
                       values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
         update_sql = "UPDATE CLD_Qixin18 SET `product_name` = %s, `company_id` = %s, `company_name` = %s, `isDetails` = %s, `feeRateList_1` = %s, `feeRateList_2` = %s\
                      WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND enconmyText = %s;"
-        print("DataDict is: "+ DataDict)
+        print("DataDict is: "+ str(DataDict))
         with self.DBConnection.cursor() as cursor:
             cursor.execute(select_sql, (DataDict["product_id"], DataDict["plan_Id"], DataDict["yearPolicyText"],DataDict["insureAgeText"], DataDict["economyText"]))
             select_result = cursor.fetchone()

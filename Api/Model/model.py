@@ -27,3 +27,20 @@ class Qixin18Model(BaseModel):
     economyText:str
     feeRateList_1: float
     feeRateList_2: float
+
+class Niubao100Model(BaseModel):
+    program_id: int
+    item_id: int
+    item_name: str
+    sku_str: str
+    sku: float
+    insuranceType: str
+    paytime: str
+    savetime: str
+    insuredage: str
+    actratio: str
+    y1: float
+    y2: float
+    y3: float
+    y4: float
+    y5: float

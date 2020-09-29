@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from Api.Func.MysqlModule import MysqlModule
-from Api.Model.model import ProgramModel, Baoyun18Model, Qixin18Model
+from Api.Model.model import ProgramModel, Baoyun18Model, Qixin18Model, Niubao100Model
 
 app = FastAPI()
 
@@ -60,6 +60,28 @@ async def saveDataToQixin18(request_data: Qixin18Model):
         return {"result":"success"}
     else:
         return {"result":"failed"}
+
+@app.post("/insert/Niubao100")
+async def saveDataToQixin18(request_data: Niubao100Model):
+    DataDict = {
+        "program_id" : request_data.program_id,
+        "item_id": request_data.item_id,
+        "item_name": request_data.item_name,
+        "sku_str": request_data.sku_str,
+        "sku": request_data.sku,
+        "insuranceType": request_data.insuranceType,
+        "paytime": request_data.paytime,
+        "savetime": request_data.savetime,
+        "insuredage": request_data.insuredage,
+        "actratio": request_data.actratio,
+        "y1": request_data.y1,
+        "y2": request_data.y2,
+        "y3": request_data.y3,
+        "y4": request_data.y4,
+        "y5": request_data.y5
+    }
+    result = MysqlModule.SaveDataToNiubao100(DataDict)
+    return result
 
     
 if __name__ == "__main__":

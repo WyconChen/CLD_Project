@@ -56,5 +56,25 @@ class Qixin18(Base):
     feeRateList_1 = Column(Float, nullable = True)
     feeRateList_2 = Column(Float, nullable = True)
 
+class Niubao100(Base):
+    __tablename__ = "CLD_Niubao100"
+    id = Column(Integer, primary_key = True)
+    program_id = Column(Integer)
+    item_id = Column(Integer)
+    item_name = Column(String(250), nullable = False)
+    sku_str = Column(String(250), nullable = True)
+    sku = Column(Float)
+    insuranceType = Column(String(250))
+    paytime = Column(String(250))
+    savetime = Column(String(250))
+    insuredage = Column(String(250))
+    actratio = Column(String(250))
+    y1 = Column(Float, nullable = True)
+    y2 = Column(Float, nullable = True)
+    y3 = Column(Float, nullable = True)
+    y4 = Column(Float, nullable = True)
+    y5 = Column(Float, nullable = True)
+
+
 if __name__ == "__main__":
     Base.metadata.create_all(engine)

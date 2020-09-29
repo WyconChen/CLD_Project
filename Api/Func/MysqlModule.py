@@ -49,7 +49,6 @@ class MysqlModule:
                       values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
         update_sql = "UPDATE CLD_Qixin18 SET `product_name` = %s, `company_id` = %s, `company_name` = %s, `isDetails` = %s, `feeRateList_1` = %s, `feeRateList_2` = %s\
                      WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND economyText = %s;"
-        print("DataDict is: "+ str(DataDict))
         with self.DBConnection.cursor() as cursor:
             cursor.execute(select_sql, (DataDict["product_id"], DataDict["plan_Id"], DataDict["yearPolicyText"],DataDict["insureAgeText"], DataDict["economyText"]))
             select_result = cursor.fetchone()
@@ -65,6 +64,22 @@ class MysqlModule:
                             ))
         self.DBConnection.commit()
         return True
+    
+    def SaveDataToNiubao100(self, DataDict:dict):
+        delete_sql = "DELETE FROM CLD_Niubao100 WHERE `item_id` = %s;"
+        insert_sql = "INSERT INTO CLD_Niubao100 (`program_id`, `item_id`, `item_name`, `sku_str`, `sku`, `insuranceType`, `paytime`, `savetime`, `insuredage`, `actratio`, \
+            `y1`, `y2`, `y3`, `y4`, `y5`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(delete_sql, (DataDict["item_id"],))
+                cursor.execute(insert_sql, (DataDict["program_id"], DataDict["item_id"], DataDict["item_name"], DataDict["sku_str"], DataDict["sku"],
+                            DataDict["insuranceType"], DataDict["paytime"], DataDict["savetime"], DataDict["insuredage"], DataDict["actratio"], 
+                            DataDict["y1"], DataDict["y2"], DataDict["y3"], DataDict["y4"], DataDict["y5"]))
+            self.DBConnection.commit()
+            return {"result": True, "reason": None}
+        except Exception as e:
+            self.DBConnection.rollback()
+            return {"result": False, "reason": e}
 
     def __del__(self):
         self.DBConnection.close()

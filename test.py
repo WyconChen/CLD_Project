@@ -9,7 +9,7 @@ import os.path
 
 # __file__ 就是本文件的名字
 # 得到放置模板的目录
-path = '{}/webapp/'.format(os.path.dirname(__file__))
+path = './webapp/'
 templates = Jinja2Templates(directory=path)
 
 app = FastAPI()

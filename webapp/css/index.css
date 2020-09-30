@@ -1,0 +1,20 @@
+.program_title {
+    margin-top: 10px;
+    margin-right: 12px;
+}
+.product_title {
+    width: 70px !important;
+    margin: 0 12px;
+}
+
+.search_input {
+    width: 300px !important;
+}
+
+.product_dropdown {
+    margin: auto 12px;
+}
+
+#pagefoot nav {
+    margin-left: 505px;
+}

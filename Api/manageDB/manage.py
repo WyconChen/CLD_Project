@@ -13,6 +13,7 @@ class Program(Base):
     id = Column(Integer, primary_key = True)
     program_id = Column(Integer)
     program_name = Column(String(250))
+    product_id = Column(Integer)
 
     def __init__(self, program_id, program_name):
         self.program_id = program_id
@@ -29,7 +30,6 @@ class Baoyun18(Base):
     insureDesc = Column(String(250),nullable = False)
     first_rate = Column(Float, nullable = True)
     second_rate = Column(Float, nullable = True)
-
     def __init__(self, program_id, temp_id, product_id, product_name, payDesc, insureDesc, first_rate, second_rate):
         self.program_id = program_id
         self.temp_id = temp_id
@@ -39,6 +39,7 @@ class Baoyun18(Base):
         self.insureDesc = insureDesc
         self.first_rate = first_rate
         self.second_rate = second_rate
+
 
 class Qixin18(Base):
     __tablename__ = "CLD_Qixin18"

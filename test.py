@@ -7,11 +7,15 @@ from starlette.templating import Jinja2Templates
 from Api.Model.model import Baoyun18DataModel
 from Api.Func.MysqlModule import MysqlModule
 import os.path
+import platform
 
 
 # __file__ 就是本文件的名字
 # 得到放置模板的目录
-path = '{}/webapp/'.format(os.path.dirname(__file__))
+if platform.system() == "Windows":
+    path = '{}/webapp/'.format(os.path.dirname(__file__))
+else:
+    path = './webapp/'
 templates = Jinja2Templates(directory=path)
 
 app = FastAPI()

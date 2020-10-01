@@ -30,6 +30,7 @@ class Baoyun18(Base):
     insureDesc = Column(String(250),nullable = False)
     first_rate = Column(Float, nullable = True)
     second_rate = Column(Float, nullable = True)
+    
     def __init__(self, program_id, temp_id, product_id, product_name, payDesc, insureDesc, first_rate, second_rate):
         self.program_id = program_id
         self.temp_id = temp_id

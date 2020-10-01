@@ -10,10 +10,22 @@ class mysqlFunc:
         DBsessionmaker = sessionmaker(bind=engine)
         self.session = DBsessionmaker()
 
-    def insertDataToProgram(self, DataDict:dict):
-        # Add_Program = Program(program_id = DataDict["program_id"], program_name = DataDict["program_name"])
-        # self.session.add(Add_Program)
-        print(Add_Detail)
+    def GetDataFromBaoyun18(self, datadict:dict):
+        """
+        @params:
+        program_id: int
+        product_key: name or keyword, str
+        page: current page, int
+        """
+        if(datadict["program_id"] == 1001):
+            pass
+        elif(datadict["program_id"] == 1002):
+            select_sql = ""
+        elif(datadict["program_id"] == 1002):
+            select_sql = ""
+        else:
+            select_sql = ""
+
 
     def insertDataToBaiyun18(self, DataDict:dict):
         # Add_Detail = Program(program_id = DataDict["program_id"], product_id = DataDict["product_id"])

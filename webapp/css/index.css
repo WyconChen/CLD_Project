@@ -18,3 +18,11 @@
 #pagefoot nav {
     margin-left: 505px;
 }
+
+#PreviousBtn:hover {
+    cursor: pointer;
+}
+
+#NextBtn:hover {
+    cursor: pointer;
+}

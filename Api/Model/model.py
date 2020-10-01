@@ -44,3 +44,8 @@ class Niubao100Model(BaseModel):
     y3: float
     y4: float
     y5: float
+
+class Baoyun18DataModel(BaseModel):
+    program_id: int
+    page: int
+    product_keyword: str

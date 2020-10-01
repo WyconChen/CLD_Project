@@ -35,15 +35,6 @@ class MysqlModule:
         self.DBConnection.commit()
         return True
     
-    def GetDataFromBaoyun18(self,page):
-        """
-        @params:
-        program_id: int
-        product_name: name or keyword, str
-        page: current page, int
-        """
-        
-        
     
     def SaveDataToQixin18(self, DataDict:dict):
         select_sql = "SELECT `product_id`,`plan_Id` FROM `CLD_Qixin18` WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND `economyText` = %s;"
@@ -82,6 +73,47 @@ class MysqlModule:
         except Exception as e:
             self.DBConnection.rollback()
             return {"result": False, "reason": e}
+    
+    def GetDataFromBaoyun18(self, datadict:dict) -> dict:
+        """
+        @params:
+        program_id: int
+        product_key: name or keyword, str
+        page: current page, int
+        """
+        result = {
+            "success": True,
+            "fail_reason": None,
+            "result_list": []
+        }
+        if(datadict["searchType"] == 1):
+            select_sql = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
+                        FROM Baoyun18 WHERE `product_id` IN \
+                        (SELECT DISTINCT(`product_id`) FROM Baoyun18 ORDER BY ASC LIMIT 5 OFFSET %s)"
+            try:
+                with self.DBConnection.cursor() as cursor:
+                    cursor.execute(select_sql, (datadict["page"],))
+                    result_set = cursor.fetchall()
+                    """
+                        result_set = ((1,2,3),(1,2,4))
+                    """
+                    for item in result_set:
+                        item_dict = {}
+                        item_dict["program_id"] = item[0]
+                        item_dict["product_id"] = item[1]
+                        item_dict["details"] = [
+                            item_dict["product_name"] = item[2],
+                            item_dict["payDesc"] = item[3],
+                            item_dict["insureDesc"] = item[4],
+                            item_dict["first_rate"] = item[5],
+                            item_dict["second_rate"] = item[6],
+                        ]
+                        result["result_list"].append(item_dict)
+                return result
+            except Exception as e:
+                result["success"] = False
+                result["fail_reason"] = e
+                return result
 
     def __del__(self):
         self.DBConnection.close()

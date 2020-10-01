@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from sqlalchemy import Integer, String, Float, Boolean
 
-engine = create_engine("mysql+pymysql://testuser:chenweicong11@127.0.0.1:3306/CLD?charset=utf8mb4")
+engine = create_engine("mysql+pymysql://root:root@127.0.0.1:3306/CLD?charset=utf8mb4")
 
 Base = declarative_base()
 

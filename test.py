@@ -33,7 +33,7 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
 @app.get("/test/search")
 async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
     datadict = {
-        "searchType": searchType
+        "searchType": searchType,
         "page": page,
         "program_id": program_id,
         "product_key": product_key 

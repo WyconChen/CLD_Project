@@ -31,13 +31,17 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList})
 
 @app.get("/test/search")
-async def search(request:Request, page:int, program_id:int = None, product_key:str = None):
+async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
     datadict = {
+        "searchType": searchType
         "page": page,
         "program_id": program_id,
         "product_key": product_key 
     }
-    print(datadict)
+    mysqlmodule = MysqlModule()
+    result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
+    ProductsList = result_dict["result_list"] if result_dict["success"] else []
+    return ProductsList
     
         
 if __name__ == "__main__":

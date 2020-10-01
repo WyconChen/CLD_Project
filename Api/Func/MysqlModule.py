@@ -125,6 +125,7 @@ class MysqlModule:
                 print("result: "+str(result))                 
                 return result
             except Exception as e:
+                print("error happen")
                 result["success"] = False
                 result["fail_reason"] = e
                 return result

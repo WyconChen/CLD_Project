@@ -49,6 +49,8 @@ async def search(request:Request, searchType:int = None, page:int = None, progra
     }
     mysqlmodule = MysqlModule()
     result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
+    if result_dict["success"] == False:
+        print(result_dict["fail_reason"])
     ProductsList = result_dict["result_list"] if result_dict["success"] else []
     return ProductsList
     

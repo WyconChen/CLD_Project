@@ -95,7 +95,7 @@ class MysqlModule:
             try:
                 with self.DBConnection.cursor() as cursor:
                     print('enter step 5')
-                    cursor.execute(select_product_sql, (datadict["page"],))
+                    cursor.execute(select_product_sql, ((datadict["page"]-1)*5,))
                     result_set = cursor.fetchall()
                     print("result_set"+str(result_set))
                     # product_id_set = result_set[0]
@@ -107,7 +107,7 @@ class MysqlModule:
                     """
                     for product_id in result_set:
                         print('enter step 5')
-                        cursor.execute(select_sql, (product_id[0]-1,))
+                        cursor.execute(select_sql, product_id)
                         result_set = cursor.fetchall()
                         """
                         result_set = ((1,2,3),(1,2,4))

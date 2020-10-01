@@ -81,24 +81,30 @@ class MysqlModule:
         product_key: name or keyword, str
         page: current page, int
         """
+        print('enter step 3')
         result = {
             "success": True,
             "fail_reason": None,
             "result_list": []
         }
         if(datadict["searchType"] == 1):
+            print('enter step 4')
             select_product_sql = "SELECT DISTINCT(`product_id`) FROM Baoyun18 ORDER BY ASC LIMIT 5 OFFSET %s"
             select_sql = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
                         FROM Baoyun18 WHERE `product_id` = %s"
             try:
                 with self.DBConnection.cursor() as cursor:
+                    print('enter step 5')
                     cursor.execute(select_product_sql, (datadict["page"],))
                     result_set = cursor.fetchall()
-                    product_id_set = [0]
+                    product_id_set = result_set[0]
+                    print("product_id_set:")
+                    print(product_id_set)
                     """
                         result_set = ((1,2,3),(1,2,4))
                     """
                     for product_id in product_id_set:
+                        print('enter step 5')
                         cursor.execute(select_sql,(product_id, ))
                         result_set = cursor.fetchall()
                         result_dict = {
@@ -115,7 +121,8 @@ class MysqlModule:
                                 "second_rate": item[6]
                             }
                             result_dict["details"].append(detail_dict)
-                        result["result_list"].append(result_dict)                      
+                        result["result_list"].append(result_dict)     
+                print("result: "+str(result)                 
                 return result
             except Exception as e:
                 result["success"] = False

@@ -89,9 +89,9 @@ class MysqlModule:
         }
         if(datadict["searchType"] == 1):
             print('enter step 4')
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY ASC LIMIT 5 OFFSET %s"
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY `product_id` ASC LIMIT 5 OFFSET %s"
             select_sql = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
-                        FROM Baoyun18 WHERE `product_id` = %s"
+                        FROM CLD_Baoyun18 WHERE `product_id` = %s"
             try:
                 with self.DBConnection.cursor() as cursor:
                     print('enter step 5')

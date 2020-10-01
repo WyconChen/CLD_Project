@@ -87,28 +87,35 @@ class MysqlModule:
             "result_list": []
         }
         if(datadict["searchType"] == 1):
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM Baoyun18 ORDER BY ASC LIMIT 5 OFFSET %s"
             select_sql = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
-                        FROM Baoyun18 WHERE `product_id` IN \
-                        (SELECT DISTINCT(`product_id`) FROM Baoyun18 ORDER BY ASC LIMIT 5 OFFSET %s)"
+                        FROM Baoyun18 WHERE `product_id` = %s"
             try:
                 with self.DBConnection.cursor() as cursor:
-                    cursor.execute(select_sql, (datadict["page"],))
+                    cursor.execute(select_product_sql, (datadict["page"],))
                     result_set = cursor.fetchall()
+                    product_id_set = [0]
                     """
                         result_set = ((1,2,3),(1,2,4))
                     """
-                    for item in result_set:
-                        item_dict = {}
-                        item_dict["program_id"] = item[0]
-                        item_dict["product_id"] = item[1]
-                        item_dict["details"] = [
-                            item_dict["product_name"] = item[2],
-                            item_dict["payDesc"] = item[3],
-                            item_dict["insureDesc"] = item[4],
-                            item_dict["first_rate"] = item[5],
-                            item_dict["second_rate"] = item[6],
-                        ]
-                        result["result_list"].append(item_dict)
+                    for product_id in product_id_set:
+                        cursor.execute(select_sql,(product_id, ))
+                        result_set = cursor.fetchall()
+                        result_dict = {
+                            "program_id": result_set[0][0],
+                            "product_id": result_set[0][1],
+                            "product_name": result_dict[0][2],
+                            "details":[]
+                        }
+                        for item in result_set:
+                            detail_dict = {
+                                "pyDesc": item[3],
+                                "insureDesc": item[4],
+                                "first_rate": item[5],
+                                "second_rate": item[6]
+                            }
+                            result_dict["details"].append(detail_dict)
+                        result["result_list"].append(result_dict)                      
                 return result
             except Exception as e:
                 result["success"] = False

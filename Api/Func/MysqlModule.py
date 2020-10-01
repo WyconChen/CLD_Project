@@ -97,20 +97,25 @@ class MysqlModule:
                     print('enter step 5')
                     cursor.execute(select_product_sql, (datadict["page"],))
                     result_set = cursor.fetchall()
-                    product_id_set = result_set[0]
-                    print("product_id_set:")
-                    print(product_id_set)
+                    print("result_set"+str(result_set))
+                    # product_id_set = result_set[0]
+                    # print("product_id_set:")
+                    # print(product_id_set)
                     """
-                        result_set = ((1,2,3),(1,2,4))
+                        result_set = ((1,),(2,))
+                        product_id = (1, )
                     """
-                    for product_id in product_id_set:
+                    for product_id in result_set:
                         print('enter step 5')
-                        cursor.execute(select_sql,(product_id, ))
+                        cursor.execute(select_sql, product_id)
                         result_set = cursor.fetchall()
+                        """
+                        result_set = ((1,2,3),(1,2,4))
+                        """
                         result_dict = {
                             "program_id": result_set[0][0],
                             "product_id": result_set[0][1],
-                            "product_name": result_dict[0][2],
+                            "product_name": result_set[0][2],
                             "details":[]
                         }
                         for item in result_set:

@@ -22,12 +22,12 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory=path), name="static")
 
 @app.get("/test")
-async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_key:str = None):
+async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None):
     datadict = {
         "searchType": searchType,
         "page": page,
         "program_id": program_id,
-        "product_key": product_key 
+        "product_id": product_id 
     }
     if searchType or page or program_id or product_key:
         mysqlmodule = MysqlModule()

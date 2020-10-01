@@ -49,11 +49,11 @@
       {% for product_dict in ProductsList %}
           <div class="table_title">
             <p>平台名称：
-              {% if product_dict["program_id"] == 1001 %}
+              {% if product_dict["program_id"] == 1000 %}
                 Baoyun18
-              {% elif product_dict["program_id"] == 1002 %}
+              {% elif product_dict["program_id"] == 1001 %}
                 Qixin18
-              {% elif product_dict["program_id"] == 1003 %}
+              {% elif product_dict["program_id"] == 1002 %}
                 Niubao100
               {% else %}
                 Unknown
@@ -90,15 +90,15 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                  <span class="page-link" aria-label="Previous" id="PreviousBtn">
+                  <a class="page-link" aria-label="Previous" id="PreviousBtn" href="#">
                       <span aria-hidden="true">&laquo;</span>
-                  </span>
+                  </a>
                 </li>
                 <li class="page-item"><a class="page-link" href="#" id="pageNo">1</a></li>
                 <li class="page-item">
-                <span class="page-link" aria-label="Next" id="NextBtn">
+                <a class="page-link" aria-label="Next" id="NextBtn" href="/test?searchType=1&page=2&program_id=1001&product_id=21032">
                     <span aria-hidden="true">&raquo;</span>
-                </span>
+                </a>
                 </li>
             </ul>
             </nav>

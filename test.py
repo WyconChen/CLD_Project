@@ -1,13 +1,13 @@
 import os
 import uvicorn
+import platform
 from fastapi import FastAPI
 from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from Api.Model.model import Baoyun18DataModel
 from Api.Func.MysqlModule import MysqlModule
-import os.path
-import platform
+
 
 
 # __file__ 就是本文件的名字
@@ -22,12 +22,13 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory=path), name="static")
 
 @app.get("/test")
-async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None):
+async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_name:str = None):
     datadict = {
         "searchType": searchType,
         "page": page,
         "program_id": program_id,
-        "product_id": product_id 
+        "product_id": product_id,
+        "product_name": product_name
     }
     if searchType or page or program_id or product_key:
         print('enter step 1')

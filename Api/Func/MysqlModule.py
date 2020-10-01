@@ -121,6 +121,3 @@ class MysqlModule:
                 result["success"] = False
                 result["fail_reason"] = e
                 return result
-
-    def __del__(self):
-        self.DBConnection.close()

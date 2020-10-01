@@ -8,7 +8,7 @@ class MysqlModule:
         self.DBConnection = pymysql.connect(
             host = "127.0.0.1",
             port = 3306,
-            user = "root",
+            user = "testuser",
             password = "chenweicong11",
             db = "CLD",
             charset = "utf8mb4" 
@@ -121,3 +121,6 @@ class MysqlModule:
                 result["success"] = False
                 result["fail_reason"] = e
                 return result
+
+    def __del__(self):
+        self.DBConnection.close()

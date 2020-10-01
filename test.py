@@ -29,9 +29,12 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         "program_id": program_id,
         "product_key": product_key 
     }
-    mysqlmodule = MysqlModule()
-    result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
-    ProductsList = result_dict["result_list"] if result_dict["success"] else []
+    if searchType or page or program_id or product_key:
+        mysqlmodule = MysqlModule()
+        result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+    else:
+        ProductsList = []
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList})
 
 @app.get("/test/search")

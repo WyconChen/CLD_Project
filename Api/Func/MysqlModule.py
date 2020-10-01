@@ -122,7 +122,7 @@ class MysqlModule:
                             }
                             result_dict["details"].append(detail_dict)
                         result["result_list"].append(result_dict)     
-                print("result: "+str(result)                 
+                print("result: "+str(result))                 
                 return result
             except Exception as e:
                 result["success"] = False

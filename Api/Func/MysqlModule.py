@@ -107,7 +107,7 @@ class MysqlModule:
                     """
                     for product_id in result_set:
                         print('enter step 5')
-                        cursor.execute(select_sql, (product_id[0]*5-1))
+                        cursor.execute(select_sql, (product_id[0]-1,))
                         result_set = cursor.fetchall()
                         """
                         result_set = ((1,2,3),(1,2,4))

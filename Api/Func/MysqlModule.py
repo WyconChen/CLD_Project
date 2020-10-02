@@ -89,14 +89,14 @@ class MysqlModule:
         }
         if(datadict["searchType"] == 1 and datadict["program_id"] == 1000):
             if(datadict["product_key"] is None):
-                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY `product_id` ASC LIMIT 5 OFFSET %s"
+                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
             else:
-                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 WHERE `product_name` LIKE \"%s\" ORDER BY `product_id` ASC LIMIT 5 OFFSET %s"
+                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
             select_sql = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
                         FROM CLD_Baoyun18 WHERE `product_id` = %s"
             try:
                 with self.DBConnection.cursor() as cursor:
-                    cursor.execute(select_product_sql, (("%"+datadict["product_key"]+"%", datadict["page"]-1)*5))
+                    cursor.execute(select_product_sql)
                     result_set = cursor.fetchall()
                     if(len(result) < 0):
                         result["isEnd"] = True

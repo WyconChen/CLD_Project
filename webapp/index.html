@@ -11,10 +11,6 @@
     <script src={{ url_for('static', path="/js/popper.min.js") }} integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src={{ url_for('static', path="/js/bootstrap.min.js") }} integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href={{ url_for('static', path='/css/bootstrap.min.css') }}>
-    <script src={{ url_for('static', path="/js/jquery.slim.min.js") }} ></script>
-    <script src={{ url_for('static', path="/js/popper.min.js") }}></script>
-    <script src={{ url_for('static', path="/js/bootstrap.min.js") }}></script>
-    <script src={{ url_for('static', path='/js/index.js') }}></script>
 </head>
 <body>
     
@@ -23,10 +19,18 @@
         <div class="form-inline">
           <p class="program_title">平台名称:</p>
           <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="1001">
+              <button class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{ DataDict["program_id"] }}">
+                {% if DataDict["program_id"] == 1000 %}
                 Baoyun18
+                {% elif DataDict["program_id"] == 1001 %}
+                  Qixin18
+                {% elif DataDict["program_id"] == 1002 %}
+                  Niubao100
+                {% else %}
+                  ALL
+                {% endif %}
               </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2" id="dropdown-menu">
                 <button class="dropdown-item" type="button" value="1001">Baoyun18</button>
                 <button class="dropdown-item" type="button" value="1002">Qixin18</button>
                 <button class="dropdown-item" type="button" value="1003">Niubao100</button>
@@ -39,9 +43,9 @@
           </div>
           <div class="form-group mx-sm-3 mb-2">
             <!-- <label for="inputPassword2" class="sr-only">Password</label> -->
-            <input type="text" class="form-control search_input" id="inputPassword2" placeholder="请输入产品名称或关键字">
+            <input type="text" class="form-control search_input" id="inputPassword2" placeholder="请输入产品名称或关键字" value="{{ DataDict["product_key"] }}">
           </div>
-          <button type="submit" class="btn btn-primary mb-2" id="searchBtn">搜索</button>
+          <button type="submit" class="btn btn-primary mb-2" id="searchBtn" onclick=searchBtnClickEvent()>搜索</button>
         </div>
   </div>
   <div id="products_list_panel">
@@ -90,19 +94,23 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                  <a class="page-link" aria-label="Previous" id="PreviousBtn" href="#">
+                  <span class="page-link" aria-label="Previous" id="PreviousBtn" href="#">
                       <span aria-hidden="true">&laquo;</span>
-                  </a>
+                  </span>
                 </li>
                 <li class="page-item"><a class="page-link" href="#" id="pageNo">1</a></li>
                 <li class="page-item">
-                <a class="page-link" aria-label="Next" id="NextBtn" href="/test?searchType=1&page=2&program_id=1001&product_id=21032">
+                <span class="page-link" aria-label="Next" id="NextBtn" href="/test?searchType=1&page=2&program_id=1001&product_id=21032">
                     <span aria-hidden="true">&raquo;</span>
-                </a>
+                </span>
                 </li>
             </ul>
             </nav>
    </div>
 </div>
+<script src={{ url_for('static', path="/js/jquery.slim.min.js") }} ></script>
+<script src={{ url_for('static', path="/js/popper.min.js") }}></script>
+<script src={{ url_for('static', path="/js/bootstrap.min.js") }}></script>
+<script src={{ url_for('static', path='/js/index.js') }}></script>
 </body>
 </html>

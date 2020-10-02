@@ -27,17 +27,26 @@ mysqlmodule = MysqlModule()
 async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_name:str = None):
     datadict = {
         "searchType": searchType,
-        "page": page,
-        "program_id": program_id,
-        "product_id": product_id,
-        "product_name": product_name
-    }
+        "page": page or 1,
+        "program_id": program_id or 1000,
+        "product_key": product_key or ""
+    } 
+    #Baoyun18
     if searchType == 1 and program_id == 1000:
         result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
+    elif searchType == 1 and program_id == 1001:
+        # qixin18
+        ProductsList = []
+    elif searchType == 1 and program_id == 1002:
+        # Niubao1000
+        ProductsList = []
+    elif searchType == 2 and product_key is not None:
+        # All Program
+        ProductsList = []
     else:
         ProductsList = []
-    return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList})
+    return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict})
 
 @app.get("/test/search")
 async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
@@ -69,14 +78,6 @@ async def search(request:Request, searchType:int = None, page:int = None, progra
     else:
         pass
 
-
-    # mysqlmodule = MysqlModule()
-    # result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
-    # result_dict["nextPage"] = page + 1
-    # if result_dict["success"] == False:
-    #     print(result_dict["fail_reason"])
-    # ProductsList = result_dict["result_list"] if result_dict["success"] else []
-    # return ProductsList
     
         
 if __name__ == "__main__":

@@ -199,7 +199,7 @@ class MysqlModule:
                         "program_id": result_set[0][0],
                         "product_id": result_set[0][1],
                         "product_name": result_set[0][2],
-                        "isDetail": result_set[0][3]
+                        "isDetail": result_set[0][3],
                         "details":[]
                     }
                     for item in result_set:
@@ -208,7 +208,7 @@ class MysqlModule:
                             "缴费年限": item[5], #insureAgeText
                             "缴费纬度": item[6], #economyText
                             "主险":item[7], #feeRateList_1
-                            "附加险":item[8], #feeRateList_2
+                            "附加险":item[8] #feeRateList_2
                         }
                         result_dict["details"].append(detail_dict)
                     result["result_list"].append(result_dict)                    

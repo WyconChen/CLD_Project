@@ -96,7 +96,7 @@ class MysqlModule:
                         FROM CLD_Baoyun18 WHERE `product_id` = %s"
             try:
                 with self.DBConnection.cursor() as cursor:
-                    cursor.execute(select_product_sql, ((datadict["page"]-1)*5,))
+                    cursor.execute(select_product_sql, (("%"+datadict["product_key"]+"%", datadict["page"]-1)*5))
                     result_set = cursor.fetchall()
                     if(len(result) < 0):
                         result["isEnd"] = True

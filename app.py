@@ -24,7 +24,7 @@ app.mount("/static", StaticFiles(directory=path), name="static")
 mysqlmodule = MysqlModule()
 
 @app.get("/test")
-async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_name:str = None):
+async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None):
     datadict = {
         "searchType": searchType,
         "page": page or 1,

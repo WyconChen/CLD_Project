@@ -32,8 +32,8 @@ function searchBtnClickEvent(){
 
 
 NextBtn.onclick = function(){
-    currentPage = parseInt(pageNo.textContent);
-    pageNo.textContent = currentPage + 1;
+    currentPage = document.getElementById("pageNo").textContent;
+    document.getElementById("pageNo").textContent = parseInt(currentPage) + 1;
     var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
     var product_key = document.getElementById("inputPassword2").value;
     var pageNo = document.getElementById("pageNo").textContent;
@@ -42,9 +42,9 @@ NextBtn.onclick = function(){
 }
 
 previousBtn.onclick = function(){
-    currentPage = parseInt(pageNo.textContent);
-    if(currentPage>1){
-        pageNo.textContent = currentPage - 1;
+    currentPage = document.getElementById("pageNo").textContent;
+    if(parseInt(currentPage)>1){
+        document.getElementById("pageNo").textContent = parseInt(currentPage) - 1;
         var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
         var product_key = document.getElementById("inputPassword2").value;
         var pageNo = document.getElementById("pageNo").textContent;

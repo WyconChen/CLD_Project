@@ -62,6 +62,7 @@ async def search(request:Request, searchType:int = None, page:int = None, progra
         pass
     elif searchType == 1 and program_id == 1002:
         # Niubao1000
+        pass
     elif searchType == 2 and product_key is not None:
         # All Program
         pass

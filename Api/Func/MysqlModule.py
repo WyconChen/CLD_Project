@@ -75,12 +75,6 @@ class MysqlModule:
             return {"result": False, "reason": e}
     
     def GetDataFromBaoyun18(self, datadict:dict) -> dict:
-        """
-        @params:
-        program_id: int
-        product_key: name or keyword, str
-        page: current page, int
-        """
         result = {
             "success": True,
             "fail_reason": None,
@@ -124,6 +118,105 @@ class MysqlModule:
                 result["success"] = False
                 result["fail_reason"] = e
                 return result
+
+    def GetDataFromNiubao100(self, datadict:dict) -> dict:
+        result = {
+            "success": True,
+            "fail_reason": None,
+            "result_list": [],
+            "isEnd": False
+        }
+        if(datadict["product_key"] is None):
+            select_product_sql = "SELECT DISTINCT(`item_id`) FROM CLD_Niubao100 ORDER BY `item_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+        else:
+            select_product_sql = "SELECT DISTINCT(`item_id`) FROM CLD_Niubao100 WHERE `item_name` LIKE '%{product_key}%' ORDER BY `item_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+
+        select_sql = "SELECT `program_id`,`item_id`,`item_name`, `insuranceType`,`paytime`,`savetime`,\
+                    `insuredage`, `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`FROM CLD_Niubao100 WHERE `product_id` = %s;"  
+
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(select_product_sql)
+                result_set = cursor.fetchall()
+                if(len(result) < 0):
+                    result["isEnd"] = True
+                    return result
+                for product_id in result_set:
+                    cursor.execute(select_sql, product_id)
+                    result_set = cursor.fetchall()
+                    result_dict = {
+                        "program_id": result_set[0][0],
+                        "product_id": result_set[0][1],
+                        "product_name": result_set[0][2],
+                        "details":[]
+                    }
+                    for item in result_set:
+                        detail_dict = {
+                            "险种产品名称": item[3],
+                            "缴费年限": item[4],
+                            "savetime": item[5],# savetime
+                            "insuredage": item[6], #insuredage
+                            "活动补贴":item[7],
+                            "首年推广费比例":item[8],
+                            "第二年推广费比例": item[9],
+                            "第三年推广费比例": item[10],
+                            "第四年推广费比例": item[11],
+                            "第五年推广费比例": item[12]
+                        }
+                        result_dict["details"].append(detail_dict)
+                    result["result_list"].append(result_dict)                    
+            return result
+        except Exception as e:
+            result["success"] = False
+            result["fail_reason"] = e
+            return result
+
+    def GetDataFromQixin18(self, datadict:dict) -> dict:
+        result = {
+                    "success": True,
+                    "fail_reason": None,
+                    "result_list": [],
+                    "isEnd": False
+        }
+        if(datadict["product_key"] is None):
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+        else:
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `item_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+
+        select_sql = "SELECT `program_id`,`product_id`,`product_name`, `isDetails`,`yearPolicyText`,`insureAgeText`,\
+                    `economyText`, `feeRateList_1`, `feeRateList_2` FROM CLD_Qixin18 WHERE `product_id` = %s;"  
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(select_product_sql)
+                result_set = cursor.fetchall()
+                if(len(result) < 0):
+                    result["isEnd"] = True
+                    return result
+                for product_id in result_set:
+                    cursor.execute(select_sql, product_id)
+                    result_set = cursor.fetchall()
+                    result_dict = {
+                        "program_id": result_set[0][0],
+                        "product_id": result_set[0][1],
+                        "product_name": result_set[0][2],
+                        "isDetail": result_set[0][3]
+                        "details":[]
+                    }
+                    for item in result_set:
+                        detail_dict = {
+                            "保单年度": item[4],#yearPolicyText
+                            "缴费年限": item[5], #insureAgeText
+                            "缴费纬度": item[6], #economyText
+                            "主险":item[7], #feeRateList_1
+                            "附加险":item[8], #feeRateList_2
+                        }
+                        result_dict["details"].append(detail_dict)
+                    result["result_list"].append(result_dict)                    
+            return result
+        except Exception as e:
+            result["success"] = False
+            result["fail_reason"] = e
+            return result
 
     def __del__(self):
         self.DBConnection.close()

@@ -26,7 +26,7 @@ mysqlmodule = MysqlModule()
 @app.get("/test")
 async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None):
     datadict = {
-        "searchType": searchType,
+        "searchType": 1,
         "page": page or 1,
         "program_id": program_id or 1000,
         "product_key": product_key or ""

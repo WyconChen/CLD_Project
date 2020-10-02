@@ -21,6 +21,8 @@ templates = Jinja2Templates(directory=path)
 app = FastAPI()
 app.mount("/static", StaticFiles(directory=path), name="static")
 
+mysqlmodule = MysqlModule()
+
 @app.get("/test")
 async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_name:str = None):
     datadict = {
@@ -30,13 +32,10 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         "product_id": product_id,
         "product_name": product_name
     }
-    if searchType or page or program_id or product_key:
-        print('enter step 1')
-        mysqlmodule = MysqlModule()
+    if searchType == 1 and program_id == 1000:
         result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
     else:
-        print('enter step 2')
         ProductsList = []
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList})
 
@@ -47,13 +46,36 @@ async def search(request:Request, searchType:int = None, page:int = None, progra
         "page": page,
         "program_id": program_id,
         "product_key": product_key 
-    }
-    mysqlmodule = MysqlModule()
-    result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
-    if result_dict["success"] == False:
-        print(result_dict["fail_reason"])
-    ProductsList = result_dict["result_list"] if result_dict["success"] else []
-    return ProductsList
+    } 
+    print("request_url: ")
+    print(request.url)
+    print(request.base_url)
+    #Baoyun18
+    if searchType == 1 and program_id == 1000:
+        result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
+         if result_dict["success"] == False:
+            print(result_dict["fail_reason"])
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+        return ProductsList
+    elif searchType == 1 and program_id == 1001:
+        # qixin18
+        pass
+    elif searchType == 1 and program_id == 1002:
+        # Niubao1000
+    elif searchType == 2 and product_key is not None:
+        # All Program
+        pass
+    else:
+        pass
+
+
+    # mysqlmodule = MysqlModule()
+    # result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
+    # result_dict["nextPage"] = page + 1
+    # if result_dict["success"] == False:
+    #     print(result_dict["fail_reason"])
+    # ProductsList = result_dict["result_list"] if result_dict["success"] else []
+    # return ProductsList
     
         
 if __name__ == "__main__":

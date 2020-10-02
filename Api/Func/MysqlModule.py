@@ -81,37 +81,29 @@ class MysqlModule:
         product_key: name or keyword, str
         page: current page, int
         """
-        print('enter step 3')
         result = {
             "success": True,
             "fail_reason": None,
-            "result_list": []
+            "result_list": [],
+            "isEnd": False
         }
-        if(datadict["searchType"] == 1):
-            print('enter step 4')
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY `product_id` ASC LIMIT 5 OFFSET %s"
+        if(datadict["searchType"] == 1 and datadict["program_id"] == 1000):
+            if(datadict["product_key"] is None):
+                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY `product_id` ASC LIMIT 5 OFFSET %s"
+            else:
+                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 WHERE `product_name` LIKE \"%s\" ORDER BY `product_id` ASC LIMIT 5 OFFSET %s"
             select_sql = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
                         FROM CLD_Baoyun18 WHERE `product_id` = %s"
             try:
                 with self.DBConnection.cursor() as cursor:
-                    print('enter step 5')
                     cursor.execute(select_product_sql, ((datadict["page"]-1)*5,))
                     result_set = cursor.fetchall()
-                    print("result_set"+str(result_set))
-                    # product_id_set = result_set[0]
-                    # print("product_id_set:")
-                    # print(product_id_set)
-                    """
-                        result_set = ((1,),(2,))
-                        product_id = (1, )
-                    """
+                    if(len(result) < 0):
+                        result["isEnd"] = True
+                        return result
                     for product_id in result_set:
-                        print('enter step 5')
                         cursor.execute(select_sql, product_id)
                         result_set = cursor.fetchall()
-                        """
-                        result_set = ((1,2,3),(1,2,4))
-                        """
                         result_dict = {
                             "program_id": result_set[0][0],
                             "product_id": result_set[0][1],
@@ -126,11 +118,9 @@ class MysqlModule:
                                 "second_rate": item[6]
                             }
                             result_dict["details"].append(detail_dict)
-                        result["result_list"].append(result_dict)     
-                print("result: "+str(result))                 
+                        result["result_list"].append(result_dict)                    
                 return result
             except Exception as e:
-                print("error happen")
                 result["success"] = False
                 result["fail_reason"] = e
                 return result

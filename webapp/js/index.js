@@ -21,13 +21,13 @@ dropdownTitle.onclick = function(){
 }
 
 function searchBtnClickEvent(){
-    document.getElementById("pageNo").textContent = 1
+    //document.getElementById("pageNo").textContent = 1
     var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
     var product_key = document.getElementById("inputPassword2").value;
     var pageNo = document.getElementById("pageNo").textContent;
     console.log(22222)
     console.log(program_id, product_key, pageNo)
-    url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
+    url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page=1";
     window.location.href = url_path;
 }
 

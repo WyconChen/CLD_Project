@@ -169,6 +169,7 @@ class MysqlModule:
         except Exception as e:
             result["success"] = False
             result["fail_reason"] = e
+            print(e)
             return result
 
     def GetDataFromQixin18(self, datadict:dict) -> dict:
@@ -181,7 +182,7 @@ class MysqlModule:
         if(datadict["product_key"] is None):
             select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
         else:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `item_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
 
         select_sql = "SELECT `program_id`,`product_id`,`product_name`, `isDetails`,`yearPolicyText`,`insureAgeText`,\
                     `economyText`, `feeRateList_1`, `feeRateList_2` FROM CLD_Qixin18 WHERE `product_id` = %s;"  
@@ -216,6 +217,7 @@ class MysqlModule:
         except Exception as e:
             result["success"] = False
             result["fail_reason"] = e
+            print(e)
             return result
 
     def __del__(self):

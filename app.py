@@ -37,7 +37,7 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
     elif searchType == 1 and program_id == 1001:
         # qixin18
-        result_dict = mysqlmodule.GetDataFromQinxi18(datadict)
+        result_dict = mysqlmodule.GetDataFromQixin18(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
     elif searchType == 1 and program_id == 1002:
         # Niubao1000

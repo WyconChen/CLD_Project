@@ -21,6 +21,7 @@ dropdownTitle.onclick = function(){
 }
 
 function searchBtnClickEvent(){
+    document.getElementById("pageNo").textContent = 1
     var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
     var product_key = document.getElementById("inputPassword2").value;
     var pageNo = document.getElementById("pageNo").textContent;

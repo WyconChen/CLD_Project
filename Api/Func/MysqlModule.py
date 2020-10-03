@@ -132,7 +132,7 @@ class MysqlModule:
             select_product_sql = "SELECT DISTINCT(`item_id`) FROM CLD_Niubao100 WHERE `item_name` LIKE '%{product_key}%' ORDER BY `item_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
 
         select_sql = "SELECT `program_id`,`item_id`,`item_name`, `insuranceType`,`paytime`,`savetime`,\
-                    `insuredage`, `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`FROM CLD_Niubao100 WHERE `product_id` = %s;"  
+                    `insuredage`, `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`FROM CLD_Niubao100 WHERE `item_id` = %s;"  
 
         try:
             with self.DBConnection.cursor() as cursor:

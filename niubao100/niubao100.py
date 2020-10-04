@@ -47,13 +47,13 @@ class Niubao100:
         DetailsList_Dict = json.loads(DetailsList_Res.text) if DetailsList_Res.ok else {}
         if DetailsList_Dict:
             if "data" in DetailsList_Dict:
-                Type = 1 if len(DetailsList_Dict["data"]["commCols"]) <= 3 else 2
-                # [version, ratio, renew_ratio]
+                Type = 1 if "version" DetailsList_Dict["data"]["skus"][0] else 2
+                # [version, ratio, renew_ratio] 
                 try:
                     if Type == 1:
                         for sku in DetailsList_Dict["data"]["skus"]:
                             result_dict = {"program_id":1002, "product_id": product_id, "product_name": product_name, "Type": Type}
-                            result_dict["version"] = sku["version"]
+                            result_dict["version"] = sku["version"] if sku["version"] != "" else "---"
                             result_dict["ratio"] = sku["ratio"]
                             result_dict["renew_ratio"] = sku["renew_ratio"]
                             result_dict["insuranceType"] = ""

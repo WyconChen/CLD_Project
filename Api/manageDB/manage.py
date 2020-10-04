@@ -74,9 +74,9 @@ class Niubao100(Base):
     y3 = Column(Float, nullable = True)
     y4 = Column(Float, nullable = True)
     y5 = Column(Float, nullable = True)
-    version = Column(String(10),nullable = True)
-    ratio = Column(String(10),nullable = True)
-    renew_ratio = Column(String(10),nullable = True)
+    version = Column(String(100),nullable = True)
+    ratio = Column(String(100),nullable = True)
+    renew_ratio = Column(String(100),nullable = True)
 
 
 if __name__ == "__main__":

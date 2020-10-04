@@ -12,7 +12,7 @@ class QiXin18:
         
         self.QiXin_Session = requests.Session()
         self.Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
-                "Cookie": r"beidoudata2015jssdkcross=%7B%22distinct_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%2C%22first_id%22%3A%22%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%7D; auth-tips=1; orderTips=true; acw_tc=2f6a1fec16016361434751926e8159716ed4345ac32e11f6dd6b16a0a2d92e; env=preview; qx_trip_pc_sid=s%3AP4hHa2cu2iivWY1oyyV4QzVxNoJxRTBY.6h83%2FsVzauPGbCZ5AMvx0IS0l50b8mgJ6RNHhnTxHWI; hz_guest_key=BmUl85h4HZT35SVOmR_1600961281063_1_1048581_0; hz_visit_key=1hXKNaqdcHZ3aw8ti5WD_1601636424658_4_1601636424658; hz_view_key=BmUl85h4HZT35SVOmR1SStC09nbHZYQTcTSG0_1601636430527_https%253A%252F%252Fwww.qixin18.com%252Fgoods%253Fis_from_new_merchant_pc%253Dtrue"
+                "Cookie": r"beidoudata2015jssdkcross=%7B%22distinct_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%2C%22first_id%22%3A%22%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%7D; auth-tips=1; orderTips=true; acw_tc=2f6a1fae16018220592497901e4cc07a252e448a19e3a9e479f361ac4efb59; env=preview; qx_trip_pc_sid=s%3A7syvbD8geILNfN9FoAngSwuC6uLWcKH4.0clPe3QbUfqbTZ72eq5oo3PP%2FdixK%2FnDrihg%2Bl5sHXM; hz_guest_key=1HwfYz8BIHZ3oGHRCu79_1601778137707_1_0_0; hz_visit_key=4uJEkIBcsHZ27khLgY9x_1601822596509_6_1601822596509; hz_view_key=1HwfYz8BIHZ3oGHRCu793iUcH3xmdHZ2fnmmIu4C_1601822678723_https%253A%252F%252Fwww.qixin18.com%252Fgoods%253Fis_from_new_merchant_pc%253Dtrue"
         }
 
     def Get_Produts_Menu(self, page:int) -> list:
@@ -57,7 +57,7 @@ class QiXin18:
         # 判断是否存在data
         try:
             if "data" in Details_Res_Data:
-                for yearPolicyFeeDto in yearPolicyFeeDtoList:
+                for yearPolicyFeeDto in Details_Res_Data["data"]["yearPolicyFeeDtoList"]:
                     result_dict["yearPolicyText"] = yearPolicyFeeDto["yearPolicyText"] if "yearPolicyText" in yearPolicyFeeDto["yearPolicyText"] and yearPolicyFeeDto["yearPolicyText"] is not None else "未知年限"
                     if "insureAgeFeeDtoList" in yearPolicyFeeDto:
                         for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"]:
@@ -65,8 +65,12 @@ class QiXin18:
                             for partnerProductFeeItem in insureAgeFeeDto["partnerProductFeeItemDtoList"]:
                                 result_dict["economyText"] = partnerProductFeeItem["economyText"]
                                 result_dict["feeRateList_1"] = float(partnerProductFeeItem["feeRateList"][0]) if partnerProductFeeItem["feeRateList"][0] is not None else 0.0
-                                result_dict["feeRateList_2"] = float(partnerProductFeeItem["feeRateList"][1]) if partnerProductFeeItem["feeRateList"][0] is not None else 0.0
+                                result_dict["feeRateList_2"] = float(partnerProductFeeItem["feeRateList"][1]) if len(partnerProductFeeItem["feeRateList"])>=2 and partnerProductFeeItem["feeRateList"][1] is not None else 0.0
                                 res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
+                                resText = json.loads(res.text)
+                                print(resText)
+                                if resText["success"] == False:
+                                    print(result_dict["product_name"] + "： 保存失败")
             else:
                 print(result_dict["product_name"] + "不存在detail数据, 不作保存") 
                 

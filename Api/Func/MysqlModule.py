@@ -136,13 +136,13 @@ class MysqlModule:
             "isEnd": False
         }
         if(datadict["product_key"] is None):
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Niubao100 ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM `CLD_Niubao100` ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};".format(page=(datadict["page"]-1)*5)
         else:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Niubao100 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM `CLD_Niubao100` WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
 
         select_sql = "SELECT `program_id`,`product_id`,`product_name`, `insuranceType`,`paytime`,`savetime`,\
                     `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`,`version`, `ratio`, `renew_ratio`, `Type` \
-                    FROM `CLD_Niubao100` WHERE `product_id` = {product_id};"  
+                    FROM `CLD_Niubao100` WHERE `product_id` = %s;"  
 
         try:
             with self.DBConnection.cursor() as cursor:
@@ -152,7 +152,7 @@ class MysqlModule:
                     result["isEnd"] = True
                     return result
                 for product_id in result_set:
-                    cursor.execute(select_sql.format(product_id=product_id))
+                    cursor.execute(select_sql, product_id)
                     result_set = cursor.fetchall()
                     result_dict = {
                         "program_id": result_set[0][0],

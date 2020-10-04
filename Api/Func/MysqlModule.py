@@ -61,9 +61,9 @@ class MysqlModule:
     def SaveDataToNiubao100(self, DataDict:dict):
         delete_sql = "DELETE FROM CLD_Niubao100 WHERE `product_id` = {product_id};"
         insert_sql_of_type_1 = "INSERT INTO CLD_Niubao100 (`program_id`, `product_id`, `product_name`, `version`, `ratio`, `renew_ratio`, `Type`) VALUES \
-                               ({program_id}, {product_id}, {product_name}, {version}, {ratio}, {renew_ratio}, {Type});"
+                               ({program_id}, {product_id}, '{product_name}', '{version}', '{ratio}', '{renew_ratio}', {Type});"
         insert_sql_of_type_2 = "INSERT INTO CLD_Niubao100 (`program_id`, `product_id`, `product_name`, `insuranceType`, `paytime`, `savetime`, `actratio`,`y1`, `y2`, `y3`, `y4`, `y5`, `Type`) VALUES \
-                               ({program_id}, {product_id}, {product_name}, {insuranceType}, {paytime}, {savetime}, {actratio}, {y1}, {y2}, {y3}, {y4}, {y5}, {Type});"
+                                ({program_id}, {product_id}, '{product_name}', '{insuranceType}', '{paytime}', '{savetime}', {actratio}, {y1}, {y2}, {y3}, {y4}, {y5}, {Type});"
         
         Type = DataDict["Type"]               
         with self.DBConnection.cursor() as cursor:

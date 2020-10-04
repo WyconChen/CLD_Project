@@ -47,7 +47,7 @@ class Niubao100:
         DetailsList_Dict = json.loads(DetailsList_Res.text) if DetailsList_Res.ok else {}
         if DetailsList_Dict:
             if "data" in DetailsList_Dict:
-                Type = 1 if "version" DetailsList_Dict["data"]["skus"][0] else 2
+                Type = 1 if "version" in DetailsList_Dict["data"]["skus"][0] else 2
                 # [version, ratio, renew_ratio] 
                 try:
                     if Type == 1:
@@ -60,11 +60,11 @@ class Niubao100:
                             result_dict["paytime"] = ""
                             result_dict["savetime"] = ""
                             result_dict["actratio"] = ""
-                            result_dict["y1"] = ""
-                            result_dict["y2"] = ""
-                            result_dict["y3"] = ""
-                            result_dict["y4"] = ""
-                            result_dict["y5"] = ""
+                            result_dict["y1"] = 0.0
+                            result_dict["y2"] = 0.0
+                            result_dict["y3"] = 0.0
+                            result_dict["y4"] = 0.0
+                            result_dict["y5"] = 0.0
                             # print(result_dict)
                             res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
                             resText = json.loads(res.text)

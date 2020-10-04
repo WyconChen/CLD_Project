@@ -49,41 +49,51 @@ class Niubao100:
             if "data" in DetailsList_Dict:
                 Type = 1 if len(DetailsList_Dict["data"]["commCols"]) <= 3 else 2
                 # [version, ratio, renew_ratio]
-                if Type == 1:
-                    for sku in DetailsList_Dict["data"]["skus"]:
-                        result_dict = {"program_id":1002, "product_id": product_id, "product_name": product_name, "Type": Type}
-                        result_dict["version"] = sku["version"]
-                        result_dict["ratio"] = sku["ratio"]
-                        result_dict["renew_ratio"] = sku["renew_ratio"]
-                        result_dict["insuranceType"] = ""
-                        result_dict["paytime"] = ""
-                        result_dict["savetime"] = ""
-                        result_dict["actratio"] = ""
-                        result_dict["y1"] = ""
-                        result_dict["y2"] = ""
-                        result_dict["y3"] = ""
-                        result_dict["y4"] = ""
-                        result_dict["y5"] = ""
-                        # print(result_dict)
-                        res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
-                # [insuranceType, paytime, savetime....y1, y2, y3, y4, y5]
-                else:
-                    for skus in DetailsList_Dict["data"]["skus"]:
-                        result_dict = {"program_id":1002, "product_id": product_id, "product_name": product_name, "Type": Type}
-                        result_dict["insuranceType"] = skus["insuranceType"] if "insuranceType" in skus else "unknown"
-                        result_dict["paytime"] = skus["paytime"] if "paytime" in skus and skus["paytime"] is not None else "unknown"
-                        result_dict["savetime"] = skus["savetime"] if "savetime" in skus and skus["savetime"] is not None else "---"
-                        result_dict["actratio"] = float(skus["actratio"]) if skus["actratio"] is not None else 0.0
-                        result_dict["y1"] = float(skus["y1"]) if "y1" in skus else 0.0
-                        result_dict["y2"] = float(skus["y2"]) if "y2" in skus else 0.0
-                        result_dict["y3"] = float(skus["y3"]) if "y3" in skus else 0.0
-                        result_dict["y4"] = float(skus["y4"]) if "y4" in skus else 0.0 
-                        result_dict["y5"] = float(skus["y5"]) if "y5" in skus else 0.0
-                        result_dict["version"] = ""
-                        result_dict["ratio"] = ""
-                        result_dict["renew_ratio"] = ""
-                        # print(result_dict)
-                        res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
+                try:
+                    if Type == 1:
+                        for sku in DetailsList_Dict["data"]["skus"]:
+                            result_dict = {"program_id":1002, "product_id": product_id, "product_name": product_name, "Type": Type}
+                            result_dict["version"] = sku["version"]
+                            result_dict["ratio"] = sku["ratio"]
+                            result_dict["renew_ratio"] = sku["renew_ratio"]
+                            result_dict["insuranceType"] = ""
+                            result_dict["paytime"] = ""
+                            result_dict["savetime"] = ""
+                            result_dict["actratio"] = ""
+                            result_dict["y1"] = ""
+                            result_dict["y2"] = ""
+                            result_dict["y3"] = ""
+                            result_dict["y4"] = ""
+                            result_dict["y5"] = ""
+                            # print(result_dict)
+                            res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
+                            if res["result"] == False:
+                                print(product_name + " have error: ")
+                                print(res["reason"])
+                    # [insuranceType, paytime, savetime....y1, y2, y3, y4, y5]
+                    else:
+                        for skus in DetailsList_Dict["data"]["skus"]:
+                            result_dict = {"program_id":1002, "product_id": product_id, "product_name": product_name, "Type": Type}
+                            result_dict["insuranceType"] = skus["insuranceType"] if "insuranceType" in skus else "unknown"
+                            result_dict["paytime"] = skus["paytime"] if "paytime" in skus and skus["paytime"] is not None else "unknown"
+                            result_dict["savetime"] = skus["savetime"] if "savetime" in skus and skus["savetime"] is not None else "---"
+                            result_dict["actratio"] = float(skus["actratio"]) if skus["actratio"] is not None else 0.0
+                            result_dict["y1"] = float(skus["y1"]) if "y1" in skus else 0.0
+                            result_dict["y2"] = float(skus["y2"]) if "y2" in skus else 0.0
+                            result_dict["y3"] = float(skus["y3"]) if "y3" in skus else 0.0
+                            result_dict["y4"] = float(skus["y4"]) if "y4" in skus else 0.0 
+                            result_dict["y5"] = float(skus["y5"]) if "y5" in skus else 0.0
+                            result_dict["version"] = ""
+                            result_dict["ratio"] = ""
+                            result_dict["renew_ratio"] = ""
+                            # print(result_dict)
+                            res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
+                            if res["result"] == False:
+                                print(product_name + " have error: ")
+                                print(res["reason"])
+                except Exception as e:
+                    print(product_name + " have error: ")
+                    print(e)
             else:
                 print(product_name + ": 没有detail数据, 不作保存")
 

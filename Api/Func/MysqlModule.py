@@ -65,24 +65,40 @@ class MysqlModule:
         insert_sql_of_type_2 = "INSERT INTO CLD_Niubao100 (`program_id`, `product_id`, `product_name`, `insuranceType`, `paytime`, `savetime`, `actratio`, \
             `y1`, `y2`, `y3`, `y4`, `y5`, `Type`) VALUES ({program_id}, {product_id}, {product_name}, {insuranceType}, {paytime}, {savetime}, \
             {actratio}, {y1}, {y2}, {y3}, {y4}, {y5}, {Type});"
-        try:
-            Type = DataDict["Type"]               
-            with self.DBConnection.cursor() as cursor:
-                cursor.execute(delete_sql.format(product_id = DataDict["product_id"]))
-                if Type == 1:                   
-                    cursor.execute(insert_sql_of_type_1.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
-                                                               version=DataDict["version"], ratio=DataDict["ratio"], renew_ratio=DataDict["renew_ratio"],
-                                                               Type=Type))
-                else:
-                    cursor.execute(insert_sql_of_type_2.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
-                                                               insuranceType=DataDict["insuranceType"], paytime=DataDict["paytime"], savetime=DataDict["savetime"],
-                                                               actratio=DataDict["actratio"], y1=DataDict["y1"], y2=DataDict["y2"], y3=DataDict["y3"], y4=DataDict["y4"], 
-                                                               y5=DataDict["y5"], Type=Type))
-            self.DBConnection.commit()
-            return {"result": True, "reason": None}
-        except Exception as e:
-            self.DBConnection.rollback()
-            return {"result": False, "reason": e}
+        
+        Type = DataDict["Type"]               
+        with self.DBConnection.cursor() as cursor:
+            cursor.execute(delete_sql.format(product_id = DataDict["product_id"]))
+            if Type == 1:                   
+                cursor.execute(insert_sql_of_type_1.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
+                                                            version=DataDict["version"], ratio=DataDict["ratio"], renew_ratio=DataDict["renew_ratio"],
+                                                            Type=Type))
+            else:
+                cursor.execute(insert_sql_of_type_2.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
+                                                            insuranceType=DataDict["insuranceType"], paytime=DataDict["paytime"], savetime=DataDict["savetime"],
+                                                            actratio=DataDict["actratio"], y1=DataDict["y1"], y2=DataDict["y2"], y3=DataDict["y3"], y4=DataDict["y4"], 
+                                                            y5=DataDict["y5"], Type=Type))
+        self.DBConnection.commit()
+        return {"result": True, "reason": None}
+
+        # try:
+        #     Type = DataDict["Type"]               
+        #     with self.DBConnection.cursor() as cursor:
+        #         cursor.execute(delete_sql.format(product_id = DataDict["product_id"]))
+        #         if Type == 1:                   
+        #             cursor.execute(insert_sql_of_type_1.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
+        #                                                        version=DataDict["version"], ratio=DataDict["ratio"], renew_ratio=DataDict["renew_ratio"],
+        #                                                        Type=Type))
+        #         else:
+        #             cursor.execute(insert_sql_of_type_2.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
+        #                                                        insuranceType=DataDict["insuranceType"], paytime=DataDict["paytime"], savetime=DataDict["savetime"],
+        #                                                        actratio=DataDict["actratio"], y1=DataDict["y1"], y2=DataDict["y2"], y3=DataDict["y3"], y4=DataDict["y4"], 
+        #                                                        y5=DataDict["y5"], Type=Type))
+        #     self.DBConnection.commit()
+        #     return {"result": True, "reason": None}
+        # except Exception as e:
+        #     self.DBConnection.rollback()
+        #     return {"result": False, "reason": e}
     
     def GetDataFromBaoyun18(self, datadict:dict) -> dict:
         result = {

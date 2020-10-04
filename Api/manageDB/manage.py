@@ -64,7 +64,7 @@ class Niubao100(Base):
     program_id = Column(Integer)
     product_id = Column(Integer)
     produdt_name = Column(String(100), nullable = False)
-    Type = Column(Integer())
+    Type = Column(Integer
     insuranceType = Column(String(100), nullable = True)
     paytime = Column(String(100), nullable = True)
     savetime = Column(String(100), nullable = True)

@@ -55,8 +55,17 @@ class Niubao100:
                         result_dict["version"] = sku["version"]
                         result_dict["ratio"] = sku["ratio"]
                         result_dict["renew_ratio"] = sku["renew_ratio"]
-                        print(result_dict)
-                        # res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
+                        result_dict["insuranceType"] = ""
+                        result_dict["paytime"] = ""
+                        result_dict["savetime"] = ""
+                        result_dict["actratio"] = ""
+                        result_dict["y1"] = ""
+                        result_dict["y2"] = ""
+                        result_dict["y3"] = ""
+                        result_dict["y4"] = ""
+                        result_dict["y5"] = ""
+                        # print(result_dict)
+                        res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
                 # [insuranceType, paytime, savetime....y1, y2, y3, y4, y5]
                 else:
                     for skus in DetailsList_Dict["data"]["skus"]:
@@ -70,8 +79,11 @@ class Niubao100:
                         result_dict["y3"] = float(skus["y3"]) if "y3" in skus else 0.0
                         result_dict["y4"] = float(skus["y4"]) if "y4" in skus else 0.0 
                         result_dict["y5"] = float(skus["y5"]) if "y5" in skus else 0.0
-                        print(result_dict)
-                        # res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
+                        result_dict["version"] = ""
+                        result_dict["ratio"] = ""
+                        result_dict["renew_ratio"] = ""
+                        # print(result_dict)
+                        res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
             else:
                 print(product_name + ": 没有detail数据, 不作保存")
 

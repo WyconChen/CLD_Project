@@ -57,7 +57,18 @@ class QiXin18:
         # 判断是否存在data
         try:
             if "data" in Details_Res_Data:
-                pass
+                for yearPolicyFeeDto in yearPolicyFeeDtoList:
+                    result_dict["yearPolicyText"] = yearPolicyFeeDto["yearPolicyText"] if "yearPolicyText" in yearPolicyFeeDto["yearPolicyText"] and yearPolicyFeeDto["yearPolicyText"] is not None else "未知年限"
+                    if "insureAgeFeeDtoList" in yearPolicyFeeDto:
+                        for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"]:
+                            result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if insureAgeFeeDto["insureAgeText"] else "未知年限"
+                            for partnerProductFeeItem in insureAgeFeeDto["partnerProductFeeItemDtoList"]:
+                                result_dict["economyText"] = partnerProductFeeItem["economyText"]
+                                result_dict["feeRateList_1"] = float(partnerProductFeeItem["feeRateList"][0]) if partnerProductFeeItem["feeRateList"][0] is not None else 0.0
+                                result_dict["feeRateList_2"] = float(partnerProductFeeItem["feeRateList"][1]) if partnerProductFeeItem["feeRateList"][0] is not None else 0.0
+                                res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
+            else:
+                print(result_dict["product_name"] + "不存在detail数据, 不作保存") 
                 
         except Exception as e:
             print("保存失败, 原因如下:")

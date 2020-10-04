@@ -51,7 +51,6 @@ class Qixin18(Base):
     plan_Id = Column(Integer, nullable = False)
     company_id = Column(Integer, nullable = False)
     company_name = Column(String(250), nullable = False)
-    isDetails = Column(Boolean(250),nullable = False)
     yearPolicyText = Column(String(250), nullable = True)
     insureAgeText = Column(String(250), nullable = True)
     economyText = Column(String(250), nullable = True)

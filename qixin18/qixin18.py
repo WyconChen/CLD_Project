@@ -72,7 +72,7 @@ class QiXin18:
                                 if resText["success"] == False:
                                     print(result_dict["product_name"] + "： 保存失败")
             else:
-                print(result_dict["product_name"] + "不存在detail数据, 不作保存") 
+                print(result_dict["product_name"] + "不存在detail数据, 暂不作保存") 
                 
         except Exception as e:
             print("保存失败, 原因如下:")

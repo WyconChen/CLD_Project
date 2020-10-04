@@ -65,20 +65,21 @@ async def saveDataToQixin18(request_data: Qixin18Model):
 async def saveDataToQixin18(request_data: Niubao100Model):
     DataDict = {
         "program_id" : request_data.program_id,
-        "item_id": request_data.item_id,
-        "item_name": request_data.item_name,
-        "sku_str": request_data.sku_str,
-        "sku": request_data.sku,
+        "product_id": request_data.product_id,
+        "product_name": request_data.product_name,
         "insuranceType": request_data.insuranceType,
         "paytime": request_data.paytime,
         "savetime": request_data.savetime,
-        "insuredage": request_data.insuredage,
         "actratio": request_data.actratio,
         "y1": request_data.y1,
         "y2": request_data.y2,
         "y3": request_data.y3,
         "y4": request_data.y4,
-        "y5": request_data.y5
+        "y5": request_data.y5,
+        "version": request_data.version,
+        "ratio": request_data.ratio,
+        "renew_ratio": request_data.renew_ratio,
+        "Type": request_data.Type
     }
     result = MysqlModule.SaveDataToNiubao100(DataDict)
     return result

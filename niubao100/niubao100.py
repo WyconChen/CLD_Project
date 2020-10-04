@@ -1,8 +1,7 @@
-from typing import List
-import requests
-import json
 import hashlib
+import json
 
+import requests
 
 
 class Niubao100:
@@ -41,41 +40,40 @@ class Niubao100:
         return Item_List
     
     def getProductDetails(self, Item_Dict):
-        item_id = Item_Dict["itemid"]
-        item_name = Item_Dict["name"]
-        FormData = {"itemId": item_id}
+        product_id = Item_Dict["itemid"]
+        product_name = Item_Dict["name"]
+        FormData = {"itemId": product_id}
         DetailsList_Res = self.Niubao_Session.post(url = self.productDetail_url, headers = self.Headers,data = FormData)
         DetailsList_Dict = json.loads(DetailsList_Res.text) if DetailsList_Res.ok else {}
         if DetailsList_Dict:
-            skus_list = DetailsList_Dict["data"]["skus"]
-            for skus in iter(skus_list):
-                result_dict = {"program_id":1003, "item_id": item_id, "item_name": item_name,"sku_str": "null"}
-                result_dict["insuranceType"] = skus["insuranceType"] if "insuranceType" in skus else "unknown"
-                result_dict["sku"] = skus["sku"] if "sku" in skus else 0.0
-                if type(result_dict["sku"]) == str:
-                    result_dict["sku_str"] = result_dict["sku"]
-                    result_dict["sku"] = 0.0
-                result_dict["paytime"] = skus["paytime"] if "paytime" in skus else "unknown"
-                if result_dict["paytime"] == None:
-                    result_dict["paytime"] = "null"
-                result_dict["savetime"] = skus["savetime"] if "savetime" in skus else "null"
-                if result_dict["savetime"] == None:
-                    result_dict["savetime"] = "null"
-                result_dict["insuredage"] = skus["insuredage"] if "insuredage" in skus else "null"
-                if result_dict["insuredage"] == None:
-                    result_dict["insuredage"] = "null"
-                result_dict["actratio"] = skus["actratio"] if "actratio" in skus else 0
-                if result_dict["actratio"] == None:
-                    result_dict["actratio"] = "null"
-                result_dict["y1"] = float(skus["y1"]) if "y1" in skus else 0.0
-                result_dict["y2"] = float(skus["y2"]) if "y2" in skus else 0.0
-                result_dict["y3"] = float(skus["y3"]) if "y3" in skus else 0.0
-                result_dict["y4"] = float(skus["y4"]) if "y4" in skus else 0.0
-                result_dict["y5"] = float(skus["y5"]) if "y5" in skus else 0.0
-                # print(result_dict)
-                res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
-                print(res.text)
-        print(str(item_id)+" - " +item_name + ": 保存成功")
+            if "data" in DetailsList_Dict:
+                Type = 1 if len(DetailsList_Dict["data"]["commCols"]) <= 3 else 2
+                # [version, ratio, renew_ratio]
+                if Type == 1:
+                    for sku in DetailsList_Dict["data"]["skus"]:
+                        result_dict = {"program_id":1002, "product_id": product_id, "product_name": product_name, "Type": Type}
+                        result_dict["version"] = sku["version"]
+                        result_dict["ratio"] = sku["ratio"]
+                        result_dict["renew_ratio"] = sku["renew_ratio"]
+                        print(result_dict)
+                        # res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
+                # [insuranceType, paytime, savetime....y1, y2, y3, y4, y5]
+                else:
+                    for skus in DetailsList_Dict["data"]["skus"]:
+                        result_dict = {"program_id":1002, "product_id": product_id, "product_name": product_name, "Type": Type}
+                        result_dict["insuranceType"] = skus["insuranceType"] if "insuranceType" in skus else "unknown"
+                        result_dict["paytime"] = skus["paytime"] if "paytime" in skus and skus["paytime"] is not None else "unknown"
+                        result_dict["savetime"] = skus["savetime"] if "savetime" in skus and skus["savetime"] is not None else "---"
+                        result_dict["actratio"] = float(skus["actratio"]) if skus["actratio"] is not None else 0.0
+                        result_dict["y1"] = float(skus["y1"]) if "y1" in skus else 0.0
+                        result_dict["y2"] = float(skus["y2"]) if "y2" in skus else 0.0
+                        result_dict["y3"] = float(skus["y3"]) if "y3" in skus else 0.0
+                        result_dict["y4"] = float(skus["y4"]) if "y4" in skus else 0.0 
+                        result_dict["y5"] = float(skus["y5"]) if "y5" in skus else 0.0
+                        print(result_dict)
+                        # res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
+            else:
+                print(product_name + ": 没有detail数据, 不作保存")
 
     def run(self) -> None:
         self.Login()

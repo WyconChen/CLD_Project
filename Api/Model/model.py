@@ -30,20 +30,21 @@ class Qixin18Model(BaseModel):
 
 class Niubao100Model(BaseModel):
     program_id: int
-    item_id: int
-    item_name: str
-    sku_str: str
-    sku: float
+    product_id: int
+    product_name: str
     insuranceType: str
     paytime: str
     savetime: str
-    insuredage: str
     actratio: str
     y1: float
     y2: float
     y3: float
     y4: float
     y5: float
+    version: str
+    ratio: str
+    renew_ratio: str
+    Type: int
 
 class Baoyun18DataModel(BaseModel):
     program_id: int

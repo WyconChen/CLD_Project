@@ -59,15 +59,25 @@ class MysqlModule:
         return True
     
     def SaveDataToNiubao100(self, DataDict:dict):
-        delete_sql = "DELETE FROM CLD_Niubao100 WHERE `item_id` = %s;"
-        insert_sql = "INSERT INTO CLD_Niubao100 (`program_id`, `item_id`, `item_name`, `sku_str`, `sku`, `insuranceType`, `paytime`, `savetime`, `insuredage`, `actratio`, \
-            `y1`, `y2`, `y3`, `y4`, `y5`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+        delete_sql = "DELETE FROM CLD_Niubao100 WHERE `product_id` = {product_id};"
+        insert_sql_of_type_1 = "INSERT INTO CLD_Niubao100 (`program_id`, `product_id`, `product_name`, `version`, `ratio`, `renew_ratio`, `Type`) VALUES \
+                               ({program_id}, {product_id}, {product_name}, {version}, {ratio}, {renew_ratio}, {Type});"
+        insert_sql_of_type_2 = "INSERT INTO CLD_Niubao100 (`program_id`, `product_id`, `product_name`, `insuranceType`, `paytime`, `savetime`, `actratio`, \
+            `y1`, `y2`, `y3`, `y4`, `y5`) VALUES ({program_id}, {product_id}, {product_name}, {insuranceType}, {paytime}, {savetime}, \
+            {actratio}, {y1}, {y2}, {y3}, {y4}, {y5});"
         try:
+            Type = DataDict["Type"]               
             with self.DBConnection.cursor() as cursor:
-                cursor.execute(delete_sql, (DataDict["item_id"],))
-                cursor.execute(insert_sql, (DataDict["program_id"], DataDict["item_id"], DataDict["item_name"], DataDict["sku_str"], DataDict["sku"],
-                            DataDict["insuranceType"], DataDict["paytime"], DataDict["savetime"], DataDict["insuredage"], DataDict["actratio"], 
-                            DataDict["y1"], DataDict["y2"], DataDict["y3"], DataDict["y4"], DataDict["y5"]))
+                cursor.execute(delete_sql.format(product_id = DataDict["product_id"]))
+                if Type == 1:                   
+                    cursor.execute(insert_sql_of_type_1.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
+                                                               version=DataDict["version"], ratio=DataDict["ratio"], renew_ratio=DataDict["renew_ratio"],
+                                                               Type=DataDict["Type"]))
+                else:
+                    cursor.execute(insert_sql_of_type_2.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
+                                                               insuranceType=DataDict["insuranceType"], paytime=DataDict["paytime"], savetime=DataDict["savetime"],
+                                                               actratio=DataDict["actratio"], y1=DataDict["y1"], y2=DataDict["y2"], y3=DataDict["y3"], y4=DataDict["y4"], 
+                                                               y5=DataDict["y5"]))
             self.DBConnection.commit()
             return {"result": True, "reason": None}
         except Exception as e:
@@ -127,12 +137,13 @@ class MysqlModule:
             "isEnd": False
         }
         if(datadict["product_key"] is None):
-            select_product_sql = "SELECT DISTINCT(`item_id`) FROM CLD_Niubao100 ORDER BY `item_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Niubao100 ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
         else:
-            select_product_sql = "SELECT DISTINCT(`item_id`) FROM CLD_Niubao100 WHERE `item_name` LIKE '%{product_key}%' ORDER BY `item_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Niubao100 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
 
-        select_sql = "SELECT `program_id`,`item_id`,`item_name`, `insuranceType`,`paytime`,`savetime`,\
-                    `insuredage`, `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`FROM CLD_Niubao100 WHERE `item_id` = %s;"  
+        select_sql = "SELECT `program_id`,`product_id`,`product_name`, `insuranceType`,`paytime`,`savetime`,\
+                    `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`,`version`, `ratio`, `renew_ratio`, `Type` \
+                    FROM CLD_Niubao100 WHERE `product_id` = {product_id};"  
 
         try:
             with self.DBConnection.cursor() as cursor:
@@ -151,18 +162,24 @@ class MysqlModule:
                         "details":[]
                     }
                     for item in result_set:
-                        detail_dict = {
-                            "险种产品名称": item[3],
-                            "缴费年限": item[4],
-                            "savetime": item[5],# savetime
-                            "insuredage": item[6], #insuredage
-                            "活动补贴":item[7],
-                            "首年推广费比例":item[8],
-                            "第二年推广费比例": item[9],
-                            "第三年推广费比例": item[10],
-                            "第四年推广费比例": item[11],
-                            "第五年推广费比例": item[12]
-                        }
+                        if item[15] == 1:
+                            detail_dict = {
+                                "版本号": item[12],
+                                "基础费率":item[13],
+                                "续保费率":item[14]
+                            }
+                        else:    
+                            detail_dict = {
+                                "险种产品名称": item[3],
+                                "缴费年限": item[4],
+                                "保障年限": item[5],# savetime
+                                "活动补贴":item[6],
+                                "首年推广费比例":item[7],
+                                "第二年推广费比例": item[8],
+                                "第三年推广费比例": item[9],
+                                "第四年推广费比例": item[10],
+                                "第五年推广费比例": item[11]
+                            }
                         result_dict["details"].append(detail_dict)
                     result["result_list"].append(result_dict)                    
             return result

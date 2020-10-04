@@ -38,21 +38,21 @@ class MysqlModule:
     
     def SaveDataToQixin18(self, DataDict:dict):
         select_sql = "SELECT `product_id`,`plan_Id` FROM `CLD_Qixin18` WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND `economyText` = %s;"
-        insert_sql = "INSERT INTO `CLD_Qixin18` (`program_id`, `product_id`, `product_name`, `plan_Id`, `company_id`, `company_name`, `isDetails`, `yearPolicyText`, `insureAgeText`, `economyText`, `feeRateList_1`, `feeRateList_2`)\
-                      values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
-        update_sql = "UPDATE CLD_Qixin18 SET `product_name` = %s, `company_id` = %s, `company_name` = %s, `isDetails` = %s, `feeRateList_1` = %s, `feeRateList_2` = %s\
+        insert_sql = "INSERT INTO `CLD_Qixin18` (`program_id`, `product_id`, `product_name`, `plan_Id`, `company_id`, `company_name`, `yearPolicyText`, `insureAgeText`, `economyText`, `feeRateList_1`, `feeRateList_2`)\
+                      values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+        update_sql = "UPDATE CLD_Qixin18 SET `product_name` = %s, `company_id` = %s, `company_name` = %s, `feeRateList_1` = %s, `feeRateList_2` = %s\
                      WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND economyText = %s;"
         with self.DBConnection.cursor() as cursor:
             cursor.execute(select_sql, (DataDict["product_id"], DataDict["plan_Id"], DataDict["yearPolicyText"],DataDict["insureAgeText"], DataDict["economyText"]))
             select_result = cursor.fetchone()
             if select_result:
-                cursor.execute(update_sql, (DataDict["product_name"], DataDict["company_id"], DataDict["company_name"], DataDict["isDetails"],
+                cursor.execute(update_sql, (DataDict["product_name"], DataDict["company_id"], DataDict["company_name"],
                                 DataDict["feeRateList_1"], DataDict["feeRateList_2"], DataDict["product_id"], DataDict["plan_Id"], DataDict["yearPolicyText"], 
                                 DataDict["insureAgeText"], DataDict["economyText"]
                             ))
             else:
                 cursor.execute(insert_sql, (DataDict["program_id"], DataDict["product_id"], DataDict["product_name"], DataDict["plan_Id"],
-                                DataDict["company_id"], DataDict["company_name"], DataDict["isDetails"], DataDict["yearPolicyText"], 
+                                DataDict["company_id"], DataDict["company_name"], DataDict["yearPolicyText"], 
                                 DataDict["insureAgeText"], DataDict["economyText"], DataDict["feeRateList_1"], DataDict["feeRateList_2"]
                             ))
         self.DBConnection.commit()
@@ -200,7 +200,7 @@ class MysqlModule:
         else:
             select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
 
-        select_sql = "SELECT `program_id`,`product_id`,`product_name`, `isDetails`,`yearPolicyText`,`insureAgeText`,\
+        select_sql = "SELECT `program_id`,`product_id`,`product_name`,`yearPolicyText`,`insureAgeText`,\
                     `economyText`, `feeRateList_1`, `feeRateList_2` FROM CLD_Qixin18 WHERE `product_id` = %s;"  
         try:
             with self.DBConnection.cursor() as cursor:
@@ -216,16 +216,15 @@ class MysqlModule:
                         "program_id": result_set[0][0],
                         "product_id": result_set[0][1],
                         "product_name": result_set[0][2],
-                        "isDetail": result_set[0][3],
                         "details":[]
                     }
                     for item in result_set:
                         detail_dict = {
-                            "保单年度": item[4],#yearPolicyText
-                            "缴费年限": item[5], #insureAgeText
-                            "缴费纬度": item[6], #economyText
-                            "主险":item[7], #feeRateList_1
-                            "附加险":item[8] #feeRateList_2
+                            "保单年度": item[3],#yearPolicyText
+                            "缴费年限": item[4], #insureAgeText
+                            "缴费纬度": item[5], #economyText
+                            "主险":item[6], #feeRateList_1
+                            "附加险":item[7] #feeRateList_2
                         }
                         result_dict["details"].append(detail_dict)
                     result["result_list"].append(result_dict)                    

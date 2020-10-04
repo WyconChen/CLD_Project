@@ -21,7 +21,6 @@ class Qixin18Model(BaseModel):
     plan_Id: int
     company_id: int
     company_name:str
-    isDetails: bool
     yearPolicyText: str
     insureAgeText: str
     economyText:str

@@ -48,7 +48,6 @@ async def saveDataToQixin18(request_data: Qixin18Model):
         "plan_Id": request_data.plan_Id,
         "company_id": request_data.company_id,
         "company_name": request_data.company_name,
-        "isDetails": request_data.isDetails,
         "yearPolicyText": request_data.yearPolicyText,
         "insureAgeText": request_data.insureAgeText,
         "economyText": request_data.economyText,

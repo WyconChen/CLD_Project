@@ -67,9 +67,10 @@ class Niubao100:
                             result_dict["y5"] = ""
                             # print(result_dict)
                             res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
-                            if res["result"] == False:
-                                print(product_name + " have error: ")
-                                print(res["reason"])
+                            resText = json.loads(res.text)
+                            if resText["result"] == False:
+                                print(product_name + " have getProductDetails error_3: ")
+                                print(resText)
                     # [insuranceType, paytime, savetime....y1, y2, y3, y4, y5]
                     else:
                         for skus in DetailsList_Dict["data"]["skus"]:
@@ -88,11 +89,12 @@ class Niubao100:
                             result_dict["renew_ratio"] = ""
                             # print(result_dict)
                             res = requests.post(url="http://106.12.160.222:8001/insert/Niubao100", data=json.dumps(result_dict))
-                            if res["result"] == False:
-                                print(product_name + " have error: ")
-                                print(res["reason"])
+                            resText = json.loads(res.text)
+                            if resText["result"] == False:
+                                print(product_name + " have getProductDetails error_2: ")
+                                print(resText)
                 except Exception as e:
-                    print(product_name + " have error: ")
+                    print(product_name + " have getProductDetails error_1: ")
                     print(e)
             else:
                 print(product_name + ": 没有detail数据, 不作保存")

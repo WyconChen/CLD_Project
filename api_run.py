@@ -81,6 +81,8 @@ async def saveDataToQixin18(request_data: Niubao100Model):
         "renew_ratio": request_data.renew_ratio,
         "Type": request_data.Type
     }
+    print("DataDict in insert Niubao100: ")
+    print(DataDict)
     result = MysqlModule.SaveDataToNiubao100(DataDict)
     return result
 

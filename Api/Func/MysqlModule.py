@@ -67,7 +67,7 @@ class MysqlModule:
         try:
             Type = DataDict["Type"]               
             with self.DBConnection.cursor() as cursor:
-                cursor.execute(delete_sql.format(product_id = DataDict["product_id"]))
+                # cursor.execute(delete_sql.format(product_id = DataDict["product_id"]))
                 if Type == 1:                   
                     cursor.execute(insert_sql_of_type_1.format(program_id=DataDict["program_id"],product_id=DataDict["product_id"], product_name=DataDict["product_name"],
                                                                version=DataDict["version"], ratio=DataDict["ratio"], renew_ratio=DataDict["renew_ratio"],

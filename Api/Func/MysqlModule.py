@@ -243,7 +243,7 @@ class MysqlModule:
                     "result_list": [],
                     "isEnd": False
         }
-        select_sql_of_all = "SELECT `program_id`, `product_id` FROM \
+        select_sql_of_all = "SELECT `program_id`, `product_id`,`product_name` FROM \
             ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
              (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
              (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e \

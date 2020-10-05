@@ -43,9 +43,10 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         # Niubao1000
         result_dict = mysqlmodule.GetDataFromNiubao100(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
-    elif searchType == 2 and product_key is not None:
+    elif searchType == 1 and program_id == 999:
         # All Program
-        ProductsList = []
+        result_dict = mysqlmodule.GetDataFromAll(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
     else:
         ProductsList = []
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict})

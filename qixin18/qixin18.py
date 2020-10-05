@@ -58,18 +58,17 @@ class QiXin18:
         try:
             if "data" in Details_Res_Data:
                 for yearPolicyFeeDto in Details_Res_Data["data"]["yearPolicyFeeDtoList"]:
-                    result_dict["yearPolicyText"] = yearPolicyFeeDto["yearPolicyText"] if "yearPolicyText" in yearPolicyFeeDto["yearPolicyText"] and yearPolicyFeeDto["yearPolicyText"] is not None else "未知年限"
+                    result_dict["yearPolicyText"] = yearPolicyFeeDto["yearPolicyText"] if "yearPolicyText" in yearPolicyFeeDto and yearPolicyFeeDto["yearPolicyText"] is not None else "未知保单年度"
                     if "insureAgeFeeDtoList" in yearPolicyFeeDto:
                         for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"]:
-                            result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if insureAgeFeeDto["insureAgeText"] else "未知年限"
+                            result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if insureAgeFeeDto["insureAgeText"] else "未知缴费年限"
                             for partnerProductFeeItem in insureAgeFeeDto["partnerProductFeeItemDtoList"]:
                                 result_dict["economyText"] = partnerProductFeeItem["economyText"]
                                 result_dict["feeRateList_1"] = float(partnerProductFeeItem["feeRateList"][0]) if partnerProductFeeItem["feeRateList"][0] is not None else 0.0
                                 result_dict["feeRateList_2"] = float(partnerProductFeeItem["feeRateList"][1]) if len(partnerProductFeeItem["feeRateList"])>=2 and partnerProductFeeItem["feeRateList"][1] is not None else 0.0
                                 res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
                                 resText = json.loads(res.text)
-                                print(resText)
-                                if resText["success"] == False:
+                                if resText["result"] == "failed":
                                     print(result_dict["product_name"] + "： 保存失败")
             else:
                 print(result_dict["product_name"] + "不存在detail数据, 暂不作保存") 

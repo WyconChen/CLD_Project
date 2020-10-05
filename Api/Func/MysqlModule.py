@@ -269,9 +269,10 @@ class MysqlModule:
                         }
                         if(result_dict["program_id"] == 1000):
                             # baoyun100 add detail
+                            print("program_id == 1000")
                             select_sql_of_baoyun18 = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
-                            FROM CLD_Baoyun18 WHERE `product_id` = {product_id}"
-                            cursor.execute(select_sql_of_baoyun18.format(result_dict["product_id"]))
+                            FROM CLD_Baoyun18 WHERE `product_id` = %s;"
+                            cursor.execute(select_sql_of_baoyun18,(result_dict["product_id"],))
                             result_set_of_Baoyun18 = cursor.fetchall()
                             for item in result_set_of_Baoyun18:
                                 detail_dict = {
@@ -336,7 +337,7 @@ class MysqlModule:
                 print(result)
                 return result
             else:
-                print("GetDataFromAll have product_key")
+                print("GetDataFromAll have not product_key")
                 return result
         except Exception as e:
             result["success"] = False

@@ -341,7 +341,7 @@ class MysqlModule:
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e \
                 ORDER BY `product_id` ASC LIMIT 5 OFFSET %s;"
                 with self.DBConnection.cursor() as cursor:
-                    cursor.execute(select_sql_of_all, ((datadict["page"]-1)*5),))
+                    cursor.execute(select_sql_of_all, ((datadict["page"]-1)*5,))
                     result_set = cursor.fetchall()
                     if(len(result_set) < 0):
                         result["isEnd"] = True

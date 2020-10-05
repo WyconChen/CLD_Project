@@ -257,14 +257,14 @@ class MysqlModule:
                     result_set = cursor.fetchall()
                     print("product in all program")
                     print(result_set)
-                    if(len(result) < 0):
+                    if(len(result_set) < 0):
                         result["isEnd"] = True
                         return result
-                    for result in result_set:
+                    for detail_result in result_set:
                         result_dict = {
-                            "program_id": result[0],
-                            "product_id": result[1],
-                            "product_name": result[2],
+                            "program_id": detail_result[0],
+                            "product_id": detail_result[1],
+                            "product_name": detail_result[2],
                             "details":[]
                         }
                         if(result_dict["program_id"] == 1000):

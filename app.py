@@ -52,7 +52,9 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         result_dict = mysqlmodule.GetDataFromAll(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
     else:
-        ProductsList = []
+        print("enter else")
+        result_dict = mysqlmodule.GetDataFromAll(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict})
 
 @app.get("/test/search")

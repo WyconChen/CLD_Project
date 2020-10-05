@@ -383,8 +383,6 @@ class MysqlModule:
                                     "附加险":item[7] #feeRateList_2
                                 }
                                 result_dict["details"].append(detail_dict)
-                            # print("qixin18: ")
-                            # print(result_dict)
                             result["result_list"].append(result_dict)
                         elif(result_dict["program_id"] == 1002):
                             select_sql_of_niubao100 = "SELECT `program_id`,`product_id`,`product_name`, `insuranceType`,`paytime`,`savetime`,\

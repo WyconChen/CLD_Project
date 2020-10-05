@@ -27,10 +27,12 @@ mysqlmodule = MysqlModule()
 async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None):
     datadict = {
         "searchType": 1,
-        "page": page,
-        "program_id": program_id,
+        "page": page or 1,
+        "program_id": program_id or 999,
         "product_key": product_key or ""
     }
+    print("datadict in test: ")
+    print(datadict)
     if datadict["page"] is None and datadict["program_id"] is None and datadict["product_key"] is None:
         datadict["page"] = 1
         datadict["program_id"] = 999

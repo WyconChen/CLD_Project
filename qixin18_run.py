@@ -1,0 +1,6 @@
+from qixin18.qixin18 import QiXin18
+
+if __name__ == "__main__":
+    cookies_str = r"beidoudata2015jssdkcross=%7B%22distinct_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%2C%22first_id%22%3A%22%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%22174a66293b63c-0637b0acb8b219-3d634d00-1049088-174a66293b7f8%22%7D; auth-tips=1; orderTips=true; acw_tc=2f6a1fae16018220592497901e4cc07a252e448a19e3a9e479f361ac4efb59; env=preview; qx_trip_pc_sid=s%3A7syvbD8geILNfN9FoAngSwuC6uLWcKH4.0clPe3QbUfqbTZ72eq5oo3PP%2FdixK%2FnDrihg%2Bl5sHXM; hz_guest_key=1HwfYz8BIHZ3oGHRCu79_1601778137707_1_0_0; hz_visit_key=4uJEkIBcsHZ27khLgY9x_1601822596509_6_1601822596509; hz_view_key=1HwfYz8BIHZ3oGHRCu793iUcH3xmdHZ2fnmmIu4C_1601822678723_https%253A%252F%252Fwww.qixin18.com%252Fgoods%253Fis_from_new_merchant_pc%253Dtrue"
+    QiXin18 = QiXin18(cookies_str)
+    QiXin18.run()

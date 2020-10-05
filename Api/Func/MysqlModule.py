@@ -255,8 +255,8 @@ class MysqlModule:
                     print("GetDataFromAll search product in all program")
                     cursor.execute(select_sql_of_all.format(product_key = datadict["product_key"], page=(datadict["page"]-1)*5))
                     result_set = cursor.fetchall()
-                    # print("product in all program")
-                    # print(result_set)
+                    print("product in all program")
+                    print(result_set)
                     if(len(result_set) < 0):
                         result["isEnd"] = True
                         return result
@@ -288,8 +288,8 @@ class MysqlModule:
                         elif(result_dict["program_id"] == 1001):
                             # qixin18 add detail
                             select_sql_of_qixin18 = "SELECT `program_id`,`product_id`,`product_name`,`yearPolicyText`,`insureAgeText`,\
-                                                    `economyText`, `feeRateList_1`, `feeRateList_2` FROM CLD_Qixin18 WHERE `product_id` = {product_id};"
-                            cursor.execute(select_sql_of_qixin18.format(result_dict["product_id"]))
+                                                    `economyText`, `feeRateList_1`, `feeRateList_2` FROM CLD_Qixin18 WHERE `product_id` = %s;"
+                            cursor.execute(select_sql_of_qixin18,(result_dict["product_id"],))
                             result_set_of_qixin18 = cursor.fetchall()
                             for item in result_set_of_qixin18:
                                 detail_dict = {
@@ -306,8 +306,8 @@ class MysqlModule:
                         elif(result_dict["program_id"] == 1002):
                             select_sql_of_niubao100 = "SELECT `program_id`,`product_id`,`product_name`, `insuranceType`,`paytime`,`savetime`,\
                                                     `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`,`version`, `ratio`, `renew_ratio`, `Type` \
-                                                    FROM `CLD_Niubao100` WHERE `product_id` = {product_id};" 
-                            cursor.execute(select_sql_of_niubao100.format(product_id=result_dict["product_id"]))
+                                                    FROM `CLD_Niubao100` WHERE `product_id` = %s;" 
+                            cursor.execute(select_sql_of_niubao100,(result_dict["product_id"],))
                             result_set_of_niubao100 = cursor.fetchall()
                             for item in result_set_of_niubao100:
                                 # 判断type

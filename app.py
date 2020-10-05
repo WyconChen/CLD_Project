@@ -33,9 +33,6 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
     }
     print("datadict in test: ")
     print(datadict)
-    if datadict["page"] is None and datadict["program_id"] is None and datadict["product_key"] is None:
-        datadict["page"] = 1
-        datadict["program_id"] = 999
     if searchType == 1 and program_id == 1000:
         #Baoyun18
         result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
@@ -49,7 +46,9 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         result_dict = mysqlmodule.GetDataFromNiubao100(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
     elif searchType == 1 and program_id == 999:
+        print("datadict in all program")
         # All Program
+        print(datadict)
         result_dict = mysqlmodule.GetDataFromAll(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
     else:

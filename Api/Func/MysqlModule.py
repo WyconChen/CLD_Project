@@ -236,6 +236,7 @@ class MysqlModule:
             return result
 
     def GetDataFromAll(self, datadict:dict) -> dict:
+        print("GetDataFromAll Start")
         result = {
                     "success": True,
                     "fail_reason": None,
@@ -246,12 +247,16 @@ class MysqlModule:
             ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
              (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
              (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e \
-            WHERE e.`product_name` LIKE '{product_key}';"
+            WHERE e.`product_name` LIKE '{product_key}' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};".format(page=(datadict["page"]-1)*5)
         try:
             if datadict["product_key"]:
+                print("GetDataFromAll have product_key")
                 with self.DBConnection.cursor() as cursor:
+                    print("GetDataFromAll search product in all program")
                     cursor.execute(select_sql_of_all.format(product_key = datadict["product_key"]))
                     result_set = cursor.fetchall()
+                    print("product in all program")
+                    print(result_set)
                     if(len(result) < 0):
                         result["isEnd"] = True
                         return result
@@ -276,6 +281,8 @@ class MysqlModule:
                                     "附加费率":item[6], #feeRateList_1
                                 }
                                 result_dict["details"].append(detail_dict)
+                            print("baoyun18: ")
+                            print(result_dict)
                             result["result_list"].append(result_dict)
                         elif(result_dict["program_id"] == 1001):
                             # qixin18 add detail
@@ -292,6 +299,8 @@ class MysqlModule:
                                     "附加险":item[7] #feeRateList_2
                                 }
                                 result_dict["details"].append(detail_dict)
+                            print("qixin18: ")
+                            print(result_dict)
                             result["result_list"].append(result_dict)
                         elif(result_dict["program_id"] == 1002):
                             select_sql_of_niubao100 = "SELECT `program_id`,`product_id`,`product_name`, `insuranceType`,`paytime`,`savetime`,\
@@ -320,9 +329,14 @@ class MysqlModule:
                                         "第五年推广费比例": item[11]
                                     }
                                 result_dict["details"].append(detail_dict)
+                            print("niubao100: ")
+                            print(result_dict)
                             result["result_list"].append(result_dict)
+                print("result: ")
+                print(result)
                 return result
             else:
+                print("GetDataFromAll have product_key")
                 return result
         except Exception as e:
             result["success"] = False

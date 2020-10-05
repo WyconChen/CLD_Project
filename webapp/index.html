@@ -100,12 +100,16 @@
                   </span>
                 </li>
                 <li class="page-item"><a class="page-link" href="#" id="pageNo">{{ DataDict["page"] }}</a></li>
-                <li class="page-item"><button>跳转至: </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
-                    <li><a href="#">Regular link</a></li>
-                    <li class="disabled"><a href="#">Disabled link</a></li>
-                    <li><a href="#">Another link</a></li>
-                  </ul>
+                <li class="page-item">
+                  <button class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{ DataDict["program_id"] }}">
+                    跳转至
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2" id="foot-dropdown">
+                    <button class="dropdown-item" type="button" value="1">1</button>
+                    <button class="dropdown-item" type="button" value="2">2</button>
+                    <button class="dropdown-item" type="button" value="3">3</button>
+                    <button class="dropdown-item" type="button" value="4">4</button>
+                  </div>
                 </li>
                 <li class="page-item">
                 <span class="page-link" aria-label="Next" id="NextBtn" href="/test?searchType=1&page=2&program_id=1001&product_id=21032">

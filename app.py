@@ -27,10 +27,13 @@ mysqlmodule = MysqlModule()
 async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None):
     datadict = {
         "searchType": 1,
-        "page": page or 1,
-        "program_id": program_id or 1000,
-        "product_key": product_key or ""
-    }     
+        "page": page,
+        "program_id": program_id,
+        "product_key": product_key
+    }
+    if datadict["page"] is None and datadict["program_id"] is None and datadict["product_key"] is None:
+        datadict["page"] = 1
+        datadict["program_id"] = 999
     if searchType == 1 and program_id == 1000:
         #Baoyun18
         result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)

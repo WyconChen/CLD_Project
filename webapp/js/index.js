@@ -9,7 +9,6 @@ var previousBtn = document.getElementById("PreviousBtn");
 var pageNo = document.getElementById("pageNo");
 var NextBtn = document.getElementById("NextBtn");
 
-
 dropdownTitle.onclick = function(){
     for(var i=0; i<dropdownOptions.length;i++){
         dropdownOptions[i].onclick = function(){

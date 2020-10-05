@@ -243,13 +243,14 @@ class MysqlModule:
                     "result_list": [],
                     "isEnd": False
         }
-        select_sql_of_all = "SELECT `program_id`, `product_id`,`product_name` FROM \
-            ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
-             (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
-             (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e \
-            WHERE e.`product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};"
+        
         try:
             if datadict["product_key"]:
+                select_sql_of_all = "SELECT `program_id`, `product_id`,`product_name` FROM \
+                ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e \
+                WHERE e.`product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};"
                 # print("GetDataFromAll have product_key")
                 with self.DBConnection.cursor() as cursor:
                     print("GetDataFromAll search product in all program")
@@ -330,14 +331,89 @@ class MysqlModule:
                                         "第五年推广费比例": item[11]
                                     }
                                 result_dict["details"].append(detail_dict)
-                            # print("niubao100: ")
-                            # print(result_dict)
                             result["result_list"].append(result_dict)
-                # print("result: ")
-                # print(result)
                 return result
             else:
                 print("GetDataFromAll have not product_key")
+                select_sql_of_all = "SELECT `program_id`, `product_id`,`product_name` FROM \
+                ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e \
+                ORDER BY `product_id` ASC LIMIT 5 OFFSET %s;"
+                with self.DBConnection.cursor() as cursor:
+                    cursor.execute(select_sql_of_all, ((datadict["page"]-1)*5),))
+                    result_set = cursor.fetchall()
+                    if(len(result_set) < 0):
+                        result["isEnd"] = True
+                        return result
+                    for detail_result in result_set:
+                        result_dict = {
+                            "program_id": detail_result[0],
+                            "product_id": detail_result[1],
+                            "product_name": detail_result[2],
+                            "details":[]
+                        }
+                        if(result_dict["program_id"] == 1000):
+                            # baoyun100 add detail
+                            select_sql_of_baoyun18 = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
+                            FROM CLD_Baoyun18 WHERE `product_id` = %s;"
+                            cursor.execute(select_sql_of_baoyun18,(result_dict["product_id"],))
+                            result_set_of_Baoyun18 = cursor.fetchall()
+                            for item in result_set_of_Baoyun18:
+                                detail_dict = {
+                                    "缴费年限": item[3],#yearPolicyText
+                                    "保障年限": item[4], #insureAgeText
+                                    "主费率": item[5], #economyText
+                                    "附加费率":item[6], #feeRateList_1
+                                }
+                                result_dict["details"].append(detail_dict)
+                            result["result_list"].append(result_dict)
+                        elif(result_dict["program_id"] == 1001):
+                            # qixin18 add detail
+                            select_sql_of_qixin18 = "SELECT `program_id`,`product_id`,`product_name`,`yearPolicyText`,`insureAgeText`,\
+                                                    `economyText`, `feeRateList_1`, `feeRateList_2` FROM CLD_Qixin18 WHERE `product_id` = %s;"
+                            cursor.execute(select_sql_of_qixin18,(result_dict["product_id"],))
+                            result_set_of_qixin18 = cursor.fetchall()
+                            for item in result_set_of_qixin18:
+                                detail_dict = {
+                                    "保单年度": item[3],#yearPolicyText
+                                    "缴费年限": item[4], #insureAgeText
+                                    "缴费纬度": item[5], #economyText
+                                    "主险":item[6], #feeRateList_1
+                                    "附加险":item[7] #feeRateList_2
+                                }
+                                result_dict["details"].append(detail_dict)
+                            # print("qixin18: ")
+                            # print(result_dict)
+                            result["result_list"].append(result_dict)
+                        elif(result_dict["program_id"] == 1002):
+                            select_sql_of_niubao100 = "SELECT `program_id`,`product_id`,`product_name`, `insuranceType`,`paytime`,`savetime`,\
+                                                    `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`,`version`, `ratio`, `renew_ratio`, `Type` \
+                                                    FROM `CLD_Niubao100` WHERE `product_id` = %s;" 
+                            cursor.execute(select_sql_of_niubao100,(result_dict["product_id"],))
+                            result_set_of_niubao100 = cursor.fetchall()
+                            for item in result_set_of_niubao100:
+                                # 判断type
+                                if item[15] == 1:
+                                    detail_dict = {
+                                        "版本号": item[12],
+                                        "基础费率":item[13],
+                                        "续保费率":item[14]
+                                    }
+                                else:    
+                                    detail_dict = {
+                                        "险种产品名称": item[3],
+                                        "缴费年限": item[4],
+                                        "保障年限": item[5],# savetime
+                                        "活动补贴":item[6],
+                                        "首年推广费比例":item[7],
+                                        "第二年推广费比例": item[8],
+                                        "第三年推广费比例": item[9],
+                                        "第四年推广费比例": item[10],
+                                        "第五年推广费比例": item[11]
+                                    }
+                                result_dict["details"].append(detail_dict)
+                            result["result_list"].append(result_dict)
                 return result
         except Exception as e:
             result["success"] = False

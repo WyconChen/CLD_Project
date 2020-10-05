@@ -247,13 +247,13 @@ class MysqlModule:
             ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
              (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
              (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e \
-            WHERE e.`product_name` LIKE '{product_key}' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};".format(page=(datadict["page"]-1)*5)
+            WHERE e.`product_name` LIKE '{product_key}' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};"
         try:
             if datadict["product_key"]:
                 print("GetDataFromAll have product_key")
                 with self.DBConnection.cursor() as cursor:
                     print("GetDataFromAll search product in all program")
-                    cursor.execute(select_sql_of_all.format(product_key = datadict["product_key"]))
+                    cursor.execute(select_sql_of_all.format(product_key = datadict["product_key"], page=(datadict["page"]-1)*5))
                     result_set = cursor.fetchall()
                     print("product in all program")
                     print(result_set)

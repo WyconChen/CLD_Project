@@ -31,8 +31,6 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         "program_id": program_id or 999,
         "product_key": product_key or ""
     }
-    print("datadict in test: ")
-    print(datadict)
     if searchType == 1 and program_id == 1000:
         #Baoyun18
         result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)

@@ -253,11 +253,11 @@ class MysqlModule:
                 WHERE e.`product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};"
                 # print("GetDataFromAll have product_key")
                 with self.DBConnection.cursor() as cursor:
-                    print("GetDataFromAll search product in all program")
+                    # print("GetDataFromAll search product in all program")
                     cursor.execute(select_sql_of_all.format(product_key = datadict["product_key"], page=(datadict["page"]-1)*5))
                     result_set = cursor.fetchall()
-                    print("product in all program")
-                    print(result_set)
+                    # print("product in all program")
+                    # print(result_set)
                     if(len(result_set) < 0):
                         result["isEnd"] = True
                         return result

@@ -95,13 +95,22 @@
             <ul class="pagination">
                 <li class="page-item">
                   <span class="page-link" aria-label="Previous" id="PreviousBtn" href="#">
-                      <span aria-hidden="true">&laquo;</span>
+                      <!-- <span aria-hidden="true">&laquo;</span> -->
+                      <span aria-hidden="true">上一页</span>
                   </span>
                 </li>
                 <li class="page-item"><a class="page-link" href="#" id="pageNo">{{ DataDict["page"] }}</a></li>
+                <li class="page-item"><button>跳转至: </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                    <li><a href="#">Regular link</a></li>
+                    <li class="disabled"><a href="#">Disabled link</a></li>
+                    <li><a href="#">Another link</a></li>
+                  </ul>
+                </li>
                 <li class="page-item">
                 <span class="page-link" aria-label="Next" id="NextBtn" href="/test?searchType=1&page=2&program_id=1001&product_id=21032">
-                    <span aria-hidden="true">&raquo;</span>
+                    <!-- <span aria-hidden="true">&raquo;</span> -->
+                    <span aria-hidden="true">下一页</span>
                 </span>
                 </li>
             </ul>

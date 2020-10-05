@@ -29,7 +29,7 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         "searchType": 1,
         "page": page,
         "program_id": program_id,
-        "product_key": product_key
+        "product_key": product_key or ""
     }
     if datadict["page"] is None and datadict["program_id"] is None and datadict["product_key"] is None:
         datadict["page"] = 1

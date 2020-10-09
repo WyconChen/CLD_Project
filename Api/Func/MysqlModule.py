@@ -107,7 +107,7 @@ class MysqlModule:
                 for product_id in result_set:
                     with self.DBConnection.cursor() as cursor_2:
                         cursor_2.execute(select_sql, product_id)
-                        result_set_2 = cursor.fetchall()
+                        result_set_2 = cursor_2.fetchall()
                         result_dict = {
                             "program_id": result_set_2[0][0],
                             "product_id": result_set_2[0][1],

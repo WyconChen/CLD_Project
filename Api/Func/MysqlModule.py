@@ -101,20 +101,20 @@ class MysqlModule:
                 with self.DBConnection.cursor() as cursor:
                     cursor.execute(select_product_sql)
                     result_set = cursor.fetchall()
-                if(len(result) < 0):
+                if(len(result_set) < 0):
                     result["isEnd"] = True
                     return result
                 for product_id in result_set:
                     with self.DBConnection.cursor() as cursor_2:
                         cursor_2.execute(select_sql, product_id)
-                        result_set = cursor.fetchall()
+                        result_set_2 = cursor.fetchall()
                         result_dict = {
-                            "program_id": result_set[0][0],
-                            "product_id": result_set[0][1],
-                            "product_name": result_set[0][2],
+                            "program_id": result_set_2[0][0],
+                            "product_id": result_set_2[0][1],
+                            "product_name": result_set_2[0][2],
                             "details":[]
                         }
-                        for item in result_set:
+                        for item in result_set_2:
                             detail_dict = {
                                 "缴费年限": item[3],
                                 "保障年限": item[4],
@@ -126,6 +126,8 @@ class MysqlModule:
                 return result
             except Exception as e:
                 result["success"] = False
+                print("Failed to get data from baoyun18: ")
+                print(e)
                 result["fail_reason"] = e
                 return result
 

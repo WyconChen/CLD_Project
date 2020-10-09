@@ -101,11 +101,12 @@ class MysqlModule:
                 with self.DBConnection.cursor() as cursor:
                     cursor.execute(select_product_sql)
                     result_set = cursor.fetchall()
-                    if(len(result) < 0):
-                        result["isEnd"] = True
-                        return result
-                    for product_id in result_set:
-                        cursor.execute(select_sql, product_id)
+                if(len(result) < 0):
+                    result["isEnd"] = True
+                    return result
+                for product_id in result_set:
+                    with self.DBConnection.cursor() as cursor_2:
+                        cursor_2.execute(select_sql, product_id)
                         result_set = cursor.fetchall()
                         result_dict = {
                             "program_id": result_set[0][0],
@@ -121,7 +122,7 @@ class MysqlModule:
                                 "附件费率": item[6]
                             }
                             result_dict["details"].append(detail_dict)
-                        result["result_list"].append(result_dict)                    
+                        result["result_list"].append(result_dict)                        
                 return result
             except Exception as e:
                 result["success"] = False
@@ -420,4 +421,9 @@ class MysqlModule:
             return result
 
     def __del__(self):
+        try:
+            self.DBConnection.cursor().close()
+        except Exception as e:
+            print("close cursor failed: ")
+            print(e)
         self.DBConnection.close()

@@ -77,6 +77,26 @@ class Niubao100(Base):
     ratio = Column(String(100),nullable = True)
     renew_ratio = Column(String(100),nullable = True)
 
+class Zhongbao(Base):
+    __tablename__ = "CLD_Zhongbao"
+    id = Column(Integer, primary_key = True)
+    program_id = Column(Integer)
+    product_id = Column(Integer)
+    product_name = Column(String(100), nullable = False)
+    clauseId = Column(String(100), nullable = False)
+    clauseName = Column(String(100), nullable = False)
+    extraType = Column(Integer)
+    rateCodeDescView = Column(String(100), nullable = False)
+    rateCode = Column(String(100), nullable = False)
+    rateCodeDesc = Column(String(100), nullable = False)
+    yearCode = Column(String(100))
+    yearCodeDesc = Column(String(100))
+    first_rate = Column(Float, nullable = True)
+    second_rate = Column(Float, nullable = True)
+    third_rate = Column(Float, nullable = True)
+    fourth_rate = Column(Float, nullable = True)
+    fifth_rate = Column(Float, nullable = True)
+
 
 if __name__ == "__main__":
     Base.metadata.create_all(engine)

@@ -245,8 +245,7 @@ class MysqlModule:
                     "fail_reason": None,
                     "result_list": [],
                     "isEnd": False
-        }
-        
+        }        
         try:
             if datadict["product_key"]:
                 select_sql_of_all = "SELECT `program_id`, `product_id`,`product_name` FROM \

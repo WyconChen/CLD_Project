@@ -1,18 +1,20 @@
 import pymysql
-
+from dbutils.pooled_db import PooledDB
 
 class MysqlModule:
 
     def __init__(self):
-        pass
-        self.DBConnection = pymysql.connect(
-            host = "127.0.0.1",
-            port = 3306,
-            user = "root",
-            # password = "root",
-            db = "CLD",
-            charset = "utf8mb4" 
-        )
+        # 5为连接池里的最少连接数，setsession=['SET AUTOCOMMIT = 1']是用来设置线程池是否打开自动更新的配置，0为False，1为True
+        pool = PooledDB(pymysql,2,host='127.0.0.1',user='root',db='CLD',port=3306,setsession=['SET AUTOCOMMIT = 0'])
+        self.DBConnection = pool.connection()
+        # self.DBConnection = pymysql.connect(
+        #     host = "127.0.0.1",
+        #     port = 3306,
+        #     user = "root",
+        #     # password = "root",
+        #     db = "CLD",
+        #     charset = "utf8mb4" 
+        # )
 
     def SaveDataToBaoyun18(self, DataDict:dict):
         select_sql = "SELECT `temp_id`, `product_id` FROM `CLD_Baoyun18` WHERE `temp_id` = %s AND `product_id` = %s AND payDesc = %s AND insureDesc = %s;"

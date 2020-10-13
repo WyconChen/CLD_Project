@@ -85,6 +85,9 @@ class MysqlModule:
             self.DBConnection.rollback()
             return {"result": False, "reason": e}
     
+    def SaveDataToZhongbao(self, DataDict:dict):
+        pass
+
     def GetDataFromBaoyun18(self, datadict:dict) -> dict:
         result = {
             "success": True,

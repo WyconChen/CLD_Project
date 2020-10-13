@@ -84,6 +84,7 @@ class ZhongBao:
             ProductData = json.loads(res.text) if res.ok else None
             commissionList = ProductData["data"]["rateDetail"]["commission"] if "data" in ProductData else None
             result_dict = {
+                "program_id": 1005,
                 "product_id": product_id,
                 "product_name": productName
             }
@@ -95,7 +96,7 @@ class ZhongBao:
                     result_dict["extraType"] = commission["extraType"]
                     feeList = commission["feeList"]
                     for fee in feeList:
-                       result_dict["rateCodeDescView"] = fee["rateCodeDescView"] if "rateCodeDescView" in fee else "-"
+                       result_dict["rateCodeDescView"] = fee["rateCodeDescView"] if "rateCodeDescView" in fee and fee["rateCodeDescView"] != "" else "-"
                        rateValueList = fee["rateValues"]
                        for rate in rateValueList:
                            result_dict["rateCode"] = rate["rateCode"]

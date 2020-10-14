@@ -5,7 +5,6 @@ from fastapi import FastAPI
 from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
-from Api.Model.model import Baoyun18DataModel
 from Api.Func.MysqlModule import MysqlModule
 
 

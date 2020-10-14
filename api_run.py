@@ -1,19 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from Api.Func.MysqlModule import MysqlModule
-from Api.Model.model import ProgramModel, Baoyun18Model, Qixin18Model, Niubao100Model
+from Api.Model.model import Baoyun18Model, Qixin18Model, Niubao100Model, ZhongbaoModel, FengqiModel
 
 app = FastAPI()
 
 MysqlModule = MysqlModule()
-
-# @app.post("/insert/Program")
-# async def insertDataToProgram(request_data: ProgramModel):
-#     DataDict = {
-#     	  "program_id": ProgramModel.program_id,
-#     	  "program_name": ProgramModel.program_name
-#     }
-#     mysqlFunc.insertDataToProgram(DataDict)
 
 @app.post("/insert/Baoyun18")
 async def insertDataToProgram(request_data: Baoyun18Model):
@@ -33,11 +25,6 @@ async def insertDataToProgram(request_data: Baoyun18Model):
         return {"result":"success"}
     else:
         return {"result":"failed"}
-
-@app.get("/getDataFrom/Baoyun18")
-async def getDataFromBaoyun18():
-    result = MysqlModule.GetDataFromBaoyun18()
-    return {"result": result}
 
 @app.post("/insert/Qixin18")
 async def saveDataToQixin18(request_data: Qixin18Model):
@@ -85,6 +72,18 @@ async def saveDataToQixin18(request_data: Niubao100Model):
     result = MysqlModule.SaveDataToNiubao100(DataDict)
     return result
 
-    
+@app.post("/insert/Zhongbao")
+async def saveDataToZhongbao(request_data: ZhongbaoModel):
+    DataDict = dict(request_data)
+    result = MysqlModule.SaveDataToZhongbao(DataDict)
+    return result
+
+@app.post("/insert/Fengqi")
+async def saveDataToFengqi(request_data: ZhongbaoModel):
+    DataDict = dict(request_data)
+    result = MysqlModule.SaveDataToFengqi(DataDict)
+    return result
+
+
 if __name__ == "__main__":
  	uvicorn.run(app=app, host="0.0.0.0", port=8001)

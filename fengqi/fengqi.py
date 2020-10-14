@@ -74,7 +74,11 @@ class FengQi:
                                         result_dict["payTerm_" + str(detail_no)] = com_detail["payTerm"]
                                         result_dict["subsidyCommission_" + str(detail_no)] = com_detail["subsidyCommission"] if "subsidyCommission" in com_detail and com_detail["subsidyCommission"] != "" else "-"
                                         detail_no += 1
-                                    print(result_dict)
+                                    res = requests.post(url="http://106.12.160.222:8001/insert/Fengqi", data=json.dumps(result_dict))
+                                    resText = json.loads(res.text)
+                                    if resText["result"] == False:
+                                            print(product_name + " have getProductDetails error_2: ")
+                                            print(resText)  
 
     def run(self):
         self.Login()

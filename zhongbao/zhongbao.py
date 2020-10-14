@@ -108,7 +108,11 @@ class ZhongBao:
                            result_dict["third_rate"] = float(rate["receivable"]["third"]) if "third" in rate["receivable"] else 0.0
                            result_dict["fourth_rate"] = float(rate["receivable"]["fourth"]) if "fourth" in rate["receivable"] else 0.0
                            result_dict["fifth_rate"] = float(rate["receivable"]["fifth"]) if "fifth" in rate["receivable"] else 0.0
-                           print(result_dict)                           
+                           res = requests.post(url="http://106.12.160.222:8001/insert/Zhongbao", data=json.dumps(result_dict))
+                           resText = json.loads(res.text)
+                           if resText["result"] == False:
+                                print(productName + " have getProductDetails error_2: ")
+                                print(resText)                          
             else:
                 print("该产品下暂无详细费率, 暂不作保存")
     def run(self):

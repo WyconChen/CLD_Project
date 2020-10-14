@@ -36,8 +36,7 @@ class MysqlModule:
                             ))
         self.DBConnection.commit()
         return True
-    
-    
+        
     def SaveDataToQixin18(self, DataDict:dict):
         select_sql = "SELECT `product_id`,`plan_Id` FROM `CLD_Qixin18` WHERE `product_id` = %s AND `plan_Id` = %s AND `yearPolicyText` = %s AND `insureAgeText` = %s AND `economyText` = %s;"
         insert_sql = "INSERT INTO `CLD_Qixin18` (`program_id`, `product_id`, `product_name`, `plan_Id`, `company_id`, `company_name`, `yearPolicyText`, `insureAgeText`, `economyText`, `feeRateList_1`, `feeRateList_2`)\
@@ -86,7 +85,48 @@ class MysqlModule:
             return {"result": False, "reason": e}
     
     def SaveDataToZhongbao(self, DataDict:dict):
-        pass
+        insert_sql = "INSERT INTO CLD_Zhongbao ({DataKeyList}) VALUES ({DataValuesList});"
+        DataKeyList = []
+        DataValueList = []
+        for key, value in DataDict.items():
+                keyStr = "`" + key + "`"
+                if(type(value) == str):
+                   valueStr = "'" + value + "'"
+                else:
+                   valueStr = str(value)
+                DataKeyList.append(keyStr)
+                DataValueList.append(valueStr)
+        real_insert_sql = insert_sql.format(DataKeyList=",".join(DataKeyList), DataValuesList=",".join(DataValueList))
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(real_insert_sql)
+            self.DBConnection.commit()
+            return {"result": True, "reason": None}
+        except Exception as e:
+            print("save zhongbao data failed, the reason is: {reason}".format(reason = e))
+            return {"result": False, "reason": e}
+
+    def SaveDataToFengqi(self, DataDict:dict):
+        insert_sql = "INSERT INTO CLD_Fengqi ({DataKeyList}) VALUES ({DataValuesList});"
+        DataKeyList = []
+        DataValueList = []
+        for key, value in DataDict.items():
+                keyStr = "`" + key + "`"
+                if(type(value) == str):
+                   valueStr = "'" + value + "'"
+                else:
+                   valueStr = str(value)
+                DataKeyList.append(keyStr)
+                DataValueList.append(valueStr)
+        real_insert_sql = insert_sql.format(DataKeyList=",".join(DataKeyList), DataValuesList=",".join(DataValueList))
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(real_insert_sql)
+            self.DBConnection.commit()
+            return {"result": True, "reason": None}
+        except Exception as e:
+            print("save zhongbao data failed, the reason is: {reason}".format(reason = e))
+            return {"result": False, "reason": e}
 
     def GetDataFromBaoyun18(self, datadict:dict) -> dict:
         result = {

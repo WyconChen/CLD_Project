@@ -79,7 +79,7 @@ async def saveDataToZhongbao(request_data: ZhongbaoModel):
     return result
 
 @app.post("/insert/Fengqi")
-async def saveDataToFengqi(request_data: ZhongbaoModel):
+async def saveDataToFengqi(request_data: FengqiModel):
     DataDict = dict(request_data)
     result = MysqlModule.SaveDataToFengqi(DataDict)
     return result

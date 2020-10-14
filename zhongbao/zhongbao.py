@@ -89,7 +89,7 @@ class ZhongBao:
                 "product_id": int(product_id),
                 "product_name": productName
             }
-            print(productName)
+            print(product_id)
             if commissionList:
                 for commission in commissionList:
                     result_dict["clauseId"] =  commission["clauseId"] if "clauseId" in commission else product_id
@@ -115,7 +115,7 @@ class ZhongBao:
                                 print(productName + " have getProductDetails error_2: ")
                                 print(resText)                          
             else:
-                print("该产品下暂无详细费率, 暂不作保存")
+                print(productName+ ": 该产品下暂无详细费率, 暂不作保存")
     def run(self):
         self.Login()
         page = 1

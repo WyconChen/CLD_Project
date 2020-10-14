@@ -2,7 +2,7 @@ import pymysql
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
-from sqlalchemy import Integer, String, Float, Boolean
+from sqlalchemy import Integer, String, Float, Boolean, BigInteger
 
 engine = create_engine("mysql+pymysql://root@127.0.0.1:3306/CLD?charset=utf8mb4")
 
@@ -81,7 +81,7 @@ class Zhongbao(Base):
     __tablename__ = "CLD_Zhongbao"
     id = Column(Integer, primary_key = True)
     program_id = Column(Integer)
-    product_id = Column(Integer)
+    product_id = Column(BigInteger)
     product_name = Column(String(100), nullable = False)
     clauseId = Column(String(100), nullable = False)
     clauseName = Column(String(100), nullable = False)

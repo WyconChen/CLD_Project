@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 from requests.sessions import session
 
@@ -85,7 +86,7 @@ class ZhongBao:
             commissionList = ProductData["data"]["rateDetail"]["commission"] if "data" in ProductData else None
             result_dict = {
                 "program_id": 1005,
-                "product_id": product_id,
+                "product_id": int(product_id),
                 "product_name": productName
             }
             print(productName)
@@ -103,11 +104,11 @@ class ZhongBao:
                            result_dict["rateCodeDesc"] = rate["rateCodeDesc"] if "rateCodeDesc" in rate else "-"
                            result_dict["yearCode"] = rate["yearCode"] if rate["yearCode"] != "" else "-"
                            result_dict["yearCodeDesc"] = rate["yearCodeDesc"] if "yearCodeDesc" in rate and rate["yearCodeDesc"] != "" else "-"
-                           result_dict["first_rate"] = float(rate["receivable"]["first"]) if "first" in rate["receivable"] else 0.0
-                           result_dict["second_rate"] = float(rate["receivable"]["second"]) if "second" in rate["receivable"] else 0.0
-                           result_dict["third_rate"] = float(rate["receivable"]["third"]) if "third" in rate["receivable"] else 0.0
-                           result_dict["fourth_rate"] = float(rate["receivable"]["fourth"]) if "fourth" in rate["receivable"] else 0.0
-                           result_dict["fifth_rate"] = float(rate["receivable"]["fifth"]) if "fifth" in rate["receivable"] else 0.0
+                           result_dict["first_rate"] = float(rate["receivable"]["first"]) if "first" in rate["receivable"] and rate["receivable"]["first"] !="" else 0.0
+                           result_dict["second_rate"] = float(rate["receivable"]["second"]) if "second" in rate["receivable"] and rate["receivable"]["second"] !="" else 0.0
+                           result_dict["third_rate"] = float(rate["receivable"]["third"]) if "third" in rate["receivable"] and rate["receivable"]["third"] !="" else 0.0
+                           result_dict["fourth_rate"] = float(rate["receivable"]["fourth"]) if "fourth" in rate["receivable"] and rate["receivable"]["fourth"] !="" else 0.0
+                           result_dict["fifth_rate"] = float(rate["receivable"]["fifth"]) if "fifth" in rate["receivable"] and rate["receivable"]["fifth"] !="" else 0.0
                            res = requests.post(url="http://106.12.160.222:8001/insert/Zhongbao", data=json.dumps(result_dict))
                            resText = json.loads(res.text)
                            if resText["result"] == False:
@@ -120,6 +121,7 @@ class ZhongBao:
         page = 1
         while True:
             products_list = self.GetProductsMenu(page=page)
+            # products_list = [{"productId": "1224601300852224002", "productName":"test"}]
             if len(products_list) > 0:
                 self.GetProductDetail(products_list)
             else:

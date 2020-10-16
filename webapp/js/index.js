@@ -24,7 +24,7 @@ function searchBtnClickEvent(){
     var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
     var product_key = document.getElementById("inputPassword2").value;
     url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page=1";
-    // window.location.href = url_path;
+    window.location.href = url_path;
 }
 
 NextBtn.onclick = function(){
@@ -98,8 +98,8 @@ NextButton.onclick = function(){
 		var product_key = document.getElementById("inputPassword2").value;
 		var pageNo = parseInt(current_page)+1;
 		url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
-		// window.location.href = url_path;
-		console.log("next")
+		window.location.href = url_path;
+		// console.log("next")
 	}
 };
 

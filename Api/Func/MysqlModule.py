@@ -407,6 +407,13 @@ class MysqlModule:
                                     }
                                 result_dict["details"].append(detail_dict)
                             result["result_list"].append(result_dict)
+                with self.DBConnection.cursor() as cursor:        
+                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) AS e WHERE e.`product_name` LIKE '%{product_key}%');".format(product_key = datadict["product_key"])
+                    cursor.execute(count_sql)
+                    count = cursor.fetchone()
+                    result["total_num"] = int(count[0])
                 return result
             else:
                 # print("GetDataFromAll have not product_key")
@@ -488,14 +495,9 @@ class MysqlModule:
                                 result_dict["details"].append(detail_dict)
                             result["result_list"].append(result_dict)
                 with self.DBConnection.cursor() as cursor:        
-                    if(datadict["product_key"] is None):
-                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
-                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
-                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`));"
-                    else:
-                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
-                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
-                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) AS e WHERE e.`product_name` LIKE '%{product_key}%');".format(product_key = datadict["product_key"])
+                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`));"
                     cursor.execute(count_sql)
                     count = cursor.fetchone()
                     result["total_num"] = int(count[0])

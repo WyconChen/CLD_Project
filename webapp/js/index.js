@@ -43,32 +43,33 @@ NextBtn.onclick = function(){
 var pageNumOptions = document.getElementsByClassName("ant-pagination-item");
 var previousButton = document.getElementById("PreBtn");
 var NextButton = document.getElementById("NextBtn");
-var pageJumper = document.getElementById("page_jumper")
+var pageJumper = document.getElementById("page_jumper");
 
 function switchPage(){
-    for(var i=0;i<pageNumOptions.length;i++){
-        pageNumOptions[i].onclick = function(){
+	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent;
+	var totol_num = document.getElementById("total-page").value;
+	if(current_page == "1"){
+		previousButton.classList.add("ant-pagination-disabled");
+	}else{
+		previousButton.classList.remove("ant-pagination-disabled");
+	}
+	if(parseInt(totol_num)-parseInt(current_page)*5 > 0){
+		NextButton.classList.remove("ant-pagination-disabled");
+	}else{
+		NextButton.classList.add("ant-pagination-disabled");
+	}
+    for(var i=0;i<pageNumOptions.length;i++){		
+        pageNumOptions[i].onclick = function(){		
       		//var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
     		// var product_key = document.getElementById("inputPassword2").value;
-            var current_page = this.innerText
-            for(var i=0;i<pageNumOptions.length;i++){
-            	pageNumOptions[i].classList.remove("ant-pagination-item-active")
-            }
-            this.classList.add("ant-pagination-item-active")
-            var totol_num = document.getElementById("total-page").value
-			if(current_page == "1"){
-				previousButton.classList.add("ant-pagination-disabled")
-			}else{
-				previousButton.classList.remove("ant-pagination-disabled")
-			}
-			if(parseInt(totol_num)-parseInt(current_page)*5 > 0){
-				NextButton.classList.remove("ant-pagination-disabled")
-			}else{
-				NextButton.classList.add("ant-pagination-disabled")
-			}
-            console.log(current_page)
+            var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent;
+            var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
+			var product_key = document.getElementById("inputPassword2").value;
+			var pageNo = current_page
+			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
+			window.location.href = url_path;
         }
-    }
+    };
 };
 
 previousButton.onclick = function(){

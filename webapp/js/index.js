@@ -1,5 +1,3 @@
-console.log("1111")
-
 // drop down menu
 var dropdownTitle = document.getElementById("dropdownMenu2");
 var dropdownOptions = document.getElementsByClassName("dropdown-item")
@@ -62,10 +60,9 @@ function switchPage(){
         pageNumOptions[i].onclick = function(){		
       		//var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
     		// var product_key = document.getElementById("inputPassword2").value;
-            var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent;
             var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 			var product_key = document.getElementById("inputPassword2").value;
-			var pageNo = current_page
+			var pageNo = this.value
 			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
 			window.location.href = url_path;
         }
@@ -98,8 +95,8 @@ NextButton.onclick = function(){
 
 pageJumper.onblur = function(){
 	console.log("pageJumper lose focus");
-	var totol_num = document.getElementById("total-page").value
-	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent;
+	var totol_num = document.getElementById("total-page").value // 151
+	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent; // 20
 	if(parseInt(pageJumper.value) <= 0){
 		pageJumper.value = 1;
 	}else if(!(Math.floor(pageJumper.value) === pageJumper.value)){
@@ -110,7 +107,10 @@ pageJumper.onblur = function(){
 			pageJumper.value = parseInt(parseInt(totol_num)/5);
 		}
 	}else{
-		if(parseInt(pageJumper.value) > parseInt(totol_num)/5){
+		// 1
+		//           21                         151/5 = 30.2
+		if(parseInt(pageJumper.value) > (parseInt(totol_num)/5)){
+			console.log("pageJumper>totol_num");
 			pageJumper.value = parseInt(parseInt(totol_num)/5+1);
 		}
 	}

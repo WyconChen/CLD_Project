@@ -1,25 +1,24 @@
-# import os
-# import uvicorn
-# import platform
-# from fastapi import FastAPI
-# from starlette.requests import Request
-# from starlette.staticfiles import StaticFiles
-# from starlette.templating import Jinja2Templates
-# from Api.Model.model import Baoyun18DataModel
-# from Api.Func.MysqlModule import MysqlModule
+import os
+import uvicorn
+import platform
+from fastapi import FastAPI
+from starlette.requests import Request
+from starlette.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
+from Api.Func.MysqlModule import MysqlModule
 
 
 
-# # __file__ 就是本文件的名字
-# # 得到放置模板的目录
-# if platform.system() == "Windows":
-#     path = '{}/webapp/'.format(os.path.dirname(__file__))
-# else:
-#     path = './webapp/'
-# templates = Jinja2Templates(directory=path)
+# __file__ 就是本文件的名字
+# 得到放置模板的目录
+if platform.system() == "Windows":
+    path = '{}/webapp/'.format(os.path.dirname(__file__))
+else:
+    path = './webapp/'
+templates = Jinja2Templates(directory=path)
 
-# app = FastAPI()
-# app.mount("/static", StaticFiles(directory=path), name="static")
+app = FastAPI()
+app.mount("/static", StaticFiles(directory=path), name="static")
 
 # # mysqlmodule = MysqlModule()
 
@@ -49,21 +48,25 @@
 #         ProductsList = []
 #     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict})
 
-# @app.get("/test/search")
-# async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
-#     datadict = {
-#         "searchType": 1,
-#         "page": page or 1,
-#         "program_id": program_id or 1000,
-#         "product_key": product_key 
-#     } 
-#     return datadict
+@app.get("/test/search")
+async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
+    datadict = {
+        "searchType": 1,
+        "page": page or 1,
+        "program_id": program_id or 1000,
+        "product_key": product_key 
+    }
+    page = 5 
+    pageList = [page-2,page-1,page,page+1,page+2]
+    total_num = 120
+    ProductsList = []
+    return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
     
     
     
         
 if __name__ == "__main__":
- 	# uvicorn.run(app=app, host="0.0.0.0", port=8003)
+      uvicorn.run(app=app, host="0.0.0.0", port=8003)
 #     import requests
 #     import json
 #     Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
@@ -75,8 +78,8 @@ if __name__ == "__main__":
 #     res = requests.post(url = url, headers=Headers, data=Form_Data)
 #     print(res.text)
 
-        datadict = {'program_id': 1005, 'product_id': '1262588866298257411', 'product_name': '信泰如意尊终身寿险-上海版', 'clauseId': '202005251610000101', 'clauseName': '信泰如意尊终身寿险', 'extraType': 1, 'rateCodeDescView': '', 
-'rateCode': 'SP', 'rateCodeDesc': '一次性缴纳', 'yearCode': 'SP', 'yearCodeDesc': '一次性缴纳', 'first_rate': 4.3, 'second_rate': 0.0, 'third_rate': 0.0, 'fourth_rate': 0.0, 'fifth_rate': 0.0}
+#         datadict = {'program_id': 1005, 'product_id': '1262588866298257411', 'product_name': '信泰如意尊终身寿险-上海版', 'clauseId': '202005251610000101', 'clauseName': '信泰如意尊终身寿险', 'extraType': 1, 'rateCodeDescView': '', 
+# 'rateCode': 'SP', 'rateCodeDesc': '一次性缴纳', 'yearCode': 'SP', 'yearCodeDesc': '一次性缴纳', 'first_rate': 4.3, 'second_rate': 0.0, 'third_rate': 0.0, 'fourth_rate': 0.0, 'fifth_rate': 0.0}
         # sql = "INSERT INTO CLD_Zhongbao ({DataKeyList}) VALUES ({DataValuesList});"
         # DataKeyList = []
         # DataValueList = []

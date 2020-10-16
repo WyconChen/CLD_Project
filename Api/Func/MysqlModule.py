@@ -133,6 +133,7 @@ class MysqlModule:
             "success": True,
             "fail_reason": None,
             "result_list": [],
+            "total_num": 0,
             "isEnd": False
         }
         if(datadict["searchType"] == 1 and datadict["program_id"] == 1000):
@@ -167,7 +168,15 @@ class MysqlModule:
                                 "附件费率": item[6]
                             }
                             result_dict["details"].append(detail_dict)
-                        result["result_list"].append(result_dict)                        
+                        result["result_list"].append(result_dict)     
+                with self.DBConnection.cursor() as cursor:        
+                    if(datadict["product_key"] is None):
+                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Baoyun18;"
+                    else:
+                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Baoyun18 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
+                    cursor.execute(count_sql)
+                    count = cursor.fetchone()
+                    result["total_num"] = int(count[0][0])
                 return result
             except Exception as e:
                 result["success"] = False
@@ -181,6 +190,7 @@ class MysqlModule:
             "success": True,
             "fail_reason": None,
             "result_list": [],
+            "total_num": 0,
             "isEnd": False
         }
         if(datadict["product_key"] is None):
@@ -229,6 +239,14 @@ class MysqlModule:
                             }
                         result_dict["details"].append(detail_dict)
                     result["result_list"].append(result_dict)                    
+            with self.DBConnection.cursor() as cursor:        
+                if(datadict["product_key"] is None):
+                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Niubao100;"
+                else:
+                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Niubao100 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
+                cursor.execute(count_sql)
+                count = cursor.fetchone()
+                result["total_num"] = int(count[0][0])
             return result
         except Exception as e:
             result["success"] = False
@@ -241,6 +259,7 @@ class MysqlModule:
                     "success": True,
                     "fail_reason": None,
                     "result_list": [],
+                    "total_num": 0,
                     "isEnd": False
         }
         if(datadict["product_key"] is None):
@@ -276,6 +295,14 @@ class MysqlModule:
                         }
                         result_dict["details"].append(detail_dict)
                     result["result_list"].append(result_dict)                    
+            with self.DBConnection.cursor() as cursor:        
+                if(datadict["product_key"] is None):
+                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18;"
+                else:
+                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
+                cursor.execute(count_sql)
+                count = cursor.fetchone()
+                result["total_num"] = int(count[0][0])
             return result
         except Exception as e:
             result["success"] = False
@@ -381,7 +408,7 @@ class MysqlModule:
                             result["result_list"].append(result_dict)
                 return result
             else:
-                print("GetDataFromAll have not product_key")
+                # print("GetDataFromAll have not product_key")
                 select_sql_of_all = "SELECT `program_id`, `product_id`,`product_name` FROM \
                 ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
@@ -459,6 +486,18 @@ class MysqlModule:
                                     }
                                 result_dict["details"].append(detail_dict)
                             result["result_list"].append(result_dict)
+                with self.DBConnection.cursor() as cursor:        
+                    if(datadict["product_key"] is None):
+                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`));"
+                    else:
+                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                                    (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) AS e WHERE e.`product_name` LIKE '%{product_key}%');".format(product_key = datadict["product_key"])
+                    cursor.execute(count_sql)
+                    count = cursor.fetchone()
+                    result["total_num"] = int(count[0][0])
                 return result
         except Exception as e:
             result["success"] = False

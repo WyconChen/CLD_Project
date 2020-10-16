@@ -58,7 +58,7 @@
 }
 
 .ant-pagination-disabled, .ant-pagination-disabled:focus, .ant-pagination-disabled:hover {
-    cursor: not-allowed;
+    cursor: not-allowed !important;
 }
 
 .ant-pagination-next, .ant-pagination-prev {

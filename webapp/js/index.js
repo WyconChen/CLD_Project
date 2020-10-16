@@ -5,7 +5,7 @@ var dropdownOptions = document.getElementsByClassName("dropdown-item")
 
 // page foot
 var previousBtn = document.getElementById("PreviousBtn");
-var pageNo = document.getElementById("pageNo");
+// var pageNo = document.getElementById("pageNo");
 var NextBtn = document.getElementById("NextBtn");
 
 var pageNumOptions = document.getElementsByClassName("ant-pagination-item")
@@ -24,7 +24,7 @@ function searchBtnClickEvent(){
     var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
     var product_key = document.getElementById("inputPassword2").value;
     url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page=1";
-    window.location.href = url_path;
+    // window.location.href = url_path;
 }
 
 NextBtn.onclick = function(){
@@ -34,43 +34,52 @@ NextBtn.onclick = function(){
     var product_key = document.getElementById("inputPassword2").value;
     var pageNo = document.getElementById("pageNo").textContent;
     url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
-    window.location.href = url_path;
+    // window.location.href = url_path;
 }
 
 
-var pageNumOptions = document.getElementsByClassName("ant-pagination-item");
+
 var previousButton = document.getElementById("PreBtn");
 var NextButton = document.getElementById("NextBtn");
 var pageJumper = document.getElementById("page_jumper");
 
 function switchPage(){
-	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent;
+	var previousButton = document.getElementById("PreBtn");
+    var NextButton = document.getElementById("NextBtn");
+	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].value;
 	var totol_num = document.getElementById("total-page").value;
+	
 	if(current_page == "1"){
 		previousButton.classList.add("ant-pagination-disabled");
 	}else{
 		previousButton.classList.remove("ant-pagination-disabled");
 	}
-	if(parseInt(totol_num)-parseInt(current_page)*5 > 0){
+	console.log(totol_num)
+	console.log(current_page)
+	if((parseInt(totol_num)-parseInt(current_page)*5) > 0){
+		console.log("789")
 		NextButton.classList.remove("ant-pagination-disabled");
 	}else{
+		console.log("456")
 		NextButton.classList.add("ant-pagination-disabled");
 	}
-    for(var i=0;i<pageNumOptions.length;i++){		
-        pageNumOptions[i].onclick = function(){		
-      		//var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
-    		// var product_key = document.getElementById("inputPassword2").value;
+};
+
+function initPageBtn(){
+	var pageNumOptions = document.getElementsByClassName("ant-pagination-item");
+	for(var i=0;i<pageNumOptions.length;i++){		
+        pageNumOptions[i].onclick = function(){
             var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 			var product_key = document.getElementById("inputPassword2").value;
 			var pageNo = this.value
 			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
 			window.location.href = url_path;
         }
-    };
-};
+    }
+}
 
 previousButton.onclick = function(){
-	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent;
+	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].value;
 	if(!(current_page == "1")){
 		var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 		var product_key = document.getElementById("inputPassword2").value;
@@ -89,7 +98,8 @@ NextButton.onclick = function(){
 		var product_key = document.getElementById("inputPassword2").value;
 		var pageNo = parseInt(current_page)+1;
 		url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
-		window.location.href = url_path;
+		// window.location.href = url_path;
+		console.log("next")
 	}
 };
 
@@ -124,5 +134,6 @@ pageJumper.onblur = function(){
 }
 
 window.onload = function(){
-    switchPage();
+	switchPage();
+	initPageBtn();
 };

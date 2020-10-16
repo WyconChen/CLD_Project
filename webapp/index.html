@@ -92,23 +92,23 @@
       {% endfor %}
   </div>
    <ul class="ant-pagination" id="page-foot">
-		<li class="ant-pagination-total-text" id="total-page" value="100">共 {{total_num}} 条</li>
+		<li class="ant-pagination-total-text" id="total-page" value="{{total_num}}">共 {{total_num}} 条</li>
 		<li class="ant-pagination-prev" id="PreBtn">
 			<a class="ant-pagination-item-link"><i aria-label="图标: left" class="anticon anticon-left"><svg viewBox="64 64 896 896" focusable="false" class="" data-icon="left" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 0 0 0 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path></svg></i></a>
 		</li>
 		<!-- [-1,0,1,2,3] -->
 		{% if pageList[0] > 0 %}
-			<li class="ant-pagination-item"><a>{{pageList[0]}}</a></li>
+			<li class="ant-pagination-item" value="{{pageList[0]}}"><a>{{pageList[0]}}</a></li>
 		{% endif %}
 		{% if pageList[1] > 0 %}
-			<li class="ant-pagination-item"><a>{{pageList[1]}}</a></li>
+			<li class="ant-pagination-item" value="{{pageList[1]}}"><a>{{pageList[1]}}</a></li>
 		{% endif %}
-			<li class="ant-pagination-item-active ant-pagination-item"><a>{{pageList[2]}}</a></li>
+			<li class="ant-pagination-item-active ant-pagination-item" value="{{pageList[2]}}"><a>{{pageList[2]}}</a></li>
 		{% if total_num-pageList[3]*5 > 0 %}
-			<li class="ant-pagination-item"><a>{{pageList[3]}}</a></li>
+			<li class="ant-pagination-item" value="{{pageList[3]}}"><a>{{pageList[3]}}</a></li>
 		{% endif %}
 		{% if total_num-pageList[4]*5 > 0 %}
-			<li class="ant-pagination-item"><a>{{pageList[4]}}</a></li>
+			<li class="ant-pagination-item" value="{{pageList[4]}}"><a>{{pageList[4]}}</a></li>
 		{% endif %}
 		<li class=" ant-pagination-next" id="NextBtn">
 			<a class="ant-pagination-item-link"><i aria-label="图标: right" class="anticon anticon-right"><svg viewBox="64 64 896 896" focusable="false" class="" data-icon="right" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></i></a>

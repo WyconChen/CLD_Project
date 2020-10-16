@@ -52,13 +52,12 @@ app.mount("/static", StaticFiles(directory=path), name="static")
 async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
     datadict = {
         "searchType": 1,
-        "page": page or 1,
+        "page": page if page is not None else 1,
         "program_id": program_id or 1000,
-        "product_key": product_key 
+        "product_key": product_key if product_key is not None else ""
     }
-    page = 5 
-    pageList = [page-2,page-1,page,page+1,page+2]
-    total_num = 120
+    pageList = [datadict["page"]-2,datadict["page"]-1,datadict["page"],datadict["page"]+1,datadict["page"]+2]
+    total_num = 48
     ProductsList = []
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
     

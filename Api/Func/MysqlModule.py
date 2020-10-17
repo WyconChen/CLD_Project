@@ -354,6 +354,7 @@ class MysqlModule:
                     details_dict["clauseName"] = record_set[4]
                     details_dict["extraType"] = record_set[5]
                     rateCodeDescView = record_set[6]
+                    rateCodeDescView_detail["rateCodeDescView"] = rateCodeDescView
                     rateCodeDescView_detail["rateCode"] = record_set[7]
                     rateCodeDescView_detail["rateCodeDesc"] = record_set[8]
                     rateCodeDescView_detail["yearCode"] = record_set[9]

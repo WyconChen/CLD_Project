@@ -414,7 +414,7 @@ class MysqlModule:
         select_sql = "SELECT `program_id`,`product_id`,`product_name`,`productGrade`,`productGradeId`,\
                     `curBack`, `commission_1`, `subsidyCommission_1`,`commission_2`, `subsidyCommission_2`,\
                     `commission_3`, `subsidyCommission_3`, `commission_4`, `subsidyCommission_4`, \
-                    `commission_5`, `subsidyCommission_5`,`commission_6`, `subsidyCommission_6` FROM CLD_Fengqi WHERE `product_id` = %s ORDER BY `extraType`;"       
+                    `commission_5`, `subsidyCommission_5`,`commission_6`, `subsidyCommission_6` FROM CLD_Fengqi WHERE `product_id` = %s;"       
         try:
             with self.DBConnection.cursor() as cursor:
                 cursor.execute(select_product_sql)

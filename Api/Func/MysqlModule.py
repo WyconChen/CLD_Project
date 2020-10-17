@@ -457,6 +457,14 @@ class MysqlModule:
                             productGrade_dict[productGradeId] = []
                             productGrade_dict[productGradeId].append(productGradeDetail_dict)
                     result["result_list"].append(productGrade_dict)
+                with self.DBConnection.cursor() as cursor:        
+                    if(datadict["product_key"] is None):
+                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Fengqi;"
+                    else:
+                        count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Fengqi WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
+                    cursor.execute(count_sql)
+                    count = cursor.fetchone()
+                    result["total_num"] = int(count[0]) 
                 return result
         except Exception as e:
             result["success"] = False

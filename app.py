@@ -60,7 +60,7 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
         total_num = result_dict["total_num"] if result_dict["success"] else 0
         pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
-        # print(ProductsList)
+        print(ProductsList)
         # return result_dict
     else:
         print("enter else")
@@ -73,32 +73,50 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
 @app.get("/test/search")
 async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
     datadict = {
-        "searchType": searchType,
-        "page": page,
-        "program_id": program_id,
-        "product_key": product_key 
-    } 
-    print("request_url: ")
-    print(request.url)
-    print(request.base_url)
-    #Baoyun18
+        "searchType": 1,
+        "page": page or 1,
+        "program_id": program_id or 999,
+        "product_key": product_key or ""
+    }
     if searchType == 1 and program_id == 1000:
+        #Baoyun18
         result_dict = mysqlmodule.GetDataFromBaoyun18(datadict)
-        if result_dict["success"] == False:
-            print(result_dict["fail_reason"])
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
-        return ProductsList
+        total_num = result_dict["total_num"] if result_dict["success"] else 0
+        pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
     elif searchType == 1 and program_id == 1001:
         # qixin18
-        pass
+        result_dict = mysqlmodule.GetDataFromQixin18(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+        total_num = result_dict["total_num"] if result_dict["success"] else 0
+        pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
     elif searchType == 1 and program_id == 1002:
         # Niubao1000
-        pass
-    elif searchType == 2 and product_key is not None:
+        result_dict = mysqlmodule.GetDataFromNiubao100(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+        total_num = result_dict["total_num"] if result_dict["success"] else 0
+        pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+    elif searchType == 1 and program_id == 999:
         # All Program
-        pass
+        result_dict = mysqlmodule.GetDataFromAll(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+        total_num = result_dict["total_num"] if result_dict["success"] else 0
+        pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+    elif searchType == 1 and program_id == 1005:
+        # Zhongbao
+        result_dict = mysqlmodule.GetDataFromZhongbao(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+        total_num = result_dict["total_num"] if result_dict["success"] else 0
+        pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+        print(ProductsList)
+        return result_dict
     else:
-        pass
+        print("enter else")
+        result_dict = mysqlmodule.GetDataFromAll(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+        total_num = result_dict["total_num"] if result_dict["success"] else 0
+        pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+    return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
 
     
         

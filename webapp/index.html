@@ -103,13 +103,13 @@
                         </div>
                         {% for RateDetail_dict in detail_values %}
                             <div class="tree-table">
-                              <div class="factor-col">rateCodeDescView-{{ RateDetail_dict["rateCodeDescView"] }}</div>
+                              <div class="factor-col">rateCodeDescView - {{ RateDetail_dict["rateCodeDescView"] }}</div>
                               <div class="branch-box">
                                 <div class="tree-table">
-                                  <div class="payperiod-col">rateCodeDesc-{{ RateDetail_dict["rateCodeDesc"] }}</div>
+                                  <div class="payperiod-col">rateCodeDesc - {{ RateDetail_dict["rateCodeDesc"] }}</div>
                                   <div class="branch-box">
                                     <div>
-                                      {% for rateCode_keys, rateCode_values in RateDetail_dict["rateCodeDesc"].items() %}
+                                      {% for rateCode_keys, rateCode_values in RateDetail_dict["rateCodeDescViewList"].items() %}
                                         {% for eachRate in rateCode_values %}
                                           <div class="tree-table fee-row">
                                             <div class="fee-td "><div>{{ eachRate["first_rate"] }}</div></div>

@@ -318,7 +318,6 @@ class MysqlModule:
                     "result_list": [],
                     "total_num": 0,
                     "isEnd": False
-                    "product_dict":{}
         }
         if datadict["product_key"]:
             select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
@@ -370,7 +369,7 @@ class MysqlModule:
                             rateCodeDescView_dict[rateCodeDescView_dict] = []
                             rateCodeDescView_dict[rateCodeDescView_dict].append(rateCodeDescView_detail)
                         details_dict["rateCodeDescViewList"] = rateCodeDescView_dict
-                        
+
                         if details_dict["clauseId"] in product_detail.keys():
                             product_detail[details_dict["clauseId"]].append(record_dict)
                         else:

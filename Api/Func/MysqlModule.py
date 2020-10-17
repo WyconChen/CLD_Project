@@ -364,10 +364,10 @@ class MysqlModule:
                     rateCodeDescView_detail["fourth_rate"] = record_set[14]
                     rateCodeDescView_detail["fifth_rate"] = record_set[15]
                     if rateCodeDescView in rateCodeDescView_dict.keys():
-                        rateCodeDescView_dict[rateCodeDescView_dict].append(rateCodeDescView_detail)
+                        rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]].append(rateCodeDescView_detail)
                     else:
-                        rateCodeDescView_dict[rateCodeDescView] = []
-                        rateCodeDescView_dict[rateCodeDescView].append(rateCodeDescView_detail)
+                        rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]] = []
+                        rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]].append(rateCodeDescView_detail)
                     details_dict["rateCodeDescViewList"] = rateCodeDescView_dict
 
                     if details_dict["clauseId"] in product_detail.keys():

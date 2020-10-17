@@ -440,18 +440,16 @@ class MysqlModule:
                         productGradeDetail_dict["productGrade"] = record_set[3]
                         productGradeDetail_dict["commission_1"] = record_set[6]
                         productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
-                        productGradeDetail_dict["commission_1"] = record_set[6]
-                        productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
-                        productGradeDetail_dict["commission_2"] = record_set[6]
-                        productGradeDetail_dict["subsidyCommission_2"] = record_set[7]
-                        productGradeDetail_dict["commission_3"] = record_set[6]
-                        productGradeDetail_dict["subsidyCommission_3"] = record_set[7]
-                        productGradeDetail_dict["commission_4"] = record_set[6]
-                        productGradeDetail_dict["subsidyCommission_4"] = record_set[7]
-                        productGradeDetail_dict["commission_5"] = record_set[6]
-                        productGradeDetail_dict["subsidyCommission_5"] = record_set[7]
-                        productGradeDetail_dict["commission_6"] = record_set[6]
-                        productGradeDetail_dict["subsidyCommission_6"] = record_set[7]
+                        productGradeDetail_dict["commission_2"] = record_set[8]
+                        productGradeDetail_dict["subsidyCommission_2"] = record_set[9]
+                        productGradeDetail_dict["commission_3"] = record_set[10]
+                        productGradeDetail_dict["subsidyCommission_3"] = record_set[11]
+                        productGradeDetail_dict["commission_4"] = record_set[12]
+                        productGradeDetail_dict["subsidyCommission_4"] = record_set[13]
+                        productGradeDetail_dict["commission_5"] = record_set[14]
+                        productGradeDetail_dict["subsidyCommission_5"] = record_set[15]
+                        productGradeDetail_dict["commission_6"] = record_set[16]
+                        productGradeDetail_dict["subsidyCommission_6"] = record_set[17]
                         if productGradeId in productGrade_dict.keys():
                             productGrade_dict[productGradeId].append(productGradeDetail_dict)
                         else:
@@ -572,94 +570,98 @@ class MysqlModule:
                                 result_dict["details"].append(detail_dict)
                             result["result_list"].append(result_dict)
                         elif(result_dict["program_id"] == 1004):
-                            select_sql_of_Fengqi = "SELECT `program_id`,`product_id`,`product_name`,`productGrade`,`productGradeId`,\
-                                        `curBack`, `commission_1`, `subsidyCommission_1`,`commission_2`, `subsidyCommission_2`,\
-                                        `commission_3`, `subsidyCommission_3`, `commission_4`, `subsidyCommission_4`, \
-                                        `commission_5`, `subsidyCommission_5`,`commission_6`, `subsidyCommission_6` FROM CLD_Fengqi WHERE `product_id` = %s;"
-                            cursor.execute(select_sql_of_Fengqi,(result_dict["product_id"],))
-                            result_set_of_fengqi = cursor.fetchall()
-                            result_dict = {
-                                "program_id": result_set_of_fengqi[0][0],
-                                "product_id": result_set_of_fengqi[0][1],
-                                "product_name": result_set_of_fengqi[0][2],
-                                "details":[]
-                            }
-                            productGrade_dict = {}
-                            # productGrade_dict里面包含该产品下的所有表
-                            # {"123":{"c1":1,"c2":2},.....}              
-                            for record_set in result_set:
-                                productGradeDetail_dict = {}
-                                productGradeId = record_set[4]
-                                productGradeDetail_dict["productGrade"] = record_set[3]
-                                productGradeDetail_dict["commission_1"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
-                                productGradeDetail_dict["commission_1"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
-                                productGradeDetail_dict["commission_2"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_2"] = record_set[7]
-                                productGradeDetail_dict["commission_3"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_3"] = record_set[7]
-                                productGradeDetail_dict["commission_4"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_4"] = record_set[7]
-                                productGradeDetail_dict["commission_5"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_5"] = record_set[7]
-                                productGradeDetail_dict["commission_6"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_6"] = record_set[7]
-                                if productGradeId in productGrade_dict.keys():
-                                    productGrade_dict[productGradeId].append(productGradeDetail_dict)
-                                else:
-                                    productGrade_dict[productGradeId] = []
-                                    productGrade_dict[productGradeId].append(productGradeDetail_dict)
-                            result_dict["details"].append(productGrade_dict)
-                            result["result_list"].append(result_dict)
+                            try:
+                                select_sql_of_Fengqi = "SELECT `program_id`,`product_id`,`product_name`,`productGrade`,`productGradeId`,\
+                                            `curBack`, `commission_1`, `subsidyCommission_1`,`commission_2`, `subsidyCommission_2`,\
+                                            `commission_3`, `subsidyCommission_3`, `commission_4`, `subsidyCommission_4`, \
+                                            `commission_5`, `subsidyCommission_5`,`commission_6`, `subsidyCommission_6` FROM CLD_Fengqi WHERE `product_id` = %s;"
+                                cursor.execute(select_sql_of_Fengqi,(result_dict["product_id"],))
+                                result_set_of_fengqi = cursor.fetchall()
+                                result_dict = {
+                                    "program_id": result_set_of_fengqi[0][0],
+                                    "product_id": result_set_of_fengqi[0][1],
+                                    "product_name": result_set_of_fengqi[0][2],
+                                    "details":[]
+                                }
+                                productGrade_dict = {}
+                                # productGrade_dict里面包含该产品下的所有表
+                                # {"123":{"c1":1,"c2":2},.....}              
+                                for record_set in result_set:
+                                    productGradeDetail_dict = {}
+                                    productGradeId = record_set[4]
+                                    productGradeDetail_dict["productGrade"] = record_set[3]
+                                    productGradeDetail_dict["commission_1"] = record_set[6]
+                                    productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
+                                    productGradeDetail_dict["commission_2"] = record_set[8]
+                                    productGradeDetail_dict["subsidyCommission_2"] = record_set[9]
+                                    productGradeDetail_dict["commission_3"] = record_set[10]
+                                    productGradeDetail_dict["subsidyCommission_3"] = record_set[11]
+                                    productGradeDetail_dict["commission_4"] = record_set[12]
+                                    productGradeDetail_dict["subsidyCommission_4"] = record_set[13]
+                                    productGradeDetail_dict["commission_5"] = record_set[14]
+                                    productGradeDetail_dict["subsidyCommission_5"] = record_set[15]
+                                    productGradeDetail_dict["commission_6"] = record_set[16]
+                                    productGradeDetail_dict["subsidyCommission_6"] = record_set[17]
+                                    if productGradeId in productGrade_dict.keys():
+                                        productGrade_dict[productGradeId].append(productGradeDetail_dict)
+                                    else:
+                                        productGrade_dict[productGradeId] = []
+                                        productGrade_dict[productGradeId].append(productGradeDetail_dict)
+                                result_dict["details"].append(productGrade_dict)
+                                result["result_list"].append(result_dict)
+                            except Exception as e:
+                                print("error in search all of fengqi: "+ str(e))
                         elif(result_dict["program_id"] == 1005):
-                            select_sql_of_zhongbao = "SELECT `program_id`,`product_id`,`product_name`,`clauseId`,`clauseName`,\
-                                                    `extraType`, `rateCodeDescView`, `rateCode`, `rateCodeDesc`, `yearCode`, `yearCodeDesc`,\
-                                                    `first_rate`, `second_rate`, `third_rate`, `fourth_rate`, `fifth_rate`FROM CLD_Zhongbao WHERE `product_id` = %s;"
-                            cursor.execute(select_sql_of_zhongbao,(result_dict["product_id"],))
-                            result_set_of_zhongbao = cursor.fetchall()
-                            result_dict = {
-                                "program_id": result_set_of_zhongbao[0][0],
-                                "product_id": result_set_of_zhongbao[0][1],
-                                "product_name": result_set_of_zhongbao[0][2],
-                                "details":[]
-                                # details里面保存数据结构：[{"1234":[{"clauseID": "12333"....,}, ],"5678":[{"clauseID": "12333"....,}, ] }]
-                            }
-                            # product_detail里面包含每个产品的每个表
-                            product_detail = {}
-                            # {"1234":[{"clauseID": "12333"....,} ,"5678":[{"clauseID": "12333"....,]}
-                            for record_set in result_set_of_zhongbao:
-                                rateCodeDescView_dict = {}
-                                details_dict = {}
-                                rateCodeDescView_detail = {}
-                                details_dict["clauseId"] = record_set[3]
-                                details_dict["clauseName"] = record_set[4]
-                                details_dict["extraType"] = record_set[5]
-                                rateCodeDescView = record_set[6]
-                                rateCodeDescView_detail["rateCodeDescView"] = rateCodeDescView
-                                rateCodeDescView_detail["rateCode"] = record_set[7]
-                                rateCodeDescView_detail["rateCodeDesc"] = record_set[8]
-                                rateCodeDescView_detail["yearCode"] = record_set[9]
-                                rateCodeDescView_detail["yearCodeDesc"] = record_set[10]
-                                rateCodeDescView_detail["first_rate"] = record_set[11]
-                                rateCodeDescView_detail["second_rate"] = record_set[12]
-                                rateCodeDescView_detail["third_rate"] = record_set[13]
-                                rateCodeDescView_detail["fourth_rate"] = record_set[14]
-                                rateCodeDescView_detail["fifth_rate"] = record_set[15]
-                                if rateCodeDescView in rateCodeDescView_dict.keys():
-                                    rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]].append(rateCodeDescView_detail)
-                                else:
-                                    rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]] = []
-                                    rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]].append(rateCodeDescView_detail)
-                                details_dict["rateCodeDescViewList"] = rateCodeDescView_dict
+                            try:
+                                select_sql_of_zhongbao = "SELECT `program_id`,`product_id`,`product_name`,`clauseId`,`clauseName`,\
+                                                        `extraType`, `rateCodeDescView`, `rateCode`, `rateCodeDesc`, `yearCode`, `yearCodeDesc`,\
+                                                        `first_rate`, `second_rate`, `third_rate`, `fourth_rate`, `fifth_rate`FROM CLD_Zhongbao WHERE `product_id` = %s;"
+                                cursor.execute(select_sql_of_zhongbao,(result_dict["product_id"],))
+                                result_set_of_zhongbao = cursor.fetchall()
+                                result_dict = {
+                                    "program_id": result_set_of_zhongbao[0][0],
+                                    "product_id": result_set_of_zhongbao[0][1],
+                                    "product_name": result_set_of_zhongbao[0][2],
+                                    "details":[]
+                                    # details里面保存数据结构：[{"1234":[{"clauseID": "12333"....,}, ],"5678":[{"clauseID": "12333"....,}, ] }]
+                                }
+                                # product_detail里面包含每个产品的每个表
+                                product_detail = {}
+                                # {"1234":[{"clauseID": "12333"....,} ,"5678":[{"clauseID": "12333"....,]}
+                                for record_set in result_set_of_zhongbao:
+                                    rateCodeDescView_dict = {}
+                                    details_dict = {}
+                                    rateCodeDescView_detail = {}
+                                    details_dict["clauseId"] = record_set[3]
+                                    details_dict["clauseName"] = record_set[4]
+                                    details_dict["extraType"] = record_set[5]
+                                    rateCodeDescView = record_set[6]
+                                    rateCodeDescView_detail["rateCodeDescView"] = rateCodeDescView
+                                    rateCodeDescView_detail["rateCode"] = record_set[7]
+                                    rateCodeDescView_detail["rateCodeDesc"] = record_set[8]
+                                    rateCodeDescView_detail["yearCode"] = record_set[9]
+                                    rateCodeDescView_detail["yearCodeDesc"] = record_set[10]
+                                    rateCodeDescView_detail["first_rate"] = record_set[11]
+                                    rateCodeDescView_detail["second_rate"] = record_set[12]
+                                    rateCodeDescView_detail["third_rate"] = record_set[13]
+                                    rateCodeDescView_detail["fourth_rate"] = record_set[14]
+                                    rateCodeDescView_detail["fifth_rate"] = record_set[15]
+                                    if rateCodeDescView in rateCodeDescView_dict.keys():
+                                        rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]].append(rateCodeDescView_detail)
+                                    else:
+                                        rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]] = []
+                                        rateCodeDescView_dict[rateCodeDescView_detail["rateCode"]].append(rateCodeDescView_detail)
+                                    details_dict["rateCodeDescViewList"] = rateCodeDescView_dict
 
-                                if details_dict["clauseId"] in product_detail.keys():
-                                    product_detail[details_dict["clauseId"]].append(details_dict)
-                                else:
-                                    product_detail[details_dict["clauseId"]] = []
-                                    product_detail[details_dict["clauseId"]].append(details_dict)
-                            result_dict["details"].append(product_detail)
-                            result["result_list"].append(result_dict)
+                                    if details_dict["clauseId"] in product_detail.keys():
+                                        product_detail[details_dict["clauseId"]].append(details_dict)
+                                    else:
+                                        product_detail[details_dict["clauseId"]] = []
+                                        product_detail[details_dict["clauseId"]].append(details_dict)
+                                result_dict["details"].append(product_detail)
+                                result["result_list"].append(result_dict)
+                            except Exception as e:
+                                print("error in search all of zhongbao: "+ str(e))
                 with self.DBConnection.cursor() as cursor:        
                     count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
                                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
@@ -773,18 +775,16 @@ class MysqlModule:
                                 productGradeDetail_dict["productGrade"] = record_set[3]
                                 productGradeDetail_dict["commission_1"] = record_set[6]
                                 productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
-                                productGradeDetail_dict["commission_1"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
-                                productGradeDetail_dict["commission_2"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_2"] = record_set[7]
-                                productGradeDetail_dict["commission_3"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_3"] = record_set[7]
-                                productGradeDetail_dict["commission_4"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_4"] = record_set[7]
-                                productGradeDetail_dict["commission_5"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_5"] = record_set[7]
-                                productGradeDetail_dict["commission_6"] = record_set[6]
-                                productGradeDetail_dict["subsidyCommission_6"] = record_set[7]
+                                productGradeDetail_dict["commission_2"] = record_set[8]
+                                productGradeDetail_dict["subsidyCommission_2"] = record_set[9]
+                                productGradeDetail_dict["commission_3"] = record_set[10]
+                                productGradeDetail_dict["subsidyCommission_3"] = record_set[11]
+                                productGradeDetail_dict["commission_4"] = record_set[12]
+                                productGradeDetail_dict["subsidyCommission_4"] = record_set[13]
+                                productGradeDetail_dict["commission_5"] = record_set[14]
+                                productGradeDetail_dict["subsidyCommission_5"] = record_set[15]
+                                productGradeDetail_dict["commission_6"] = record_set[16]
+                                productGradeDetail_dict["subsidyCommission_6"] = record_set[17]
                                 if productGradeId in productGrade_dict.keys():
                                     productGrade_dict[productGradeId].append(productGradeDetail_dict)
                                 else:

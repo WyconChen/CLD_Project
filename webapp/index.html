@@ -141,37 +141,34 @@
           {% elif product_dict["program_id"] == 1004 %}
             <!-- Fengqi template -->
             <div class="el-popover el-popper">
-              {% for product in product_dict["details"] %}
-                <table class="yjtablez">
-                  <caption>保至70周岁</caption>
-                  <tr>
-                    <td><span>缴费年限</span></td>
-                    <td><span>30年</span></td>
-                    <td><span>20年</span></td>
-                    <td><span>15年</span></td>
-                    <td><span>10年</span></td>
-                    <td><span>5年</span></td>
-                    <td><span>1年</span></td>
-                  </tr>
-                  <tr>
-                    <td>首年</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                  </tr>
-                  <tr>
-                    <td>第二年</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                    <td>75%</td>
-                  </tr>                   
-                </table>
+              {% for details_dict in product_dict["details"] %}
+                {% for detail_keys, detail_values in details_dict.items() %}
+                  <table class="yjtablez">
+                    <caption>{{ detail_values[0]["productGrade"] }}</caption>
+                    <tr>
+                      <td><span>缴费年限</span></td>
+                      <td><span>30年</span></td>
+                      <td><span>20年</span></td>
+                      <td><span>15年</span></td>
+                      <td><span>10年</span></td>
+                      <td><span>5年</span></td>
+                      <td><span>1年</span></td>
+                    </tr>
+                    {% for eachRecord in detail_values %}
+                      <tr>
+                        <td>
+                          {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
+                        </td>
+                        <td>{{ eachRecord["commission_1"]}}% {%if eachRecord["subsidyCommission_1"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_1"] }}%{% endif %}</td>
+                        <td>{{ eachRecord["commission_2"]}}% {%if eachRecord["subsidyCommission_2"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_2"] }}%{% endif %}</td>
+                        <td>{{ eachRecord["commission_3"]}}% {%if eachRecord["subsidyCommission_3"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_3"] }}%{% endif %}</td>
+                        <td>{{ eachRecord["commission_4"]}}% {%if eachRecord["subsidyCommission_4"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_4"] }}%{% endif %}</td>
+                        <td>{{ eachRecord["commission_5"]}}% {%if eachRecord["subsidyCommission_5"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_5"] }}%{% endif %}</td>
+                        <td>{{ eachRecord["commission_6"]}}% {%if eachRecord["subsidyCommission_6"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_6"] }}%{% endif %}</td>                     
+                      </tr>
+                    {% endfor %}              
+                  </table>
+                {% endfor %}
               {% endfor %}
             </div>
           {% else %}

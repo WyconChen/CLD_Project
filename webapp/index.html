@@ -98,15 +98,15 @@
                       <div class="temp-table-context-wrap false undefined">
                         <div class="main-sub">
                           <span class="main" value="{{detail_values[0]["clauseId"]}}">
-                            {{ detail_values[0]["clauseName"]}}
+                            {% if loop.first %}主 - {% else %}附 - {% endif %}{{ detail_values[0]["clauseName"]}}
                           </span>
                         </div>
                         {% for RateDetail_dict in detail_values %}
                             <div class="tree-table">
-                              <div class="factor-col">rateCodeDescView - {{ RateDetail_dict["rateCodeDescView"] }}</div>
+                              <div class="factor-col">{{ RateDetail_dict["rateCodeDescView"] }}</div>
                               <div class="branch-box">
                                 <div class="tree-table">
-                                  <div class="payperiod-col">rateCodeDesc - {{ RateDetail_dict["rateCodeDesc"] }}</div>
+                                  <div class="payperiod-col">{{ RateDetail_dict["rateCodeDesc"] }}</div>
                                   <div class="branch-box">
                                     <div>
                                       {% for rateCode_keys, rateCode_values in RateDetail_dict["rateCodeDescViewList"].items() %}

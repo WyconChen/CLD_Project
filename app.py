@@ -49,13 +49,18 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         total_num = result_dict["total_num"] if result_dict["success"] else 0
         pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
     elif searchType == 1 and program_id == 999:
-        print("datadict in all program")
         # All Program
-        print(datadict)
         result_dict = mysqlmodule.GetDataFromAll(datadict)
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
         total_num = result_dict["total_num"] if result_dict["success"] else 0
         pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+    elif searchType == 1 and program_id == 1005:
+        # Zhongbao
+        result_dict = mysqlmodule.GetDataFromZhongbao(datadict)
+        ProductsList = result_dict["result_list"] if result_dict["success"] else []
+        total_num = result_dict["total_num"] if result_dict["success"] else 0
+        pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+        print(ProductsList)
     else:
         print("enter else")
         result_dict = mysqlmodule.GetDataFromAll(datadict)

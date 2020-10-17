@@ -1,0 +1,101 @@
+.ant-spin-container {
+    position: relative;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+}
+
+.template-table-wrap .tree-table {
+    flex: 1;
+    display: flex;
+    border-bottom: 3px solid #EEE;
+}
+
+.edit-theader {
+    min-height: 48px;
+    color: #4D699C;
+    background: #f7f9fb;
+    border: 1px solid #EEE;
+    font-size: 14px;
+    display: flex;
+    flex-wrap: nowrap;
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+}
+
+.template-table-wrap .factor-col {
+    padding: 0 8px;
+    flex: 0 0 15.24%;
+    min-width: 96px;
+    border-right: 1px solid #EEE;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.template-table-wrap .tree-table:last-child {
+    border-bottom: none;
+}
+.template-table-wrap .tree-table {
+    flex: 1;
+    display: flex;
+    border-bottom: 3px solid #EEE;
+}
+
+.template-table-wrap .payperiod-col {
+    flex: 0 0 15.24%;
+    min-width: 96px;
+    border-right: 1px solid #EEE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.template-table-wrap .tree-table .fee-td {
+    flex: 1;
+    min-width: 72px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #EEE;
+}
+
+
+.table-body.bordered {
+    border: 1px solid #eee;
+}
+
+.temp-table-context-wrap .main-sub {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 16px;
+    border-bottom: 1px solid #EEE;
+    background: #fafafa;
+}
+
+context-wrap .main-sub span {
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+
+.template-table-wrap .branch-box {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.template-table-wrap .tree-table .fee-td {
+    flex: 1;
+    min-width: 72px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #EEE;
+}

@@ -75,61 +75,7 @@
           </div>
           {% if product_dict["program_id"] == 1005 %}
             <!-- zhongbao template -->
-            <div class="ant-spin-container">
-              <div class="table_div template-table-wrap">
-                <div class="edit-theader">
-                  <div class="tree-table" style="border-bottom: none;">
-                    <div class="th factor-col">影响因子</div>
-                    <div class="tree-table">
-                      <div class="th payperiod-col">缴费年期</div>
-                      <div class="tree-table">
-                        <div class="th fee-td">首年(%)</div>
-                        <div class="th fee-td">第二年(%)</div>
-                        <div class="th fee-td">第三年(%)</div>
-                        <div class="th fee-td">第四年(%)</div>
-                        <div class="th fee-td">第五年(%)</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {% for detail_dict in product_dict["details"] %}
-                  {% for keys, values in detail_dict.items() %}
-                    <div class="table-body bordered">
-                      <div class="temp-table-context-wrap false undefined">
-                        <div class="main-sub">
-                          <span class="main" value="{{values[0]["clauseId"]}}">
-                            {{ values[0]["clauseName"]}}
-                          </span>
-                        </div>
-                        {% for RateDetail_dict in value %}
-                          {% for rateKey, rateValue in RateDetail_dict.items() %}
-                            <div class="tree-table">
-                              <div class="factor-col">保至70周岁</div>
-                              <div class="branch-box">
-                                <div class="tree-table">
-                                  <div class="payperiod-col">一次性缴纳</div>
-                                  <div class="branch-box">
-                                    <div>
-                                      <div class="tree-table fee-row">
-                                        <div class="fee-td "><div>1.0</div></div>
-                                        <div class="fee-td "><div>1.0</div></div>
-                                        <div class="fee-td "><div>1.0</div></div>
-                                        <div class="fee-td "><div>1.0</div></div>
-                                        <div class="fee-td "><div>1.0</div></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          {% endfor %}
-                        {% endfor %}
-                      </div>
-                    </div>
-                  {% endfor %}
-                {% endfor %}
-              </div>		
-            </div>
+
           {% else %}
             <table class="table">
                 <thead>

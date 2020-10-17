@@ -303,7 +303,7 @@ class MysqlModule:
                     count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
                 cursor.execute(count_sql)
                 count = cursor.fetchone()
-                result["total_num"] = int(count[0][0])
+                result["total_num"] = int(count[0])
             return result
         except Exception as e:
             result["success"] = False
@@ -385,7 +385,7 @@ class MysqlModule:
                 count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
             cursor.execute(count_sql)
             count = cursor.fetchone()
-            result["total_num"] = int(count[0][0]) 
+            result["total_num"] = int(count[0]) 
         return result    
         # except Exception as e:
         #     result["success"] = False

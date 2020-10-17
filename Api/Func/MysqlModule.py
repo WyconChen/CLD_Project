@@ -349,6 +349,8 @@ class MysqlModule:
                     # {"1234":[{"clauseID": "12333"....,} ,"5678":[{"clauseID": "12333"....,]}
                     for record_set in result_set:
                         rateCodeDescView_dict = {}
+                        details_dict = {}
+                        rateCodeDescView_detail = {}
                         details_dict["clauseId"] = record_set[3]
                         details_dict["clauseName"] = record_set[4]
                         details_dict["extraType"] = record_set[5]

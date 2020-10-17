@@ -589,37 +589,22 @@ class MysqlModule:
                                 productGrade_dict = {}
                                 # productGrade_dict里面包含该产品下的所有表
                                 # {"123":{"c1":1,"c2":2},.....}              
-                                for record_set in result_set:
+                                for record_set in result_set_of_fengqi:
                                     productGradeDetail_dict = {}
-                                    print(1)
                                     productGradeId = record_set[4]
-                                    print(2)
                                     productGradeDetail_dict["productGrade"] = record_set[3]
-                                    print(3)
                                     productGradeDetail_dict["commission_1"] = record_set[6]
-                                    print(4)
                                     productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
-                                    print(5)
                                     productGradeDetail_dict["commission_2"] = record_set[8]
-                                    print(6)
                                     productGradeDetail_dict["subsidyCommission_2"] = record_set[9]
-                                    print(7)
                                     productGradeDetail_dict["commission_3"] = record_set[10]
-                                    print(8)
                                     productGradeDetail_dict["subsidyCommission_3"] = record_set[11]
-                                    print(9)
                                     productGradeDetail_dict["commission_4"] = record_set[12]
-                                    print(10)
                                     productGradeDetail_dict["subsidyCommission_4"] = record_set[13]
-                                    print(11)
                                     productGradeDetail_dict["commission_5"] = record_set[14]
-                                    print(12)
                                     productGradeDetail_dict["subsidyCommission_5"] = record_set[15]
-                                    print(13)
                                     productGradeDetail_dict["commission_6"] = record_set[16]
-                                    print(14)
                                     productGradeDetail_dict["subsidyCommission_6"] = record_set[17]
-                                    print(15)
                                     if productGradeId in productGrade_dict.keys():
                                         productGrade_dict[productGradeId].append(productGradeDetail_dict)
                                     else:
@@ -787,7 +772,7 @@ class MysqlModule:
                             productGrade_dict = {}
                             # productGrade_dict里面包含该产品下的所有表
                             # {"123":{"c1":1,"c2":2},.....}              
-                            for record_set in result_set:
+                            for record_set in result_set_of_fengqi:
                                 productGradeDetail_dict = {}
                                 productGradeId = record_set[4]
                                 productGradeDetail_dict["productGrade"] = record_set[3]

@@ -61,6 +61,7 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
         total_num = result_dict["total_num"] if result_dict["success"] else 0
         pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
         print(ProductsList)
+        return result_dict
     else:
         print("enter else")
         result_dict = mysqlmodule.GetDataFromAll(datadict)

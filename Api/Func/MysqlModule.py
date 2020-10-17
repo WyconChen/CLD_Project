@@ -394,6 +394,75 @@ class MysqlModule:
             print(e)
             return result
 
+    def GetDataFromFengqi(self, datadict) -> dict:
+        # subsidyCommission: 折扣
+        # commission 缴费率
+        # productGradeId 每个为一个表
+        # productGrade 做表头
+        result = {
+                    "success": True,
+                    "fail_reason": None,
+                    "result_list": [],
+                    "total_num": 0,
+                    "isEnd": False
+        }
+        if datadict["product_key"]:
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Fengqi WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+        else:
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Fengqi ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+
+        select_sql = "SELECT `program_id`,`product_id`,`product_name`,`productGrade`,`productGradeId`,\
+                    `curBack`, `commission_1`, `subsidyCommission_1`,`commission_2`, `subsidyCommission_2`,\
+                    `commission_3`, `subsidyCommission_3`, `commission_4`, `subsidyCommission_4`, \
+                    `commission_5`, `subsidyCommission_5`,`commission_6`, `subsidyCommission_6` FROM CLD_Fengqi WHERE `product_id` = %s ORDER BY `extraType`;"       
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(select_product_sql)
+                result_set = cursor.fetchall()
+                if(len(result) < 0):
+                    result["isEnd"] = True
+                    return result
+                for product_id in result_set:
+                    cursor.execute(select_sql, product_id)
+                    result_set = cursor.fetchall()
+                    result_dict = {
+                        "program_id": result_set[0][0],
+                        "product_id": result_set[0][1],
+                        "product_name": result_set[0][2],
+                        "details":[]
+                    }
+                    productGrade_dict = {}
+                    # productGrade_dict里面包含该产品下的所有表
+                    # {"123":{"c1":1,"c2":2},.....}              
+                    for record_set in result_set:
+                        productGradeDetail_dict = {}
+                        productGradeId = record_set[4]
+                        productGradeDetail_dict["commission_1"] = record_set[6]
+                        productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
+                        productGradeDetail_dict["commission_1"] = record_set[6]
+                        productGradeDetail_dict["subsidyCommission_1"] = record_set[7]
+                        productGradeDetail_dict["commission_2"] = record_set[6]
+                        productGradeDetail_dict["subsidyCommission_2"] = record_set[7]
+                        productGradeDetail_dict["commission_3"] = record_set[6]
+                        productGradeDetail_dict["subsidyCommission_3"] = record_set[7]
+                        productGradeDetail_dict["commission_4"] = record_set[6]
+                        productGradeDetail_dict["subsidyCommission_4"] = record_set[7]
+                        productGradeDetail_dict["commission_5"] = record_set[6]
+                        productGradeDetail_dict["subsidyCommission_5"] = record_set[7]
+                        productGradeDetail_dict["commission_6"] = record_set[6]
+                        productGradeDetail_dict["subsidyCommission_6"] = record_set[7]
+                        if productGradeId in productGrade_dict.keys():
+                            productGrade_dict[productGradeId].append(productGradeDetail_dict)
+                        else:
+                            productGrade_dict[productGradeId] = []
+                            productGrade_dict[productGradeId].append(productGradeDetail_dict)
+                    result["result_list"].append(productGrade_dict)
+                return result
+        except Exception as e:
+            result["success"] = False
+            result["fail_reason"] = e
+            print(e)
+            return result
 
     def GetDataFromAll(self, datadict:dict) -> dict:
         result = {
@@ -679,7 +748,8 @@ class MysqlModule:
                 with self.DBConnection.cursor() as cursor:        
                     count_sql = "SELECT COUNT(DISTINCT(e.`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
                                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
-                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`)) AS e;"
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`)) AS e;"
                     cursor.execute(count_sql)
                     count = cursor.fetchone()
                     result["total_num"] = int(count[0])

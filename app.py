@@ -108,7 +108,7 @@ async def search(request:Request, searchType:int = None, page:int = None, progra
         ProductsList = result_dict["result_list"] if result_dict["success"] else []
         total_num = result_dict["total_num"] if result_dict["success"] else 0
         pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
-        print(ProductsList)
+        # print(ProductsList)
         return result_dict
     else:
         print("enter else")

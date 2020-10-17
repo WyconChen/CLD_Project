@@ -160,12 +160,12 @@
                         <td>
                           {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
                         </td>
-                        <td>{{ eachRecord["commission_1"]}}% {%if eachRecord["subsidyCommission_1"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_1"] }}%{% endif %}</td>
-                        <td>{{ eachRecord["commission_2"]}}% {%if eachRecord["subsidyCommission_2"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_2"] }}%{% endif %}</td>
-                        <td>{{ eachRecord["commission_3"]}}% {%if eachRecord["subsidyCommission_3"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_3"] }}%{% endif %}</td>
-                        <td>{{ eachRecord["commission_4"]}}% {%if eachRecord["subsidyCommission_4"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_4"] }}%{% endif %}</td>
-                        <td>{{ eachRecord["commission_5"]}}% {%if eachRecord["subsidyCommission_5"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_5"] }}%{% endif %}</td>
-                        <td>{{ eachRecord["commission_6"]}}% {%if eachRecord["subsidyCommission_6"] != '-' %} - 折扣: {{ eachRecord["subsidyCommission_6"] }}%{% endif %}</td>                     
+                        <td>{{ eachRecord["commission_1"]}}% {%if eachRecord["subsidyCommission_1"] != '-' %}+{{ eachRecord["subsidyCommission_1"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_2"]}}% {%if eachRecord["subsidyCommission_2"] != '-' %}+{{ eachRecord["subsidyCommission_2"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_3"]}}% {%if eachRecord["subsidyCommission_3"] != '-' %}+{{ eachRecord["subsidyCommission_3"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_4"]}}% {%if eachRecord["subsidyCommission_4"] != '-' %}+{{ eachRecord["subsidyCommission_4"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_5"]}}% {%if eachRecord["subsidyCommission_5"] != '-' %}+{{ eachRecord["subsidyCommission_5"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_6"]}}% {%if eachRecord["subsidyCommission_6"] != '-' %}+{{ eachRecord["subsidyCommission_6"] }}%补贴{% endif %}</td>                     
                       </tr>
                     {% endfor %}              
                   </table>

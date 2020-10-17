@@ -19,12 +19,14 @@
     margin-left: 505px;
 }
 
-#PreviousBtn:hover {
-    cursor: pointer;
+.table_title {
+    padding-top: 10px;
+    border-top: black solid 2px;
 }
 
-#NextBtn:hover {
-    cursor: pointer;
+.table_title:nth-child(1) {
+    padding-top: 5px;
+    border-top:none;
 }
 
 .ant-pagination {

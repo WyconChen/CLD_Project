@@ -138,6 +138,42 @@
                 {% endfor %}
               </div>		
             </div>
+          {% elif product_dict["program_id"] == 1004 %}
+            <!-- Fengqi template -->
+            <div class="el-popover el-popper">
+              {% for product in product_dict["details"] %}
+                <table class="yjtablez">
+                  <caption>保至70周岁</caption>
+                  <tr>
+                    <td><span>缴费年限</span></td>
+                    <td><span>30年</span></td>
+                    <td><span>20年</span></td>
+                    <td><span>15年</span></td>
+                    <td><span>10年</span></td>
+                    <td><span>5年</span></td>
+                    <td><span>1年</span></td>
+                  </tr>
+                  <tr>
+                    <td>首年</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                  </tr>
+                  <tr>
+                    <td>第二年</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                    <td>75%</td>
+                  </tr>                   
+                </table>
+              {% endfor %}
+            </div>
           {% else %}
             <table class="table">
                 <thead>

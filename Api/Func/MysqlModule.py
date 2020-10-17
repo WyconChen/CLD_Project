@@ -327,72 +327,71 @@ class MysqlModule:
         select_sql = "SELECT `program_id`,`product_id`,`product_name`,`clauseId`,`clauseName`,\
                     `extraType`, `rateCodeDescView`, `rateCode`, `rateCodeDesc`, `yearCode`, `yearCodeDesc`,\
                     `first_rate`, `second_rate`, `third_rate`, `fourth_rate`, `fifth_rate`FROM CLD_Zhongbao WHERE `product_id` = %s ORDER BY `extraType`;"       
-        try:
-            with self.DBConnection.cursor() as cursor:
-                cursor.execute(select_product_sql)
+        with self.DBConnection.cursor() as cursor:
+            cursor.execute(select_product_sql)
+            result_set = cursor.fetchall()
+            if(len(result) < 0):
+                result["isEnd"] = True
+                return result
+            for product_id in result_set:
+                cursor.execute(select_sql, product_id)
                 result_set = cursor.fetchall()
-                if(len(result) < 0):
-                    result["isEnd"] = True
-                    return result
-                for product_id in result_set:
-                    cursor.execute(select_sql, product_id)
-                    result_set = cursor.fetchall()
-                    result_dict = {
-                        "program_id": result_set[0][0],
-                        "product_id": result_set[0][1],
-                        "product_name": result_set[0][2],
-                        "details":[]
-                        # details里面保存数据结构：[{"1234":[{"clauseID": "12333"....,}, ],"5678":[{"clauseID": "12333"....,}, ] }]
-                    }
-                    # product_detail里面包含每个产品的每个表
-                    product_detail = {}
-                    # {"1234":[{"clauseID": "12333"....,} ,"5678":[{"clauseID": "12333"....,]}
-                    for record_set in result_set:
-                        rateCodeDescView_dict = {}
-                        details_dict = {}
-                        rateCodeDescView_detail = {}
-                        details_dict["clauseId"] = record_set[3]
-                        details_dict["clauseName"] = record_set[4]
-                        details_dict["extraType"] = record_set[5]
-                        rateCodeDescView = record_set[6]
-                        rateCodeDescView_detail["rateCode"] = record_set[7]
-                        rateCodeDescView_detail["rateCodeDesc"] = record_set[8]
-                        rateCodeDescView_detail["yearCode"] = record_set[9]
-                        rateCodeDescView_detail["yearCodeDesc"] = record_set[10]
-                        rateCodeDescView_detail["first_rate"] = record_set[11]
-                        rateCodeDescView_detail["second_rate"] = record_set[12]
-                        rateCodeDescView_detail["third_rate"] = record_set[13]
-                        rateCodeDescView_detail["fourth_rate"] = record_set[14]
-                        rateCodeDescView_detail["fifth_rate"] = record_set[15]
+                result_dict = {
+                    "program_id": result_set[0][0],
+                    "product_id": result_set[0][1],
+                    "product_name": result_set[0][2],
+                    "details":[]
+                    # details里面保存数据结构：[{"1234":[{"clauseID": "12333"....,}, ],"5678":[{"clauseID": "12333"....,}, ] }]
+                }
+                # product_detail里面包含每个产品的每个表
+                product_detail = {}
+                # {"1234":[{"clauseID": "12333"....,} ,"5678":[{"clauseID": "12333"....,]}
+                for record_set in result_set:
+                    rateCodeDescView_dict = {}
+                    details_dict = {}
+                    rateCodeDescView_detail = {}
+                    details_dict["clauseId"] = record_set[3]
+                    details_dict["clauseName"] = record_set[4]
+                    details_dict["extraType"] = record_set[5]
+                    rateCodeDescView = record_set[6]
+                    rateCodeDescView_detail["rateCode"] = record_set[7]
+                    rateCodeDescView_detail["rateCodeDesc"] = record_set[8]
+                    rateCodeDescView_detail["yearCode"] = record_set[9]
+                    rateCodeDescView_detail["yearCodeDesc"] = record_set[10]
+                    rateCodeDescView_detail["first_rate"] = record_set[11]
+                    rateCodeDescView_detail["second_rate"] = record_set[12]
+                    rateCodeDescView_detail["third_rate"] = record_set[13]
+                    rateCodeDescView_detail["fourth_rate"] = record_set[14]
+                    rateCodeDescView_detail["fifth_rate"] = record_set[15]
 
-                        if rateCodeDescView in rateCodeDescView_dict.keys():
-                            rateCodeDescView_dict[rateCodeDescView_dict].append(rateCodeDescView_detail)
-                        else:
-                            rateCodeDescView_dict[rateCodeDescView_dict] = []
-                            rateCodeDescView_dict[rateCodeDescView_dict].append(rateCodeDescView_detail)
-                        details_dict["rateCodeDescViewList"] = rateCodeDescView_dict
+                    if rateCodeDescView in rateCodeDescView_dict.keys():
+                        rateCodeDescView_dict[rateCodeDescView_dict].append(rateCodeDescView_detail)
+                    else:
+                        rateCodeDescView_dict[rateCodeDescView_dict] = []
+                        rateCodeDescView_dict[rateCodeDescView_dict].append(rateCodeDescView_detail)
+                    details_dict["rateCodeDescViewList"] = rateCodeDescView_dict
 
-                        if details_dict["clauseId"] in product_detail.keys():
-                            product_detail[details_dict["clauseId"]].append(record_dict)
-                        else:
-                            product_detail[details_dict["clauseId"]] = []
-                            product_detail[details_dict["clauseId"]].append(record_dict)
-                    result_dict["details"].append(product_detail)
-                result["result_list"].append(result_dict)
-            with self.DBConnection.cursor() as cursor:        
-                if(datadict["product_key"] is None):
-                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18;"
-                else:
-                    count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
-                cursor.execute(count_sql)
-                count = cursor.fetchone()
-                result["total_num"] = int(count[0][0]) 
-            return result    
-        except Exception as e:
-            result["success"] = False
-            result["fail_reason"] = e
-            print(e)
-            return result
+                    if details_dict["clauseId"] in product_detail.keys():
+                        product_detail[details_dict["clauseId"]].append(record_dict)
+                    else:
+                        product_detail[details_dict["clauseId"]] = []
+                        product_detail[details_dict["clauseId"]].append(record_dict)
+                result_dict["details"].append(product_detail)
+            result["result_list"].append(result_dict)
+        with self.DBConnection.cursor() as cursor:        
+            if(datadict["product_key"] is None):
+                count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18;"
+            else:
+                count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
+            cursor.execute(count_sql)
+            count = cursor.fetchone()
+            result["total_num"] = int(count[0][0]) 
+        return result    
+        # except Exception as e:
+        #     result["success"] = False
+        #     result["fail_reason"] = e
+        #     print(e)
+        #     return result
 
 
     def GetDataFromAll(self, datadict:dict) -> dict:

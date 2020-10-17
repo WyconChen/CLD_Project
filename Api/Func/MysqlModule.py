@@ -664,7 +664,7 @@ class MysqlModule:
                     count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
                                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
                                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
-                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) \
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) union \
                                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e where e.`product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
                     cursor.execute(count_sql)
                     count = cursor.fetchone()
@@ -676,7 +676,8 @@ class MysqlModule:
                 ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
-                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`)) AS e \
+                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) union \
+                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e \
                 ORDER BY `product_id` ASC LIMIT 5 OFFSET %s;"
                 with self.DBConnection.cursor() as cursor:
                     cursor.execute(select_sql_of_all, ((datadict["page"]-1)*5,))
@@ -843,7 +844,8 @@ class MysqlModule:
                     count_sql = "SELECT COUNT(DISTINCT(e.`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
                                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
                                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
-                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`)) AS e;"
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) union \
+                                (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e;"
                     cursor.execute(count_sql)
                     count = cursor.fetchone()
                     result["total_num"] = int(count[0])

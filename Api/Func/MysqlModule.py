@@ -320,9 +320,9 @@ class MysqlModule:
                     "isEnd": False
         }
         if datadict["product_key"]:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
-        else:
             select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+        else:
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
 
         select_sql = "SELECT `program_id`,`product_id`,`product_name`,`clauseId`,`clauseName`,\
                     `extraType`, `rateCodeDescView`, `rateCode`, `rateCodeDesc`, `yearCode`, `yearCodeDesc`,\
@@ -363,7 +363,6 @@ class MysqlModule:
                     rateCodeDescView_detail["third_rate"] = record_set[13]
                     rateCodeDescView_detail["fourth_rate"] = record_set[14]
                     rateCodeDescView_detail["fifth_rate"] = record_set[15]
-
                     if rateCodeDescView in rateCodeDescView_dict.keys():
                         rateCodeDescView_dict[rateCodeDescView_dict].append(rateCodeDescView_detail)
                     else:

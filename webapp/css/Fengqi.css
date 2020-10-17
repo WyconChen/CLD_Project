@@ -2,7 +2,6 @@
     margin-right: 12px;
 }
 .el-popover {
-    position: absolute;
     background: #fff;
     min-width: 150px;
     border: 1px solid #ebeef5;
@@ -50,4 +49,13 @@ td {
 
 table {
     border-collapse: collapse;
+}
+
+.fengqitable {
+    width: 700px;
+}
+
+.el-popover caption {
+    text-align: center;
+    caption-side: top;
 }

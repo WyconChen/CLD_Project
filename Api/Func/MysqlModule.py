@@ -376,12 +376,12 @@ class MysqlModule:
                         product_detail[details_dict["clauseId"]] = []
                         product_detail[details_dict["clauseId"]].append(details_dict)
                 result_dict["details"].append(product_detail)
-            result["result_list"].append(result_dict)
+                result["result_list"].append(result_dict)
         with self.DBConnection.cursor() as cursor:        
             if(datadict["product_key"] is None):
-                count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18;"
+                count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Zhongbao;"
             else:
-                count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
+                count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM CLD_Zhongbao WHERE `product_name` LIKE '%{product_key}%';".format(product_key = datadict["product_key"])
             cursor.execute(count_sql)
             count = cursor.fetchone()
             result["total_num"] = int(count[0]) 

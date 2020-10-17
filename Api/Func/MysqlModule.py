@@ -372,10 +372,10 @@ class MysqlModule:
                     details_dict["rateCodeDescViewList"] = rateCodeDescView_dict
 
                     if details_dict["clauseId"] in product_detail.keys():
-                        product_detail[details_dict["clauseId"]].append(record_dict)
+                        product_detail[details_dict["clauseId"]].append(details_dict)
                     else:
                         product_detail[details_dict["clauseId"]] = []
-                        product_detail[details_dict["clauseId"]].append(record_dict)
+                        product_detail[details_dict["clauseId"]].append(details_dict)
                 result_dict["details"].append(product_detail)
             result["result_list"].append(result_dict)
         with self.DBConnection.cursor() as cursor:        

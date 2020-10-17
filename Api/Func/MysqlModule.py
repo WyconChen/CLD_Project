@@ -571,12 +571,15 @@ class MysqlModule:
                             result["result_list"].append(result_dict)
                         elif(result_dict["program_id"] == 1004):
                             try:
+                                print(result_dict["product_id"])
                                 select_sql_of_Fengqi = "SELECT `program_id`,`product_id`,`product_name`,`productGrade`,`productGradeId`,\
                                             `curBack`, `commission_1`, `subsidyCommission_1`,`commission_2`, `subsidyCommission_2`,\
                                             `commission_3`, `subsidyCommission_3`, `commission_4`, `subsidyCommission_4`, \
                                             `commission_5`, `subsidyCommission_5`,`commission_6`, `subsidyCommission_6` FROM CLD_Fengqi WHERE `product_id` = %s;"
                                 cursor.execute(select_sql_of_Fengqi,(result_dict["product_id"],))
                                 result_set_of_fengqi = cursor.fetchall()
+                                print("result set in fengqi select:")
+                                print(result_set_of_fengqi)
                                 result_dict = {
                                     "program_id": result_set_of_fengqi[0][0],
                                     "product_id": result_set_of_fengqi[0][1],

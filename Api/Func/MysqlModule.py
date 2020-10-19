@@ -138,9 +138,9 @@ class MysqlModule:
         }
         if(datadict["searchType"] == 1 and datadict["program_id"] == 1000):
             if(datadict["product_key"] is None):
-                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(pageSize=datadict["page"], page=(datadict["page"]-1)*datadict["pageSize"])
             else:
-                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+                select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Baoyun18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(product_key = datadict["product_key"], pageSize=datadict["page"], page = (datadict["page"]-1)*datadict["pageSize"])
             select_sql = "SELECT `program_id`,`product_id`,`product_name`,`payDesc`,`insureDesc`,`first_rate`,`second_rate`\
                         FROM CLD_Baoyun18 WHERE `product_id` = %s"
             try:
@@ -195,9 +195,9 @@ class MysqlModule:
             "isEnd": False
         }
         if(datadict["product_key"] is None):
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM `CLD_Niubao100` ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};".format(page=(datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM `CLD_Niubao100` ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page};".format(pageSize=datadict["page"], page=(datadict["page"]-1)*datadict["pageSize"])
         else:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM `CLD_Niubao100` WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM `CLD_Niubao100` WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page};".format(product_key = datadict["product_key"], pageSize=datadict["page"], page = (datadict["page"]-1)*datadict["pageSize"])
 
         select_sql = "SELECT `program_id`,`product_id`,`product_name`, `insuranceType`,`paytime`,`savetime`,\
                     `actratio`, `y1`, `y2`, `y3`,`y4`, `y5`,`version`, `ratio`, `renew_ratio`, `Type` \
@@ -264,9 +264,9 @@ class MysqlModule:
                     "isEnd": False
         }
         if(datadict["product_key"] is None):
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(pageSize=datadict["pageSize"], page=(datadict["page"]-1)*datadict["pageSize"])
         else:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Qixin18 WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(product_key = datadict["product_key"], pageSize=datadict["pageSize"], page = (datadict["page"]-1)*datadict["pageSize"])
 
         select_sql = "SELECT `program_id`,`product_id`,`product_name`,`yearPolicyText`,`insureAgeText`,\
                     `economyText`, `feeRateList_1`, `feeRateList_2` FROM CLD_Qixin18 WHERE `product_id` = %s;"  
@@ -320,9 +320,9 @@ class MysqlModule:
                     "isEnd": False
         }
         if datadict["product_key"]:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(product_key = datadict["product_key"], pageSize=datadict["pageSize"], page = (datadict["page"]-1)*datadict["pageSize"])
         else:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Zhongbao ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(pageSize=datadict["pageSize"], page=(datadict["page"]-1)*datadict["pageSize"])
 
         select_sql = "SELECT `program_id`,`product_id`,`product_name`,`clauseId`,`clauseName`,\
                     `extraType`, `rateCodeDescView`, `rateCode`, `rateCodeDesc`, `yearCode`, `yearCodeDesc`,\
@@ -407,9 +407,9 @@ class MysqlModule:
                     "isEnd": False
         }
         if datadict["product_key"]:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Fengqi WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(product_key = datadict["product_key"], page = (datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Fengqi WHERE `product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(product_key = datadict["product_key"], pageSize=datadict["pageSize"], page = (datadict["page"]-1)*datadict["pageSize"])
         else:
-            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Fengqi ORDER BY `product_id` ASC LIMIT 5 OFFSET {page}".format(page=(datadict["page"]-1)*5)
+            select_product_sql = "SELECT DISTINCT(`product_id`) FROM CLD_Fengqi ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page}".format(pageSize=datadict["pageSize"], page=(datadict["page"]-1)*datadict["pageSize"])
 
         select_sql = "SELECT `program_id`,`product_id`,`product_name`,`productGrade`,`productGradeId`,\
                     `curBack`, `commission_1`, `subsidyCommission_1`,`commission_2`, `subsidyCommission_2`,\
@@ -487,11 +487,11 @@ class MysqlModule:
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) union \
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e \
-                WHERE e.`product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT 5 OFFSET {page};"
+                WHERE e.`product_name` LIKE '%{product_key}%' ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page};"
                 # print("GetDataFromAll have product_key")
                 with self.DBConnection.cursor() as cursor:
                     # print("GetDataFromAll search product in all program")
-                    cursor.execute(select_sql_of_all.format(product_key = datadict["product_key"], page=(datadict["page"]-1)*5))
+                    cursor.execute(select_sql_of_all.format(product_key = datadict["product_key"], pageSize=datadict["pageSize"], page=(datadict["page"]-1)*datadict["pageSize"]))
                     result_set = cursor.fetchall()
                     # print("product in all program")
                     # print(result_set)
@@ -680,9 +680,9 @@ class MysqlModule:
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) union \
                 (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e \
-                ORDER BY `product_id` ASC LIMIT 5 OFFSET %s;"
+                ORDER BY `product_id` ASC LIMIT %s OFFSET %s;"
                 with self.DBConnection.cursor() as cursor:
-                    cursor.execute(select_sql_of_all, ((datadict["page"]-1)*5,))
+                    cursor.execute(select_sql_of_all, (datadict["pageSize"], (datadict["page"]-1)*datadict["pageSize"]))
                     result_set = cursor.fetchall()
                     if(len(result_set) < 0):
                         result["isEnd"] = True

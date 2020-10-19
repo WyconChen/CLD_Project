@@ -99,3 +99,108 @@ context-wrap .main-sub span {
     justify-content: center;
     border-right: 1px solid #EEE;
 }
+
+.ant-select, .ant-select ol, .ant-select ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ant-pagination-options-size-changer.ant-select {
+    display: inline-block;
+    width: auto;
+    margin-right: 8px;
+}
+
+.ant-select-selection__rendered {
+    position: relative;
+    display: block;
+    margin-right: 11px;
+    margin-left: 11px;
+    line-height: 30px;
+}
+
+.ant-select-selection-selected-value {
+    font-size: 14px;
+}
+
+.ant-select-selection-selected-value {
+    float: left;
+    max-width: 100%;
+    padding-right: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ant-select-selection--single {
+    position: relative;
+    height: 32px;
+    cursor: pointer;
+}
+
+.ant-select-selection {
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-top-width: 1.02px;
+    border-radius: 4px;
+    outline: none;
+    -webkit-transition: all .3s cubic-bezier(.645,.045,.355,1);
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ant-select-selection:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px!important;
+}
+
+.ant-select-dropdown {
+    margin: 0;
+    padding: 0;
+    color: rgba(0,0,0,.65);
+    font-variant: tabular-nums;
+    line-height: 1.5;
+    list-style: none;
+    -webkit-font-feature-settings: "tnum";
+    font-feature-settings: "tnum";
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    z-index: 1050;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-variant: normal;
+    background-color: #fff;
+    border-radius: 4px;
+    outline: none;
+    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.slide-up-leave {
+    -webkit-animation-timing-function: cubic-bezier(.755,.05,.855,.06);
+    animation-timing-function: cubic-bezier(.755,.05,.855,.06);
+}
+
+.slide-up-appear, .slide-up-enter, .slide-up-leave {
+    -webkit-animation-duration: .2s;
+    animation-duration: .2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+
+.ant-pagination, .ant-pagination ol, .ant-pagination ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

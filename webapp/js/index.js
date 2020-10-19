@@ -1,6 +1,11 @@
 // drop down menu
 var dropdownTitle = document.getElementById("dropdownMenu2");
-var dropdownOptions = document.getElementsByClassName("dropdown-item")
+var dropdownOptions = document.getElementsByClassName("dropdown-item-platform")
+
+
+// pagesize list
+var pagesizeTitle = document.getElementById("dropdownMenu3");
+var pagesizeOptions = document.getElementsByClassName("dropdown-item-pagesize")
 
 var pageNumOptions = document.getElementsByClassName("ant-pagination-item")
 var previousButton = document.getElementById("PreBtn");
@@ -16,10 +21,20 @@ dropdownTitle.onclick = function(){
     }
 };
 
+pagesizeTitle.onclick = function(){
+	for(var i=0; i<pagesizeOptions.length; i++){
+        pagesizeOptions[i].onclick = function(){
+            pagesizeTitle.value = this.value;
+            pagesizeTitle.textContent = this.textContent;
+        }
+    }
+};
+
 function searchBtnClickEvent(){
     var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
-    var product_key = document.getElementById("inputPassword2").value;
-    url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page=1";
+	var product_key = document.getElementById("inputPassword2").value;
+	var pageSize = document.getElementById("dropdownMenu3").value;
+    url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page=1&pageSize="+pageSize;
     window.location.href = url_path;
 };
 
@@ -28,13 +43,14 @@ function switchPage(){
     var NextButton = document.getElementById("NextBtn");
 	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].value;
 	var totol_num = document.getElementById("total-page").value;
+	var pageSize = document.getElementById("dropdownMenu3").value;
 	
 	if(current_page == "1"){
 		previousButton.classList.add("ant-pagination-disabled");
 	}else{
 		previousButton.classList.remove("ant-pagination-disabled");
 	}
-	if((parseInt(totol_num)-parseInt(current_page)*5) > 0){
+	if((parseInt(totol_num)-parseInt(current_page)*parseInt(pageSize)) > 0){
 		NextButton.classList.remove("ant-pagination-disabled");
 	}else{
 		NextButton.classList.add("ant-pagination-disabled");
@@ -43,12 +59,13 @@ function switchPage(){
 
 function initPageBtn(){
 	var pageNumOptions = document.getElementsByClassName("ant-pagination-item");
+	var pageSize = document.getElementById("dropdownMenu3").value;
 	for(var i=0;i<pageNumOptions.length;i++){		
         pageNumOptions[i].onclick = function(){
             var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 			var product_key = document.getElementById("inputPassword2").value;
 			var pageNo = this.value
-			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
+			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo+"&pageSize="+pageSize;
 			window.location.href = url_path;
         }
     }
@@ -60,7 +77,8 @@ previousButton.onclick = function(){
 		var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 		var product_key = document.getElementById("inputPassword2").value;
 		var pageNo = parseInt(current_page)-1;
-		url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
+		var pageSize = document.getElementById("dropdownMenu3").value;
+		url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo+"&pageSize="+pageSize;
 		window.location.href = url_path;
 	}
 	
@@ -73,7 +91,8 @@ NextButton.onclick = function(){
 		var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 		var product_key = document.getElementById("inputPassword2").value;
 		var pageNo = parseInt(current_page)+1;
-		url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
+		var pageSize = document.getElementById("dropdownMenu3").value;
+		url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo+"&pageSize="+pageSize;
 		window.location.href = url_path;
 	}
 };
@@ -82,26 +101,27 @@ pageJumper.onblur = function(){
 	if(pageJumper.value){
 		var totol_num = document.getElementById("total-page").value // 151
 		var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent; // 20
+		var pageSize = document.getElementById("dropdownMenu3").value;
 		if(parseInt(pageJumper.value) <= 0){
 			pageJumper.value = 1;
 		}else if(!(Math.floor(pageJumper.value) === pageJumper.value)){
 			pageJumper.value = parseInt(pageJumper.value);
 		}
-		if(parseInt(totol_num)%5==0){
-			if(parseInt(pageJumper.value) > parseInt(totol_num)/5){
-				pageJumper.value = parseInt(parseInt(totol_num)/5);
+		if(parseInt(totol_num)%parseInt(pageSize)==0){
+			if(parseInt(pageJumper.value) > parseInt(totol_num)/parseInt(pageSize)){
+				pageJumper.value = parseInt(parseInt(totol_num)/parseInt(pageSize));
 			}
 		}else{
-			if(parseInt(pageJumper.value) > (parseInt(totol_num)/5)){
+			if(parseInt(pageJumper.value) > (parseInt(totol_num)/parseInt(pageSize))){
 				console.log("pageJumper>totol_num");
-				pageJumper.value = parseInt(parseInt(totol_num)/5+1);
+				pageJumper.value = parseInt(parseInt(totol_num)/parseInt(pageSize)+1);
 			}
 		}
 		if(!(parseInt(pageJumper.value)==parseInt(current_page))){
 			var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 			var product_key = document.getElementById("inputPassword2").value;
 			var pageNo = pageJumper.value;
-			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo;
+			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo+"&pageSize="+pageSize;
 			window.location.href = url_path;
 		}
 	}

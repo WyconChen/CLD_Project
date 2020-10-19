@@ -77,12 +77,13 @@ async def index(request:Request, searchType: int = None, page:int = None, progra
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
 
 @app.get("/test/search")
-async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None):
+async def search(request:Request, searchType:int = None, page:int = None, program_id:int = None, product_key:str = None, pageSize: int = None):
     datadict = {
         "searchType": 1,
         "page": page or 1,
         "program_id": program_id or 999,
-        "product_key": product_key or ""
+        "product_key": product_key or "",
+        "pageSize": pageSize or 5
     }
     if searchType == 1 and program_id == 1000:
         #Baoyun18

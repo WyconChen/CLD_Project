@@ -58,13 +58,13 @@ function switchPage(){
 };
 
 function initPageBtn(){
-	var pageNumOptions = document.getElementsByClassName("ant-pagination-item");
-	var pageSize = document.getElementById("dropdownMenu3").value;
+	var pageNumOptions = document.getElementsByClassName("ant-pagination-item");	
 	for(var i=0;i<pageNumOptions.length;i++){		
         pageNumOptions[i].onclick = function(){
             var program_id = document.getElementById("dropdownMenu2").getAttribute("value");
 			var product_key = document.getElementById("inputPassword2").value;
 			var pageNo = this.value
+			var pageSize = document.getElementById("dropdownMenu3").value;
 			url_path = "http://106.12.160.222:8002/test/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+pageNo+"&pageSize="+pageSize;
 			window.location.href = url_path;
         }

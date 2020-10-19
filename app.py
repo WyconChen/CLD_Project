@@ -23,12 +23,13 @@ app.mount("/static", StaticFiles(directory=path), name="static")
 mysqlmodule = MysqlModule()
 
 @app.get("/test")
-async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None):
+async def index(request:Request, searchType: int = None, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None, pageSize:int = None):
     datadict = {
         "searchType": 1,
         "page": page or 1,
         "program_id": program_id or 999,
-        "product_key": product_key or ""
+        "product_key": product_key or "",
+        "pageSize": pageSize or 5
     }
     if searchType == 1 and program_id == 1000:
         #Baoyun18

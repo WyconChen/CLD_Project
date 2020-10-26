@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href={{ url_for('static', path='/css/normalize.css') }}>
+    <!-- <link rel="stylesheet" href={{ url_for('static', path='/css/normalize.css') }}> -->
     
     <!-- <link rel="stylesheet" href={{ url_for('static', path='/css/bootstrap.min.css') }} integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src={{ url_for('static', path="/js/jquery.slim.min.js") }} integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src={{ url_for('static', path="/js/popper.min.js") }} integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src={{ url_for('static', path="/js/bootstrap.min.js") }} integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
-    <link rel="stylesheet" href={{ url_for('static', path='/css/bootstrap.min.css') }}>
+    <!-- <link rel="stylesheet" href={{ url_for('static', path='/css/bootstrap.min.css') }}>
     <link rel="stylesheet" href={{ url_for('static', path='/css/index.css') }}>
-    <link rel="stylesheet" href={{ url_for('static', path='/css/zhongbao.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/Fengqi.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/zhongbao.css') }}> -->
 </head>
 <body>
     
@@ -28,6 +29,8 @@
                   Qixin18
                 {% elif DataDict["program_id"] == 1002 %}
                   Niubao100
+                {% elif DataDict["program_id"] == 1004 %}
+                  Fengqi
                 {% elif DataDict["program_id"] == 1005 %}
                   Zhongbao
                 {% else %}
@@ -35,13 +38,14 @@
                 {% endif %}
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2" id="dropdown-menu">
-                <button class="dropdown-item" type="button" value="1000">Baoyun18</button>
-                <button class="dropdown-item" type="button" value="1001">Qixin18</button>
-                <button class="dropdown-item" type="button" value="1002">Niubao100</button>
-                <button class="dropdown-item" type="button" value="1005">Zhongbao</button>
-                <button class="dropdown-item" type="button" value="999">All</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1000">Baoyun18</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1001">Qixin18</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1002">Niubao100</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1004">Fengqi</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1005">Zhongbao</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="999">ALL</button>
               </div>
-            </div>
+          </div>
           <div class="form-group mb-2">
             <!-- <label for="staticEmail2" class="sr-only">Email</label> -->
             <input type="text" readonly class="form-control-plaintext product_title" id="staticEmail2" value="产品名称">
@@ -64,6 +68,8 @@
                 Qixin18
               {% elif product_dict["program_id"] == 1002 %}
                 Niubao100
+              {% elif product_dict["program_id"] == 1004 %}
+                Fengqi
               {% elif product_dict["program_id"] == 1005 %}
                 Zhongbao
               {% else %}
@@ -75,7 +81,97 @@
           </div>
           {% if product_dict["program_id"] == 1005 %}
             <!-- zhongbao template -->
-
+            <div class="ant-spin-container">
+              <div class="table_div template-table-wrap">
+                <div class="edit-theader">
+                  <div class="tree-table" style="border-bottom: none;">
+                    <div class="th factor-col">影响因子</div>
+                    <div class="tree-table">
+                      <div class="th payperiod-col">缴费年期</div>
+                      <div class="tree-table">
+                        <div class="th fee-td">首年(%)</div>
+                        <div class="th fee-td">第二年(%)</div>
+                        <div class="th fee-td">第三年(%)</div>
+                        <div class="th fee-td">第四年(%)</div>
+                        <div class="th fee-td">第五年(%)</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% for detail_dict in product_dict["details"] %}
+                  {% for detail_keys, detail_values in detail_dict.items() %}
+                    <div class="table-body bordered">
+                      <div class="temp-table-context-wrap false undefined">
+                        <div class="main-sub">
+                          <span class="main" value="{{detail_values[0]["clauseId"]}}">
+                            {% if loop.first %}主 - {% else %}附 - {% endif %}{{ detail_values[0]["clauseName"]}}
+                          </span>
+                        </div>
+                        {% for RateDetail_dict in detail_values %}
+                            <div class="tree-table">
+                              <div class="factor-col">{{ RateDetail_dict["rateCodeDescView"] }}</div>
+                              <div class="branch-box">
+                                <div class="tree-table">
+                                  {% for rateCode_keys, rateCode_values in RateDetail_dict["rateCodeDescViewList"].items() %}
+                                    {% for eachRate in rateCode_values %}  
+                                      <div class="payperiod-col">{{ eachRate["rateCodeDesc"] }}</div>
+                                      <div class="branch-box">
+                                        <div>
+                                              <div class="tree-table fee-row">
+                                                <div class="fee-td "><div>{{ eachRate["first_rate"] }}</div></div>
+                                                <div class="fee-td "><div>{{ eachRate["second_rate"] }}</div></div>
+                                                <div class="fee-td "><div>{{ eachRate["third_rate"] }}</div></div>
+                                                <div class="fee-td "><div>{{ eachRate["fourth_rate"] }}</div></div>
+                                                <div class="fee-td "><div>{{ eachRate["fifth_rate"] }}</div></div>
+                                              </div>
+                                    
+                                    </div>
+                                  </div>
+                                   {% endfor %}
+                                 {% endfor %}
+                                </div>
+                              </div>
+                            </div>                          
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% endfor %}
+              </div>		
+            </div>
+          {% elif product_dict["program_id"] == 1004 %}
+            <!-- Fengqi template -->
+            <div class="el-popover el-popper">
+              {% for details_dict in product_dict["details"] %}
+                {% for detail_keys, detail_values in details_dict.items() %}
+                  <table class="yjtablez fengqitable">
+                    <caption>{{ detail_values[0]["productGrade"] }}</caption>
+                    <tr>
+                      <td><span>缴费年限</span></td>
+                      <td><span>30年</span></td>
+                      <td><span>20年</span></td>
+                      <td><span>15年</span></td>
+                      <td><span>10年</span></td>
+                      <td><span>5年</span></td>
+                      <td><span>1年</span></td>
+                    </tr>
+                    {% for eachRecord in detail_values %}
+                      <tr>
+                        <td>
+                          {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
+                        </td>
+                        <td>{{ eachRecord["commission_1"]}}% {%if eachRecord["subsidyCommission_1"] != '-' %}+{{ eachRecord["subsidyCommission_1"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_2"]}}% {%if eachRecord["subsidyCommission_2"] != '-' %}+{{ eachRecord["subsidyCommission_2"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_3"]}}% {%if eachRecord["subsidyCommission_3"] != '-' %}+{{ eachRecord["subsidyCommission_3"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_4"]}}% {%if eachRecord["subsidyCommission_4"] != '-' %}+{{ eachRecord["subsidyCommission_4"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_5"]}}% {%if eachRecord["subsidyCommission_5"] != '-' %}+{{ eachRecord["subsidyCommission_5"] }}%补贴{% endif %}</td>
+                        <td>{{ eachRecord["commission_6"]}}% {%if eachRecord["subsidyCommission_6"] != '-' %}+{{ eachRecord["subsidyCommission_6"] }}%补贴{% endif %}</td>                     
+                      </tr>
+                    {% endfor %}              
+                  </table>
+                {% endfor %}
+              {% endfor %}
+            </div>
           {% else %}
             <table class="table">
                 <thead>
@@ -125,17 +221,41 @@
 			<a class="ant-pagination-item-link"><i aria-label="图标: right" class="anticon anticon-right"><svg viewBox="64 64 896 896" focusable="false" class="" data-icon="right" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></i></a>
 		</li>
 		<li class="ant-pagination-options">
+      <div class="dropdown" style="float: left; margin-right: 10px;">
+        <button class="btn btn-secondary dropdown-toggle dropdown-pagesize" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{ DataDict["pageSize"] }}" style="color:  rgba(0,0,0,.65); border: 1px solid #d9d9d9; background-color: #ffffff; height: 32px; line-height: 20px;">
+          {% if DataDict["pageSize"] == 5 %}
+           5条/页
+          {% elif DataDict["pageSize"] == 10 %}
+           10条/页
+          {% elif DataDict["pageSize"] == 20 %}
+           20条/页
+          {% elif DataDict["pageSize"] == 50 %}
+           50条/页
+          {% elif DataDict["pageSize"] == 100 %}
+           100条/页
+          {% else %}
+           5条/页
+          {% endif %}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu3" id="dropdown-menu3">
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="5">5条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="10">10条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="20">20条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="50">50条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="100">100条/页</button>
+        </div>
+      </div>
 			<div class="ant-pagination-options-quick-jumper">
 				跳转至
 				<input type="number" name="page_jumper" id="page_jumper" min="1">
 				页
-			</div>
+      </div>
 		</li>
 	</ul>
 </div>
-<script src={{ url_for('static', path="/js/jquery.slim.min.js") }} ></script>
+<!-- <script src={{ url_for('static', path="/js/jquery.slim.min.js") }} ></script>
 <script src={{ url_for('static', path="/js/popper.min.js") }}></script>
 <script src={{ url_for('static', path="/js/bootstrap.min.js") }}></script>
-<script src={{ url_for('static', path='/js/index.js') }}></script>
+<script src={{ url_for('static', path='/js/index.js') }}></script> -->
 </body>
 </html>

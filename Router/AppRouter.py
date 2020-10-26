@@ -7,20 +7,19 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from DBHandler.DBHandler import DBHandler
 
-AppRouter = APIRouter()
-print("path is \n")
-print(os.path.dirname(__file__))
+appRouter = APIRouter()
+
 if platform.system() == "Windows":
     path = '{}/../webapp/'.format(os.path.dirname(__file__))
 else:
     path = '{}/../webapp/'.format(os.path.dirname(__file__))
 templates = Jinja2Templates(directory=path)
 
-AppRouter.mount("/static", StaticFiles(directory=path), name="static")
+appRouter.mount("/static", StaticFiles(directory=path), name="static")
 
 DBHandler = DBHandler()
 
-@AppRouter.get("/test")
+@appRouter.get("/test")
 async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None, pageSize:int = None):
     datadict = {
         "searchType": 1,

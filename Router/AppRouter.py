@@ -3,6 +3,7 @@ import platform
 from typing import Optional
 from fastapi import APIRouter
 from starlette.requests import Request
+from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from DBHandler.DBHandler import DBHandler
 
@@ -13,6 +14,8 @@ if platform.system() == "Windows":
 else:
     path = '../webapp/'
 templates = Jinja2Templates(directory=path)
+
+AppRouter.mount("/static", StaticFiles(directory=path), name="static")
 
 DBHandler = DBHandler()
 
@@ -30,3 +33,7 @@ async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = Non
     total_num = result_dict["total_num"] if result_dict["success"] else 0
     pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
+
+
+if __name__ == "__main__":
+    print(os.path.dirname(__file__))

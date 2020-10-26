@@ -8,7 +8,8 @@ from starlette.templating import Jinja2Templates
 from DBHandler.DBHandler import DBHandler
 
 AppRouter = APIRouter()
-
+print("path is \n")
+print(os.path.dirname(__file__))
 if platform.system() == "Windows":
     path = '{}/../webapp/'.format(os.path.dirname(__file__))
 else:

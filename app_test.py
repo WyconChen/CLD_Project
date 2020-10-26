@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
-from Router.AppRouter import AppRouter
+from Router import AppRouter
 
 app = FastAPI()
-app.include_router(AppRouter)
+app.include_router(AppRouter.AppRouter)
 
 if __name__ == "__main__":
     import uvicorn

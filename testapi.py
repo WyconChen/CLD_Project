@@ -65,7 +65,10 @@ async def search(request:Request, searchType:int = None, page:int = None, progra
     
         
 if __name__ == "__main__":
-      uvicorn.run(app=app, host="0.0.0.0", port=8003)
+    #   uvicorn.run(app=app, host="0.0.0.0", port=8003)
+      from test import test
+      t = test()
+      t.test222()
 #     import requests
 #     import json
 #     Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",

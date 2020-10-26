@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
-# from DBHandler.DBHandler import DBHandler
+from DBHandler.DBHandler import DBHandler
 
 appRouter = APIRouter()
 
@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory=path)
 
 appRouter.mount("/static", StaticFiles(directory=path), name="static")
 
-# DBHandler = DBHandler()
+DBHandler = DBHandler()
 
 @appRouter.get("/test")
 async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None, pageSize:int = None):

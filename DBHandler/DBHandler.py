@@ -58,7 +58,7 @@ class DBHandler:
             "result_list": [],
             "total_num": 0,
         }
-        program_id = datadict["datadict"]
+        program_id = datadict["program_id"]
         if program_id == 1000:
             db_name = "CLD_Baoyun18"
         elif program_id == 1001:

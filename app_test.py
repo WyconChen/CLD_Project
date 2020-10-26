@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from Router import AppRouter
+from Router.AppRouter import AppRouter
 
 app = FastAPI()
 app.include_router(AppRouter.appRouter)

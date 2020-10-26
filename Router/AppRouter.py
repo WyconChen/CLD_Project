@@ -13,7 +13,7 @@ print(os.path.dirname(__file__))
 if platform.system() == "Windows":
     path = '{}/../webapp/'.format(os.path.dirname(__file__))
 else:
-    path = '../webapp/'
+    path = '{}/../webapp/'.format(os.path.dirname(__file__))
 templates = Jinja2Templates(directory=path)
 
 AppRouter.mount("/static", StaticFiles(directory=path), name="static")

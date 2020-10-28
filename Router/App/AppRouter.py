@@ -12,9 +12,8 @@ appRouter = APIRouter()
 if platform.system() == "Windows":
     path = '{}/../../webapp/'.format(os.path.dirname(__file__))
 else:
-    path = '../../webapp/'
+    path = '{}../../webapp/'.format(os.path.dirname(__file__))
 templates = Jinja2Templates(directory=path)
-
 appRouter.mount("/static", StaticFiles(directory=path), name="static")
 
 DBHandler = DBHandler()
@@ -35,4 +34,5 @@ async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = Non
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
 
 if __name__ == "__main__":
-    print(os.path.dirname(__file__))
+    path = '../../webapp/'
+    print(os.path.isdir(path))

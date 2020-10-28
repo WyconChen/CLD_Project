@@ -32,7 +32,3 @@ async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = Non
     total_num = result_dict["total_num"] if result_dict["success"] else 0
     pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
     return templates.TemplateResponse("index.html", {"request":request,"ProductsList": ProductsList, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
-
-if __name__ == "__main__":
-    path = '../../webapp/'
-    print(os.path.isdir(path))

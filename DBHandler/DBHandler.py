@@ -104,7 +104,7 @@ class DBHandler:
             cursor.execute(count_sql)
             total_num = cursor.fetchall()
             print(total_num)
-            result["total_num"] = total_num[0]
+            result["total_num"] = total_num[0][0]
         if result["total_num"] <= 0:
             return result
         for product_id in result_set:

@@ -88,7 +88,7 @@ class DBHandler:
                     product_key = datadict["product_key"],
                     pageSize=datadict["pageSize"],
                     page = (datadict["page"]-1)*datadict["pageSize"])
-        with self.DBConnection as cursor:
+        with self.DBConnection.cursor() as cursor:
             cursor.execute(select_product_id_sql_string)
             result_set = cursor.fetchall()
             result["total_num"] = len(result_set)

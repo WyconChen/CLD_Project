@@ -81,6 +81,11 @@ class DBHandler:
                     product_key = datadict["product_key"],
                     pageSize=datadict["pageSize"],
                     page = (datadict["page"]-1)*datadict["pageSize"])
+            count_sql = "SELECT DISTINCT(`product_id`) FROM {db_name} \
+                WHERE `product_name` LIKE '%{product_key}%'".format(
+                    db_name = db_name,
+                    product_key = datadict["product_key"],
+                )
         else:
             select_product_id_sql_string = "SELECT DISTINCT(`product_id`) FROM {db_name} \
                 ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page};".format(
@@ -88,10 +93,17 @@ class DBHandler:
                     product_key = datadict["product_key"],
                     pageSize=datadict["pageSize"],
                     page = (datadict["page"]-1)*datadict["pageSize"])
+            count_sql = "SELECT DISTINCT(`product_id`) FROM {db_name}".format(
+                    db_name = db_name
+                )
         with self.DBConnection.cursor() as cursor:
             cursor.execute(select_product_id_sql_string)
             result_set = cursor.fetchall()
-            result["total_num"] = len(result_set)
+
+            # total_num
+            cursor.execute(count_sql)
+            total_num = cursor.fetchall()
+            result["total_num"] = total_num[0]
         if result["total_num"] <= 0:
             return result
         for product_id in result_set:

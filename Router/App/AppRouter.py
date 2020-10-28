@@ -14,7 +14,7 @@ if platform.system() == "Windows":
 else:
     path = '{}/../../webapp/'.format(os.path.dirname(__file__))
 templates = Jinja2Templates(directory=path)
-appRouter.mount("/static", StaticFiles(directory=path), name="static")
+# appRouter.mount("/static", StaticFiles(directory=path), name="static")
 
 DBHandler = DBHandler()
 

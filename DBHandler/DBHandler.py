@@ -65,9 +65,9 @@ class DBHandler:
             db_name = "CLD_Qixin18"
         elif program_id == 1002:
             db_name = "CLD_Niubao100"
-        elif program_id == 1003:
-            db_name = "CLD_Fengqi"
         elif program_id == 1004:
+            db_name = "CLD_Fengqi"
+        elif program_id == 1005:
             db_name = "CLD_Zhongbao"
         else:
             # all

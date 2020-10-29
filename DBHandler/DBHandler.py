@@ -117,10 +117,10 @@ class DBHandler:
             elif program_id == 1002:
                 # Niubao100
                 result_dict = self.__GetDataFromNiubao100(product_id)
-            elif program_id == 1003:
+            elif program_id == 1004:
                 # Fengqi
                 result_dict = self.__GetDataFromFengqi(product_id)
-            elif program_id == 1004:
+            elif program_id == 1005:
                 result_dict = self.__GetDataFromZhongbao(product_id)
             else:
                 result_dict = []
@@ -362,8 +362,14 @@ class DBHandler:
             OFFSET {page};".format(
                 product_key = datadict["product_key"],
                 pageSize = datadict["pageSize"],
-                page = datadict["page"]
+                page = (datadict["page"]-1)*datadict["pageSize"]
             )
+            count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e where e.`product_name` LIKE '%{product_key}%';".format(
+                            product_key = datadict["product_key"])
         else:
             # GetDataFromAll have not product_key
             select_sql_of_all = "SELECT `program_id`, `product_id`,`product_name` FROM \
@@ -374,13 +380,20 @@ class DBHandler:
             (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e \
             ORDER BY `product_id` ASC LIMIT {pageSize} OFFSET {page};".format(
                 pageSize = datadict["pageSize"],
-                page = datadict["page"]
+                page = (datadict["page"]-1)*datadict["pageSize"]
             )
+            count_sql = "SELECT COUNT(DISTINCT(e.`product_id`)) AS COUNT FROM ((SELECT `program_id`,`product_id`, `product_name` FROM `CLD_Baoyun18`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Qixin18`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Niubao100`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Zhongbao`) union \
+                        (SELECT `program_id`, `product_id`, `product_name` FROM `CLD_Fengqi`)) AS e;"
         try:
             with self.DBConnection.cursor() as cursor:
                 cursor.execute(select_sql_of_all)
                 result_set = cursor.fetchall()
-            result["total_num"] = len(result_set)
+                cursor.execute(count_sql)
+                total_num = cursor.fetchall()
+            result["total_num"] = total_num
             if result["total_num"] <=0 :
                 return result
             for detail_result in result_set:
@@ -399,10 +412,10 @@ class DBHandler:
                 elif result_dict["program_id"] == 1002:
                     Niubao100_result_dict = self.__GetDataFromNiubao100(product_id=result_dict["product_id"])
                     result["result_list"].append(Niubao100_result_dict)
-                elif result_dict["program_id"] == 1003:
+                elif result_dict["program_id"] == 1004:
                     Fengqi_result_dict = self.__GetDataFromFengqi(product_id=result_dict["product_id"])
                     result["result_list"].append(Fengqi_result_dict)
-                elif result_dict["program_id"] == 1004:
+                elif result_dict["program_id"] == 1005:
                     Zhongbao_result_dict = self.__GetDataFromZhongbao(product_id=result_dict["product_id"])
                     result["result_list"].append(Zhongbao_result_dict)
                 else:

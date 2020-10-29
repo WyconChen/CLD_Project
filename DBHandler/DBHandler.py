@@ -393,7 +393,7 @@ class DBHandler:
                 result_set = cursor.fetchall()
                 cursor.execute(count_sql)
                 total_num = cursor.fetchall()
-            result["total_num"] = total_num
+            result["total_num"] = total_num[0][0]
             if result["total_num"] <=0 :
                 return result
             for detail_result in result_set:

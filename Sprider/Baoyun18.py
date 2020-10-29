@@ -42,7 +42,7 @@ class BaoYun18:
 	def Get_Product_Detail(self, tempId, productId):
 		Request_Payloads = {"tempId": tempId, "productId": str(productId)}
 		Detail_Res = self.Baoyun_Session.post(url = self.Product_Detai_Api, headers = self.Headers, data = Request_Payloads)
-		Products_Res_Data = json.loads(Detail_Res.text)
+		Products_Res_Data = Detail_Res.text
 		return Products_Res_Data
 
 	def run(self):
@@ -53,32 +53,21 @@ class BaoYun18:
 			if(len(Products_List) > 0):
 				Products_Iter = iter(Products_List)
 				for Product_Dict in Products_Iter:
-					planName = Product_Dict["planName"][0]
-					tempId = Product_Dict["tempId"]
-					productId = Product_Dict["productId"]
-					# print(tempId, productId)
-					Product_Details = self.Get_Product_Detail(tempId, productId)
-					Product_Details_Content = Product_Details["content"] if "content" in Product_Details else {}
-					for Product_Details_Content_Dict in iter(Product_Details_Content):
-						requests_data = {
-							"program_id" : self.program_id if self.program_id else 0,
-							"product_id" : productId,
-							"product_name": planName if planName else "unknown",
-							"temp_id" : tempId,
-							"payDesc" : Product_Details_Content_Dict["payDesc"],
-							"insureDesc": Product_Details_Content_Dict["insureDesc"],
-							"first_rate" : float(Product_Details_Content_Dict["firstRate"]),
-							"second_rate" : float(Product_Details_Content_Dict["secondRate"])
-						}
-						res = requests.post(url = "http://106.12.160.222:8001/insert/Baoyun18", data = json.dumps(requests_data))
-						# res = requests.post(url = "http://127.0.0.1:8001/insert/Baoyun18", data = json.dumps(requests_data))
-					print(planName + ": 记录保存成功")
-					# print(planName, Product_Detail)
+					datadict = {"program_id": 1000}
+					datadict["product_name"] =  Product_Dict["commodityName"]
+					productIdArr = Product_Dict["productIdArr"]
+					#  横琴人寿嘉贝保少儿重疾保险
+					for product_id in productIdArr:
+						tempId = Product_Dict["tempId"]
+						datadict["product_id"] = product_id
+						if Product_Dict["planName"][productIdArr.index(product_id)] != datadict["product_name"]:
+							datadict["product_name"] = datadict["product_name"] + " - " + Product_Dict["planName"][productIdArr.index(product_id)]
+						Product_Details = self.Get_Product_Detail(tempId, datadict["productId"])
+						datadict["data"] = Product_Details
+						result = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(datadict))
+						if(json.loads(result.text)["result"] == False):
+							print(datadict["product_name"] + ": 保存失败")
 				current_page += 1
-				time.sleep(3)
+				time.sleep(1)
 			else:
 				break
-
-
-if __name__ == "__main__":
-	pass

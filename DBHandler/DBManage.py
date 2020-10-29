@@ -2,7 +2,7 @@ import pymysql
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
-from sqlalchemy import Integer, String, Float, Boolean, BigInteger
+from sqlalchemy import Integer, String, Float, Boolean, BigInteger, JSON, Text
 
 engine = create_engine("mysql+pymysql://root@127.0.0.1:3306/CLD?charset=utf8mb4")
 
@@ -115,6 +115,14 @@ class Fengqi(Base):
     detail_id_6 = Column(String(100))
     payTerm_6 = Column(String(100))
     subsidyCommission_6 = Column(String(100))
+
+class CLD_DATA(Base):
+    __tablename__ = "CLD_DATA"
+    id = Column(Integer, primary_key = True)
+    program_id = Column(Integer)
+    product_id = Column(BigInteger)
+    product_name = Column(String(100), nullable = False)
+    data = Column(Text, nullable = True)
 
 
 if __name__ == "__main__":

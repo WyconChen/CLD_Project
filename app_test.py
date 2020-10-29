@@ -1,15 +1,16 @@
 from fastapi import FastAPI
 from Router.App import AppRouter
+from Router import SaveDataRouter
 from starlette.staticfiles import StaticFiles
 import os,platform
 
-
 app = FastAPI()
 app.include_router(AppRouter.appRouter)
+app.include_router(SaveDataRouter.SaveDataRouter)
 if platform.system() == "Windows":
     path = '{}/../../webapp/'.format(os.path.dirname(__file__))
 else:
-    path = './webapp/'.format(os.path.dirname(__file__))
+    path = './webapp/'
 app.mount("/static", StaticFiles(directory=path), name="static")
 
 if __name__ == "__main__":

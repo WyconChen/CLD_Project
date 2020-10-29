@@ -1,3 +1,4 @@
+import json
 from pydantic import BaseModel
 
 class ProgramModel(BaseModel):
@@ -94,3 +95,9 @@ class FengqiModel(BaseModel):
     detail_id_6: str
     payTerm_6: str
     subsidyCommission_6: str
+
+class JsonDataModel(BaseModel):
+    program_id: int
+    product_id: int
+    product_name: str
+    data: str

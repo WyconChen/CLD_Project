@@ -42,7 +42,37 @@ class DBHandler:
             ))
             self.DBConnection.rollback()
             return False
-            
+
+    def SaveJsonDataToDB(self,datadict:dict) -> bool:
+        """
+        @params: datadict: dict
+        "program_id": 平台id
+        "product_id": 产品id
+        "product_name": 产品名称
+        "data": 产品数据, JSON格式
+        """
+        column_name_str, values_list_str = self.changeDataDictToStr(datadict)
+        save_sql_string = "INSERT INTO `CLD_DATA` ({column_names}) VALUES ({values_list});".format(
+            column_names = column_name_str,
+            values_list = values_list_str
+        )
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(save_sql_string)
+            self.DBConnection.commit()
+            return True
+        except Exception as e:
+            print("Save Data To CLD_DATA Fail.\nThe reason is: {reason}".format(reason = e))
+            self.DBConnection.rollback()
+            return False
+    
+    def GetJsonDataFromDB(self, datadict:dict) -> dict:
+        if datadict["product_key"]:
+            with self.DBConnection.cursor(pymysql.cursor.DictCursor) as cursor:
+                pass
+        else:
+            pass
+
     def GetDataFromDB(self, datadict:dict) -> dict:
         """
         @params: datadict, 字典类型, keys包含:
@@ -103,7 +133,6 @@ class DBHandler:
             # total_num
             cursor.execute(count_sql)
             total_num = cursor.fetchall()
-            print(total_num)
             result["total_num"] = total_num[0][0]
         if result["total_num"] <= 0:
             return result

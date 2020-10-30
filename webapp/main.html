@@ -250,7 +250,7 @@
                         {% for commCol in product_dict["data"]["data"]["commCols"] %}
                           {% if  commCol["key"] in details_dict.keys() %}
                             <td>{{ details_dict[commCol["key"]]}}</td>
-                          {% elif %}
+                          {% else %}
                             <td> - </td>
                           {% endif %}
                         {% endfor %}

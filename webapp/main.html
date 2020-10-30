@@ -201,7 +201,7 @@
                   <th scope="col">No.</th>
                   <th scope="col">保单年度</th>
                   <th scope="col">缴费年限</th>
-                  {% if len(product_dict["data"]["trialItemNameList"]) > 0 %}
+                  {% if product_dict["data"]["trialItemNameList"] | length > 0 %}
                     <th scope="col">费率纬度</th>
                     {% for trialItemName in product_dict["data"]["trialItemNameList"] %}
                       <th scope="col">{{ trialItemName }}</th>

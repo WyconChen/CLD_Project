@@ -221,7 +221,7 @@
                           <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
                           <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
                           {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
-                            <td>{{ feeRate }}</td>
+                            <td>{{ feeRate }}%</td>
                           {% endfor %}
                         </tr>
                       {% endfor %}
@@ -229,29 +229,37 @@
                   {% endfor %}
               </tbody>
             </table>
-          {% else %}
+          {% elif product_dict["program_id"] == 1002 %}
+          <!-- niubao100 -->
             <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">No.</th>
-                    {% for key in product_dict["details"][0].keys() %}
-                    <th scope="col">{{ key }}</th>
+                    {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                      <th scope="col">{{ commCol["name"] }}
+                        {% if commCol["name"] is number commCol["name"] %}%
+                        {% endif %}
+                      </th>
                     {% endfor %}
                   </tr>
                 </thead>
                 <tbody>
-                  
-                    {% for details_dict in product_dict["details"] %}
+                    {% for details_dict in  product_dict["data"]["data"]["skus"] %}
                       <tr>
                         <th scope="row">{{ loop.index }}</th>
-                        {% for key, value in details_dict.items() %}  
-                          <td>{{value}}</td>
+                        {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                          {% if  commCol["key"] in details_dict.keys() %}
+                            <td>{{ details_dict[commCol["key"]]}}</td>
+                          {% elif %}
+                            <td> - </td>
+                          {% endif %}
                         {% endfor %}
                       </tr>
                     {% endfor %}
-                  
                 </tbody>
             </table>
+          {% else %}
+            暂无此平台数据
           {% endif %}
       {% endfor %}
   </div>

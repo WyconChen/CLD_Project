@@ -237,7 +237,8 @@
                     <th scope="col">No.</th>
                     {% for commCol in product_dict["data"]["data"]["commCols"] %}
                       <th scope="col">{{ commCol["name"] }}
-                        {% if commCol["name"] is number commCol["name"] %}%
+                        {% if commCol["name"] is number %}
+                          %
                         {% endif %}
                       </th>
                     {% endfor %}

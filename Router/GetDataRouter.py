@@ -11,9 +11,9 @@ GetDataRouter = APIRouter()
 DBHandler = DBHandler()
 
 if platform.system() == "Windows":
-    path = '{}/../../webapp/'.format(os.path.dirname(__file__))
+    path = '{}/../webapp/'.format(os.path.dirname(__file__))
 else:
-    path = '{}/../../webapp/'.format(os.path.dirname(__file__))
+    path = '{}/../webapp/'.format(os.path.dirname(__file__))
 templates = Jinja2Templates(directory=path)
 
 @GetDataRouter.get("/baoxian/")

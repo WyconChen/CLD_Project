@@ -216,6 +216,7 @@
                     {% for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"] %}
                       {% for partnerProductFeeItemDto in insureAgeFeeDto["partnerProductFeeItemDtoList"] %}
                         <tr>
+                          <td>{{ loop.index }}</td>
                           <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
                           <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
                           <td>{{ partnerProductFeeItemDto["economyText"] }}</td>

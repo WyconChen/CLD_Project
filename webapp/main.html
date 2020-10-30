@@ -216,11 +216,11 @@
                     {% for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"] %}
                       {% for partnerProductFeeItemDto in insureAgeFeeDto["partnerProductFeeItemDtoList"] %}
                         <tr>
-                          <td rowspan="{{ yearPolicyFeeDto["subCount"] }}">{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
-                          <td rowspan="{{ insureAgeFeeDto["subCount"] }}">{{ insureAgeFeeDto["insureAgeText"] }}</td>
-                          <td rowspan="1">{{ partnerProductFeeItemDto["economyText"] }}</td>
+                          <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
+                          <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
+                          <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
                           {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
-                            <td rowspan="1">{{ feeRate }}</td>
+                            <td>{{ feeRate }}</td>
                           {% endfor %}
                         </tr>
                       {% endfor %}

@@ -179,8 +179,8 @@
                   <th scope="col">No.</th>
                   <th scope="col">缴费年限</th>
                   <th scope="col">保障期限</th>
-                  <th scope="col">首年</th>
-                  <th scope="col">次年</th>
+                  <th scope="col">首年 % </th>
+                  <th scope="col">次年 % </th>
                 </tr>
               </thead>
               <tbody>
@@ -191,6 +191,38 @@
                         <td>{{ value }}</td>
                       {% endfor %}
                     </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          {% elif product_dict["program_id"] == 1001 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">保单年度</th>
+                  <th scope="col">缴费年限</th>
+                  {% if len(product_dict["data"]["trialItemNameList"]) > 0 %}
+                    <th scope="col">费率纬度</th>
+                    {% for trialItemName in product_dict["data"]["trialItemNameList"] %}
+                      <th scope="col">{{ trialItemName }}</th>
+                    {% endfor %}
+                  {% else %}
+                    <th scope="col">基础服务费</th>
+                  {% endif %}
+                </tr>
+              </thead>
+              <tbody>
+                  {% for yearPolicyFeeDto in product_dict["data"]["yearPolicyFeeDtoList"] %}
+                    {% for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"] %}
+                      {% for partnerProductFeeItemDto in insureAgeFeeDto["partnerProductFeeItemDtoList"] %}
+                        <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
+                        <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
+                        <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
+                        {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
+                          <td>{{ feeRate }}</td>
+                        {% endfor %}
+                      {% endfor %}
+                    {% endfor %}
                   {% endfor %}
               </tbody>
             </table>

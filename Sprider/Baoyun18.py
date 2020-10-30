@@ -65,7 +65,6 @@ class BaoYun18:
 						Product_Details = self.Get_Product_Detail(tempId, product_id)
 						datadict["data"] = Product_Details
 						res = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(datadict))
-						print(res.text)
 						result = json.loads(res.text)
 						if(result["result"] == False):
 							print(datadict["product_name"] + ": 保存失败")

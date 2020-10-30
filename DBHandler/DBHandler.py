@@ -67,11 +67,39 @@ class DBHandler:
             return False
     
     def GetJsonDataFromDB(self, datadict:dict) -> dict:
-        if datadict["product_key"]:
-            with self.DBConnection.cursor(pymysql.cursor.DictCursor) as cursor:
-                pass
+        if datadict["program_id"] not in [1000,1001,1002,1004,1005]:
+             # 全平台
+            select_sql = "SELECT `program_id`, `product_id`, `product_name`, `data` \
+                    FROM `CLD_DATA` WHERE `product_name` LIKE {product_key} \
+                    LIMIT {pageSize} OFFSET {page};".format(
+                        product_key = datadict["product_key"],
+                        pageSize = datadict["pageSize"],
+                        page = (datadict["page"]-1)*datadict["pageSize"]
+                    )
+            count_sql = "SELECT DISTINCT(`product_id`) \
+                    FROM `CLD_DATA` WHERE `product_name` LIKE {product_key};".format(
+                        product_key = datadict["product_key"],
+                    )
         else:
-            pass
+            # 单平台
+            select_sql = "SELECT `program_id`, `product_id`, `product_name`, `data` \
+                    FROM `CLD_DATA` WHERE `program_id` = {program_id} AND `product_name` LIKE {product_key} \
+                    LIMIT {pageSize} OFFSET {page};".format(
+                        program_id = datadict["program_id"],
+                        product_key = datadict["product_key"],
+                        pageSize = datadict["pageSize"],
+                        page = (datadict["page"]-1)*datadict["pageSize"]
+                    )
+            count_sql = "SELECT DISTINCT(`product_id`) \
+                    FROM `CLD_DATA` WHERE `program_id` LIKE {program_id};".format(
+                        program_id = datadict["program_id"],
+                    )
+        with self.DBConnection.cursor(pymysql.cursors.DictCursor) as cursor:
+            cursor.execute(select_sql)
+            result_set = cursor.fetchall()
+            cursor.execute(count_sql)
+            total_num = cursor.fetchall()
+            print(result_set, total_num)
 
     def GetDataFromDB(self, datadict:dict) -> dict:
         """

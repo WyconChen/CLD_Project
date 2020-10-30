@@ -44,34 +44,35 @@ class QiXin18:
         result_dict["program_id"] = 1001
         result_dict["product_id"] = Products_Data_Dict["productId"]
         result_dict["product_name"] = Products_Data_Dict["productName"]
-        result_dict["plan_Id"] = Products_Data_Dict["planId"]
-        result_dict["company_id"] = Products_Data_Dict["companyId"]
-        result_dict["company_name"] = Products_Data_Dict["companyName"]
-        if Products_Data_Dict["trialItemNameList"]:
-            result_dict["trialItemNameList"] = str(Products_Data_Dict["trialItemNameList"])
-        else:
-            result_dict["trialItemNameList"] = "[\"基础服务费\"]"
-        Form_Data = {"productId": result_dict["product_id"], "planId": result_dict["plan_Id"]}
+        plan_Id = Products_Data_Dict["planId"]
+        # result_dict["company_id"] = Products_Data_Dict["companyId"]
+        # result_dict["company_name"] = Products_Data_Dict["companyName"]
+        Form_Data = {"productId": result_dict["product_id"], "planId": plan_Id}
         Details_Res = self.QiXin_Session.post(url=self.Product_Detail_Api, headers = self.Headers, data = Form_Data)
         Details_Res_Data = json.loads(Details_Res.text)
         # 判断是否存在data
         try:
             if "data" in Details_Res_Data:
-                for yearPolicyFeeDto in Details_Res_Data["data"]["yearPolicyFeeDtoList"]:
-                    result_dict["yearPolicyText"] = yearPolicyFeeDto["yearPolicyText"] if "yearPolicyText" in yearPolicyFeeDto and yearPolicyFeeDto["yearPolicyText"] is not None else "未知保单年度"
-                    if "insureAgeFeeDtoList" in yearPolicyFeeDto:
-                        for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"]:
-                            result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if insureAgeFeeDto["insureAgeText"] else "未知缴费年限"
-                            for partnerProductFeeItem in insureAgeFeeDto["partnerProductFeeItemDtoList"]:
-                                result_dict["economyText"] = partnerProductFeeItem["economyText"]
-                                result_dict["feeRateList_1"] = float(partnerProductFeeItem["feeRateList"][0]) if partnerProductFeeItem["feeRateList"][0] is not None else 0.0
-                                result_dict["feeRateList_2"] = float(partnerProductFeeItem["feeRateList"][1]) if len(partnerProductFeeItem["feeRateList"])>=2 and partnerProductFeeItem["feeRateList"][1] is not None else 0.0
-                                res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
-                                resText = json.loads(res.text)
-                                if resText["result"] == "failed":
-                                    print(result_dict["product_name"] + "： 保存失败")
+                result_dict["data"] = Details_Res.text
+                # for yearPolicyFeeDto in Details_Res_Data["data"]["yearPolicyFeeDtoList"]:
+                #     result_dict["yearPolicyText"] = yearPolicyFeeDto["yearPolicyText"] if "yearPolicyText" in yearPolicyFeeDto and yearPolicyFeeDto["yearPolicyText"] is not None else "未知保单年度"
+                #     if "insureAgeFeeDtoList" in yearPolicyFeeDto:
+                #         for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"]:
+                #             result_dict["insureAgeText"] = insureAgeFeeDto["insureAgeText"] if insureAgeFeeDto["insureAgeText"] else "未知缴费年限"
+                #             for partnerProductFeeItem in insureAgeFeeDto["partnerProductFeeItemDtoList"]:
+                #                 result_dict["economyText"] = partnerProductFeeItem["economyText"]
+                #                 result_dict["feeRateList_1"] = float(partnerProductFeeItem["feeRateList"][0]) if partnerProductFeeItem["feeRateList"][0] is not None else 0.0
+                #                 result_dict["feeRateList_2"] = float(partnerProductFeeItem["feeRateList"][1]) if len(partnerProductFeeItem["feeRateList"])>=2 and partnerProductFeeItem["feeRateList"][1] is not None else 0.0
+                #                 res = requests.post(url="http://106.12.160.222:8001/insert/Qixin18", data=json.dumps(result_dict))
+                #                 resText = json.loads(res.text)
+                #                 if resText["result"] == "failed":
+                #                     print(result_dict["product_name"] + "： 保存失败")
+                res = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(result_dict))
+                result = json.loads(res.text)
+                if(result["result"] == False):
+                    print(result_dict["product_name"] + ": 保存失败")
             else:
-                print(result_dict["product_name"] + "不存在detail数据, 暂不作保存")                
+                print(result_dict["product_name"] + "不存在detail数据, 暂不作保存")         
         except Exception as e:
             print("保存失败, 原因如下:")
             print(e)

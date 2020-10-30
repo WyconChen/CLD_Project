@@ -58,38 +58,47 @@ class FengQi:
                 if res.ok:
                     resData = json.loads(res.text)
                     if "data" in resData:
-                        infosList = resData["data"]["list"]
-                        if len(infosList) > 0:
-                            result_dict ={"program_id": 1004, "product_id": int(product_id[-1:-8:-1]), "product_name":product_name,
-                            "commission_1": "-", "detail_id_1": "0", "payTerm_1": "-", "subsidyCommission_1": "-", 
-                            "commission_2": "-", "detail_id_2": "0", "payTerm_2": "-", "subsidyCommission_2": "-", 
-                            "commission_3": "-", "detail_id_3": "0", "payTerm_3": "-", "subsidyCommission_3": "-", 
-                            "commission_4": "-", "detail_id_4": "0", "payTerm_4": "-", "subsidyCommission_4": "-", 
-                            "commission_5": "-", "detail_id_5": "0", "payTerm_5": "-", "subsidyCommission_5": "-",
-                            "commission_6": "-", "detail_id_6": "0", "payTerm_6": "-", "subsidyCommission_6": "-"
-                            }
-                            for commission_dict in infosList:
-                                result_dict["productGrade"] = commission_dict["productGrade"] if "productGrade" in commission_dict and commission_dict["productGrade"] != "" else "-"
-                                result_dict["productGradeId"] = commission_dict["productGradeId"] if commission_dict["productGradeId"] is not None else 0
-                                commission_list = commission_dict["commissionList"]
-                                for commissions in commission_list:
-                                    result_dict["curBack"] = int(commissions["curBack"]) if commissions["curBack"] != "" else 1
-                                    detail_no = 1
-                                    for com_detail in commissions["commissions"]:
-                                        result_dict["commission_" + str(detail_no)] = com_detail["commission"] if "commission" in com_detail and com_detail["commission"] != "" else "-"
-                                        result_dict["detail_id_" + str(detail_no)] = com_detail["id"] if com_detail["id"] is not None else "0"
-                                        result_dict["payTerm_" + str(detail_no)] = com_detail["payTerm"] if "payTerm" in com_detail and com_detail["payTerm"] != "" else "-"
-                                        result_dict["subsidyCommission_" + str(detail_no)] = com_detail["subsidyCommission"] if "subsidyCommission" in com_detail and com_detail["subsidyCommission"] != "" else "-"
-                                        if detail_no > 7:
-                                            break
-                                        else:
-                                            detail_no += 1
-                                    # print(result_dict)
-                                    res = requests.post(url="http://106.12.160.222:8001/insert/Fengqi", data=json.dumps(result_dict))
-                                    resText = json.loads(res.text)
-                                    if resText["result"] == False:
-                                            print(product_name + " have getProductDetails error_2: ")
-                                            print(resText) 
+                        datadict = {}
+                        datadict["program_id"] = 1004
+                        datadict["product_id"] = product_id
+                        datadict["product_name"] = product_name
+                        datadict["data"] = res.text
+                        FQresult = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(datadict))
+                        result = json.loads(FQresult.text)
+                        if(result["result"] == False):
+                            print(datadict["product_name"] + ": 保存失败")
+                        # infosList = resData["data"]["list"]
+                        # if len(infosList) > 0:
+                        #     result_dict ={"program_id": 1004, "product_id": int(product_id[-1:-8:-1]), "product_name":product_name,
+                        #     "commission_1": "-", "detail_id_1": "0", "payTerm_1": "-", "subsidyCommission_1": "-", 
+                        #     "commission_2": "-", "detail_id_2": "0", "payTerm_2": "-", "subsidyCommission_2": "-", 
+                        #     "commission_3": "-", "detail_id_3": "0", "payTerm_3": "-", "subsidyCommission_3": "-", 
+                        #     "commission_4": "-", "detail_id_4": "0", "payTerm_4": "-", "subsidyCommission_4": "-", 
+                        #     "commission_5": "-", "detail_id_5": "0", "payTerm_5": "-", "subsidyCommission_5": "-",
+                        #     "commission_6": "-", "detail_id_6": "0", "payTerm_6": "-", "subsidyCommission_6": "-"
+                        #     }
+                        #     for commission_dict in infosList:
+                        #         result_dict["productGrade"] = commission_dict["productGrade"] if "productGrade" in commission_dict and commission_dict["productGrade"] != "" else "-"
+                        #         result_dict["productGradeId"] = commission_dict["productGradeId"] if commission_dict["productGradeId"] is not None else 0
+                        #         commission_list = commission_dict["commissionList"]
+                        #         for commissions in commission_list:
+                        #             result_dict["curBack"] = int(commissions["curBack"]) if commissions["curBack"] != "" else 1
+                        #             detail_no = 1
+                        #             for com_detail in commissions["commissions"]:
+                        #                 result_dict["commission_" + str(detail_no)] = com_detail["commission"] if "commission" in com_detail and com_detail["commission"] != "" else "-"
+                        #                 result_dict["detail_id_" + str(detail_no)] = com_detail["id"] if com_detail["id"] is not None else "0"
+                        #                 result_dict["payTerm_" + str(detail_no)] = com_detail["payTerm"] if "payTerm" in com_detail and com_detail["payTerm"] != "" else "-"
+                        #                 result_dict["subsidyCommission_" + str(detail_no)] = com_detail["subsidyCommission"] if "subsidyCommission" in com_detail and com_detail["subsidyCommission"] != "" else "-"
+                        #                 if detail_no > 7:
+                        #                     break
+                        #                 else:
+                        #                     detail_no += 1
+                        #             # print(result_dict)
+                        #             res = requests.post(url="http://106.12.160.222:8001/insert/Fengqi", data=json.dumps(result_dict))
+                        #             resText = json.loads(res.text)
+                        #             if resText["result"] == False:
+                        #                     print(product_name + " have getProductDetails error_2: ")
+                        #                     print(resText) 
 
     def run(self):
         self.Login()

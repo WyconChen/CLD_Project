@@ -3,7 +3,6 @@ import platform
 from typing import Optional
 from fastapi import APIRouter
 from starlette.requests import Request
-from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from DBHandler.DBHandler import DBHandler
 

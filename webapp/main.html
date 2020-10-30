@@ -198,11 +198,12 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">No.</th>
                   <th scope="col">保单年度</th>
                   <th scope="col">缴费年限</th>
-                  {% if product_dict["data"]["data"]["trialItemNameList"] | length > 0 %}
+                  {% if product_dict["data"]["data"]["onlyInsureAge"] == 'false' %}
                     <th scope="col">费率纬度</th>
+                  {% endif %}
+                  {% if product_dict["data"]["data"]["trialItemNameList"] | length > 0 %}
                     {% for trialItemName in product_dict["data"]["data"]["trialItemNameList"] %}
                       <th scope="col">{{ trialItemName }}</th>
                     {% endfor %}
@@ -216,7 +217,6 @@
                     {% for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"] %}
                       {% for partnerProductFeeItemDto in insureAgeFeeDto["partnerProductFeeItemDtoList"] %}
                         <tr>
-                          <td>{{ loop.index }}</td>
                           <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
                           <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
                           <td>{{ partnerProductFeeItemDto["economyText"] }}</td>

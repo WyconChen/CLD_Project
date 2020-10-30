@@ -1,4 +1,5 @@
 import pymysql
+import json
 from dbutils.pooled_db import PooledDB
 
 class DBHandler:
@@ -90,16 +91,21 @@ class DBHandler:
                         pageSize = datadict["pageSize"],
                         page = (datadict["page"]-1)*datadict["pageSize"]
                     )
-            count_sql = "SELECT COUNT(DISTINCT(`product_id`)) \
-                    FROM `CLD_DATA` WHERE `program_id` LIKE {program_id};".format(
+            count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS total_num \
+                    FROM `CLD_DATA` WHERE `program_id`={program_id} AND `product_name` LIKE \"%{product_key}%\";".format(
                         program_id = datadict["program_id"],
+                        product_key = datadict["product_key"],
                     )
+            # [{"program_id": 1000, "product_id": 20937, "product_name": "xxxxxx", "data": {xxxxxx... json data}},{.......}]
+            # [{"total_num": 172}]
         with self.DBConnection.cursor(pymysql.cursors.DictCursor) as cursor:
             cursor.execute(select_sql)
-            result_set = cursor.fetchall()
+            product_list = cursor.fetchall()
             cursor.execute(count_sql)
             total_num = cursor.fetchall()
-            print(result_set, total_num)
+            for product_dict in product_list:
+                product_dict["data"] = json.loads(product_dict["data"])
+            return product_list, total_num[0]["total_num"]
 
     def GetDataFromDB(self, datadict:dict) -> dict:
         """

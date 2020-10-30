@@ -17,7 +17,7 @@ else:
 templates = Jinja2Templates(directory=path)
 
 @GetDataRouter.get("/baoxian/")
-async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None, pageSize:int = None):
+async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_key:str = None, pageSize:int = None):
     datadict = {
         "searchType": 1,
         "page": page or 1,
@@ -25,4 +25,8 @@ async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = Non
         "product_key": product_key or "",
         "pageSize": pageSize or 5
     }
-    DBHandler.GetJsonDataFromDB(datadict)
+    product_list, total_num = DBHandler.GetJsonDataFromDB(datadict)
+    pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+    return templates.TemplateResponse("index_new.html", {"request":request,"ProductsList": product_list, "DataDict":datadict, 
+                                                         "pageList":pageList, "total_num":total_num})
+

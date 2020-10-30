@@ -83,7 +83,7 @@ class DBHandler:
         else:
             # 单平台
             select_sql = "SELECT `program_id`, `product_id`, `product_name`, `data` \
-                    FROM `CLD_DATA` WHERE `program_id` = {program_id} AND `product_name` LIKE {product_key} \
+                    FROM `CLD_DATA` WHERE `program_id` = {program_id} AND `product_name` LIKE \"%{product_key}%\" \
                     LIMIT {pageSize} OFFSET {page};".format(
                         program_id = datadict["program_id"],
                         product_key = datadict["product_key"],

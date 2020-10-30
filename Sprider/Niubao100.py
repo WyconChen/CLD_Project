@@ -52,7 +52,7 @@ class Niubao100:
                 datadict["program_id"] = program_id
                 datadict["product_id"] = product_id
                 datadict["product_name"] = product_name
-                datadict["data"] = DetailsList_Res.text
+                datadict["data"] = json.dumps(DetailsList_Dict, ensure_ascii=False)
                 res = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(datadict))
                 result = json.loads(res.text)
                 if(result["result"] == False):

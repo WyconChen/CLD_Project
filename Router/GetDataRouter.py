@@ -27,6 +27,6 @@ async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = Non
     }
     product_list, total_num = DBHandler.GetJsonDataFromDB(datadict)
     pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
-    return templates.TemplateResponse("index_new.html", {"request":request,"ProductsList": product_list, "DataDict":datadict, 
+    return templates.TemplateResponse("main.html", {"request":request,"ProductsList": product_list, "DataDict":datadict, 
                                                          "pageList":pageList, "total_num":total_num})
 

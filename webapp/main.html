@@ -200,7 +200,7 @@
                 <tr>
                   <th scope="col">保单年度</th>
                   <th scope="col">缴费年限</th>
-                  {% if product_dict["data"]["data"]["onlyInsureAge"] == 'false' %}
+                  {% if product_dict["data"]["data"]["onlyInsureAge"] == false %}
                     <th scope="col">费率纬度</th>
                   {% endif %}
                   {% if product_dict["data"]["data"]["trialItemNameList"] | length > 0 %}

@@ -172,28 +172,6 @@
                 {% endfor %}
               {% endfor %}
             </div>
-          {% elif product_dict["program_id"] == 1000 %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">No.</th>
-                  <th scope="col">缴费年限</th>
-                  <th scope="col">保障期限</th>
-                  <th scope="col">首年</th>
-                  <th scope="col">次年</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for details_dict in product_dict["data"]["content"] %}
-                    <tr>
-                      <th scope="row">{{ loop.index }}</th>
-                      {% for key, value in details_dict.items() %}  
-                        <td>{ {value }}</td>
-                      {% endfor %}
-                    </tr>
-                  {% endfor %}
-              </tbody>
-            </table>
           {% else %}
             <table class="table">
                 <thead>

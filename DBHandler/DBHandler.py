@@ -71,14 +71,14 @@ class DBHandler:
         if datadict["program_id"] not in [1000,1001,1002,1004,1005]:
              # 全平台
             select_sql = "SELECT `program_id`, `product_id`, `product_name`, `data` \
-                    FROM `CLD_DATA` WHERE `product_name` LIKE {product_key} \
+                    FROM `CLD_DATA` WHERE `product_name` LIKE \"%{product_key}%\" \
                     LIMIT {pageSize} OFFSET {page};".format(
                         product_key = datadict["product_key"],
                         pageSize = datadict["pageSize"],
                         page = (datadict["page"]-1)*datadict["pageSize"]
                     )
             count_sql = "SELECT DISTINCT(`product_id`) \
-                    FROM `CLD_DATA` WHERE `product_name` LIKE {product_key};".format(
+                    FROM `CLD_DATA` WHERE `product_name` LIKE \"%{product_key}%\";".format(
                         product_key = datadict["product_key"],
                     )
         else:

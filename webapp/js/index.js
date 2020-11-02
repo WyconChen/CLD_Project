@@ -41,7 +41,7 @@ function searchBtnClickEvent(){
 	var product_key = document.getElementById("inputPassword2").value;
 	var pageSize = document.getElementById("dropdownMenu3").value;
 	var current_page = document.getElementsByClassName("ant-pagination-item-active")[0].textContent;
-    url_path = "http://106.12.160.222:8002/baoxian/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page="+current_page+"&pageSize="+pageSize;
+    url_path = "http://106.12.160.222:8002/baoxian/?searchType=1"+ "&program_id="+program_id+"&product_key="+product_key+"&page=1"+"&pageSize="+pageSize;
     window.location.href = url_path;
 };
 

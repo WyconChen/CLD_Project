@@ -266,9 +266,12 @@
                           {% else %}
                             <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
                           {% endif %}
-                          <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
                           {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
-                            <td>{{ feeRate }}%</td>
+                            {% if feeRate is None  %}
+                              <td> - </td>
+                            {% else %}
+                              <td>{{ feeRate }}%</td>
+                            {% endif %}
                           {% endfor %}
                         </tr>
                       {% endfor %}

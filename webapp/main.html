@@ -231,11 +231,27 @@
                     <th scope="col">费率纬度</th>
                   {% endif %}
                   {% if product_dict["data"]["data"]["trialItemNameList"] | length > 0 %}
-                    {% for trialItemName in product_dict["data"]["data"]["trialItemNameList"] %}
-                      <th scope="col">{{ trialItemName }}</th>
-                    {% endfor %}
+                    {% if product_dict["data"]["data"]["activityNameList"] | length > 0 %}
+                      {% for trialItemName in product_dict["data"]["data"]["trialItemNameList"] %}
+                      <th scope="col">{{ trialItemName }} - 基础服务费</th>
+                        {% for activityName in product_dict["data"]["data"]["activityNameList"] %}
+                         <th scope="col">{{ trialItemName }} - {{ activityName }}</th>
+                        {% endfor %}
+                      {% endfor %}
+                    {% else %}
+                      {% for trialItemName in product_dict["data"]["data"]["trialItemNameList"] %}
+                          <th scope="col">{{ trialItemName }}</th>
+                      {% endfor %}
+                    {% endif %}
                   {% else %}
-                    <th scope="col">基础服务费</th>
+                    {% if product_dict["data"]["data"]["activityNameList"] | length > 0 %}
+                     <th scope="col">基础服务费</th>
+                     {% for activityName in product_dict["data"]["data"]["activityNameList"] %}
+                      <th scope="col">{{ activityName }}</th>
+                     {% endfor %}
+                    {% else %}
+                      <th scope="col">基础服务费</th>
+                    {% endif %}
                   {% endif %}
                 </tr>
               </thead>
@@ -246,6 +262,10 @@
                         <tr>
                           <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
                           <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
+                          {% if partnerProductFeeItemDto["economyText"] == "" %}
+                          {% else %}
+                            <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
+                          {% endif %}
                           <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
                           {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
                             <td>{{ feeRate }}%</td>

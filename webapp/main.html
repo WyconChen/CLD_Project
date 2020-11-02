@@ -119,7 +119,7 @@
                       <div class="main-sub">
                         <span class="main" value="{{detail_dict["clauseId"]}}">
                           {% if loop.first %}主 - {% else %}附 - {% endif %}
-                          {% if detail_dict["clauseName"] == ""} %} - {% else %} detail_dict["clauseName"] {% endif %}
+                          {% if detail_dict["clauseName"] == "" %} - {% else %} detail_dict["clauseName"] {% endif %}
                         </span>
                       </div>
                       {% for RateDetail_dict in detail_dict["feeList"] %}

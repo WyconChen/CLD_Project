@@ -140,7 +140,7 @@
                                               <div class="tree-table fee-row">
                                                 {% if product_dict["data"]["data"]["rateDetail"]["configType"] == 2 %}
                                                   <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
-                                                  {% if "activeValue" in eachRate["letout"].keys() % }
+                                                  {% if "activeValue" in eachRate["letout"].keys() %}
                                                     <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }}</div></div>
                                                   {% else %}
                                                     <div class="fee-td "><div> - </div></div>

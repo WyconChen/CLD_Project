@@ -138,7 +138,7 @@
                                       <div class="branch-box">
                                         <div>
                                               <div class="tree-table fee-row">
-                                                {% if product_dict["data"]["data"]["rateDetail"]["configType"] == 2 %}
+                                                {% if product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length > 2 %}
                                                   <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
                                                   {% if "activeValue" in eachRate["letout"].keys() %}
                                                     <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }}</div></div>

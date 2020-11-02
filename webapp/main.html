@@ -138,12 +138,18 @@
                                     <div class="branch-box">
                                       <div>
                                             <div class="tree-table fee-row">
+                                              {% if product_dict["data"]["data"]["rateDetail"]["configType"] == 2 %}
                                                 <div class="fee-td "><div>{{ eachRate["receivable"]["first_rate"] }}</div></div>
                                                 <div class="fee-td "><div> - </div></div>
                                                 <div class="fee-td "><div>{{ eachRate["receivable"]["second_rate"] }}</div></div>
                                                 <div class="fee-td "><div>{{ eachRate["receivable"]["third_rate"] }}</div></div>
                                                 <div class="fee-td "><div>{{ eachRate["receivable"]["fourth_rate"] }}</div></div>
                                                 <div class="fee-td "><div>{{ eachRate["receivable"]["fifth_rate"] }}</div></div>
+                                              {% else %}
+                                                <div class="fee-td "><div>{{ eachRate["receivable"]["first_rate"] }}</div></div>
+                                                <div class="fee-td "><div> - </div></div>
+                                                <div class="fee-td "><div>{{ eachRate["receivable"]["second_rate"] }}</div></div>
+                                              {% endif %}
                                             </div>
                                      </div>
                                    </div>

@@ -77,7 +77,7 @@ class DBHandler:
                         pageSize = datadict["pageSize"],
                         page = (datadict["page"]-1)*datadict["pageSize"]
                     )
-            count_sql = "SELECT DISTINCT(`product_id`) \
+            count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS total_num \
                     FROM `CLD_DATA` WHERE `product_name` LIKE \"%{product_key}%\";".format(
                         product_key = datadict["product_key"],
                     )

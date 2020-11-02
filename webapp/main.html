@@ -85,57 +85,75 @@
               <div class="table_div template-table-wrap">
                 <div class="edit-theader">
                   <div class="tree-table" style="border-bottom: none;">
-                    <div class="th factor-col">影响因子</div>
-                    <div class="tree-table">
-                      <div class="th payperiod-col">缴费年期</div>
+                    {% if product_dict["data"]["data"]["rateDetail"]["configType"] == 2 %}
+                      <div class="th factor-col">影响因子</div>
                       <div class="tree-table">
-                        <div class="th fee-td">首年(%)</div>
-                        <div class="th fee-td">第二年(%)</div>
-                        <div class="th fee-td">第三年(%)</div>
-                        <div class="th fee-td">第四年(%)</div>
-                        <div class="th fee-td">第五年(%)</div>
+                        <div class="th payperiod-col">缴费年期</div>
+                        <div class="tree-table">
+                          <div class="th fee-td">首年(%)</div>
+                          <div class="th fee-td">首年活动(%)</div>
+                          <div class="th fee-td">第二年(%)</div>
+                          <div class="th fee-td">第三年(%)</div>
+                          <div class="th fee-td">第四年(%)</div>
+                          <div class="th fee-td">第五年(%)</div>
+                        </div>
                       </div>
-                    </div>
+                    {% elif product_dict["data"]["data"]["rateDetail"]["configType"] == 1 %}
+                      <div class="th factor-col">影响因子</div>
+                      <div class="tree-table">
+                        <div class="th payperiod-col">缴费年期</div>
+                        <div class="tree-table">
+                          <div class="th fee-td">首年(%)</div>
+                          <div class="th fee-td">首年折扣(%)</div>
+                          <div class="th fee-td">第二年(%)</div>
+                        </div>
+                      </div>
+                    {% else %}
+                      <div class="th factor-col">出现新的标题类型</div>
+                    {% endif %}
                   </div>
                 </div>
-                {% for detail_dict in product_dict["details"] %}
-                  {% for detail_keys, detail_values in detail_dict.items() %}
-                    <div class="table-body bordered">
-                      <div class="temp-table-context-wrap false undefined">
-                        <div class="main-sub">
-                          <span class="main" value="{{detail_values[0]["clauseId"]}}">
-                            {% if loop.first %}主 - {% else %}附 - {% endif %}{{ detail_values[0]["clauseName"]}}
-                          </span>
-                        </div>
-                        {% for RateDetail_dict in detail_values %}
-                            <div class="tree-table">
-                              <div class="factor-col">{{ RateDetail_dict["rateCodeDescView"] }}</div>
-                              <div class="branch-box">
-                                <div class="tree-table">
-                                  {% for rateCode_keys, rateCode_values in RateDetail_dict["rateCodeDescViewList"].items() %}
-                                    {% for eachRate in rateCode_values %}  
-                                      <div class="payperiod-col">{{ eachRate["rateCodeDesc"] }}</div>
-                                      <div class="branch-box">
-                                        <div>
-                                              <div class="tree-table fee-row">
-                                                <div class="fee-td "><div>{{ eachRate["first_rate"] }}</div></div>
-                                                <div class="fee-td "><div>{{ eachRate["second_rate"] }}</div></div>
-                                                <div class="fee-td "><div>{{ eachRate["third_rate"] }}</div></div>
-                                                <div class="fee-td "><div>{{ eachRate["fourth_rate"] }}</div></div>
-                                                <div class="fee-td "><div>{{ eachRate["fifth_rate"] }}</div></div>
-                                              </div>
-                                    
-                                    </div>
-                                  </div>
-                                   {% endfor %}
-                                 {% endfor %}
-                                </div>
-                              </div>
-                            </div>                          
-                        {% endfor %}
+                {% for detail_dict in product_dict["data"]["data"]["rateDetail"]["commission"] %}
+                  <div class="table-body bordered">
+                    <div class="temp-table-context-wrap false undefined">
+                      <div class="main-sub">
+                        <span class="main" value="{{detail_dict["clauseId"]}}">
+                          {% if loop.first %}主 - {% else %}附 - {% endif %}{{ detail_dict["clauseName"] }}
+                        </span>
                       </div>
+                      {% for RateDetail_dict in detail_dict["feeList"] %}
+                          <div class="tree-table">
+                            <div class="factor-col">
+                              {% if RateDetail_dict["rateCodeDescView"] == "" %}
+                                --
+                              {% else %}
+                                RateDetail_dict["rateCodeDescView"]
+                              {% endif%}
+                            </div>
+                            <div class="branch-box">
+                              <div class="tree-table">
+                               
+                                  {% for eachRate in RateDetail_dict["rateValues"] %}  
+                                    <div class="payperiod-col">{{ eachRate["rateCodeDesc"] }}</div>
+                                    <div class="branch-box">
+                                      <div>
+                                            <div class="tree-table fee-row">
+                                                <div class="fee-td "><div>{{ eachRate["receivable"]["first_rate"] }}</div></div>
+                                                <div class="fee-td "><div> - </div></div>
+                                                <div class="fee-td "><div>{{ eachRate["receivable"]["second_rate"] }}</div></div>
+                                                <div class="fee-td "><div>{{ eachRate["receivable"]["third_rate"] }}</div></div>
+                                                <div class="fee-td "><div>{{ eachRate["receivable"]["fourth_rate"] }}</div></div>
+                                                <div class="fee-td "><div>{{ eachRate["receivable"]["fifth_rate"] }}</div></div>
+                                            </div>
+                                     </div>
+                                   </div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                          </div>                          
+                      {% endfor %}
                     </div>
-                  {% endfor %}
+                  </div>
                 {% endfor %}
               </div>		
             </div>

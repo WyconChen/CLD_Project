@@ -119,7 +119,7 @@
                       <div class="main-sub">
                         <span class="main" value="{{detail_dict["clauseId"]}}">
                           {% if loop.first %}主 - {% else %}附 - {% endif %}
-                          {% if detail_dict["clauseName"] == ""} %} - {% else %} {{ detail_dict["clauseName"] }} {% endif%}
+                          {% if detail_dict["clauseName"] == ""} %} - {% else %} detail_dict["clauseName"] {% endif %}
                         </span>
                       </div>
                       {% for RateDetail_dict in detail_dict["feeList"] %}
@@ -141,7 +141,7 @@
                                                 {% if product_dict["data"]["data"]["rateDetail"]["configType"] == 2 %}
                                                   <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
                                                   {% if "activeValue" in eachRate["letout"].keys() % }
-                                                    <div class="fee-td "><div> eachRate["letout"]["activeValue"] </div></div>
+                                                    <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }}</div></div>
                                                   {% else %}
                                                     <div class="fee-td "><div> - </div></div>
                                                   {% endif %}
@@ -152,7 +152,7 @@
                                                 {% else %}
                                                   <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
                                                   {% if "activeValue" in eachRate["letout"].keys() % }
-                                                    <div class="fee-td "><div> eachRate["letout"]["activeValue"] </div></div>
+                                                    <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }} </div></div>
                                                   {% else %}
                                                     <div class="fee-td "><div> - </div></div>
                                                   {% endif %}

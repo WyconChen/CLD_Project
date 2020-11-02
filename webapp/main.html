@@ -85,7 +85,7 @@
               <div class="table_div template-table-wrap">
                 <div class="edit-theader">
                   <div class="tree-table" style="border-bottom: none;">
-                    {% if product_dict["data"]["data"]["rateDetail"]["configType"] == 2 %}
+                    {% if product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length > 2 %}
                       <div class="th factor-col">影响因子</div>
                       <div class="tree-table">
                         <div class="th payperiod-col">缴费年期</div>
@@ -98,7 +98,7 @@
                           <div class="th fee-td">第五年(%)</div>
                         </div>
                       </div>
-                    {% elif product_dict["data"]["data"]["rateDetail"]["configType"] == 1 %}
+                    {% elif product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length <= 2 %}
                       <div class="th factor-col">影响因子</div>
                       <div class="tree-table">
                         <div class="th payperiod-col">缴费年期</div>

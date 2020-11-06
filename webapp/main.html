@@ -78,6 +78,13 @@
             </p>
             <span class="product_name">产品名称：{{ product_dict["product_name"]}}</span>
             <!-- <button>在全平台搜索此产品</button> -->
+            {% if product_dict["program_id"] == 1005 %}
+              {% for url product_dict["data"]["proposal_url"] %}
+                <button type="button" class="btn btn-default" {% if product_dict["data"]["proposal_url"] | length = 0 %} disabled {% endif %} ><a href="{%if product_dict["data"]["proposal_url"] | length = 0%} # {% else %} {{url["proposalUrl"]}} {% endif %}">点此投保</a></button>
+              {% endfor %}
+            {% elif product_dict["program_id"] == 1004 %}
+              <button type="button" class="btn btn-default"><a href="https://www.fxyf99.com/product/bz0190725417/{{product_dict["product_id"]}}">点此投保</a></button>
+            {% endif %}
           </div>
           {% if product_dict["program_id"] == 1005 %}
             <!-- zhongbao template -->

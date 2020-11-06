@@ -1,4 +1,3 @@
-from fastapi import APIRouter
 import os
 import platform
 from typing import Optional
@@ -34,6 +33,13 @@ async def BaoXianGetData(request:Request, searchType: Optional[int] = 1, page:in
     datadict = {
         "searchType": 1,
         "page": page or 1,
+        # program_id: 
+        # 1000： BaoYun18
+        # 1001: QiXin18
+        # 1002: Niubao 100
+        # 1004: FengQi
+        # 1005: Zhongbao
+        # 其他：ALL
         "program_id": program_id or 999,
         "product_key": product_key or "",
         "pageSize": pageSize or 5

@@ -10,6 +10,7 @@ class ZhongBao:
         self.login_api = "https://www.zhongbaounion.com/jwt/token"
         self.products_menu_api = "https://www.zhongbaounion.com/api/companyCommission/company/product/productList"
         self.product_detail_api = "https://www.zhongbaounion.com/api/companyCommission/company/commission/productRateDetailActive"
+        self.proposal_url = "https://www.zhongbaounion.com/api/companyCommission/company/product/proposalUrl/list"
         self.Headers = {               
                 "Host":"www.zhongbaounion.com",
                 "Connection":"keep-alive",
@@ -75,6 +76,22 @@ class ZhongBao:
         else:
             return []
 
+    def GetProposalUrl(self,product_name: str):
+        formdata = {
+            "agencyId": "1260127988355842048",
+            "groupId": "1260126152177618944",
+            "limit": 100,
+            "orgId": "1260126149736534016",
+            "page":1,
+            "spuName": product_name
+        }
+        res = self.ZBSession.post(url=self.proposal_url, headers=self.Headers, data=json.dumps(formdata))
+        ProductUrlData = json.loads(res.text)
+        if res.ok and ProductUrlData["status"] == 200 and "data" in ProductUrlData:
+            products_url_list = ProductUrlData["data"]["list"]
+            return products_url_list
+        else:
+            return []
     
     def GetProductDetail(self, products_list: list):
         for productInfos in products_list:
@@ -84,46 +101,17 @@ class ZhongBao:
             res = self.ZBSession.post(url=self.product_detail_api, headers=self.Headers, data=json.dumps(formdata))
             ProductData = json.loads(res.text) if res.ok else None
             if "data" in ProductData:
+                ProductData["proposal_url"] = self.GetProposalUrl(productName)
                 datadict = {}
                 datadict["program_id"] = 1005
                 datadict["product_id"] = product_id
                 datadict["product_name"] = productName
-                datadict["data"] = res.text
+                datadict["data"] = json.dumps(ProductData, ensure_ascii=False)
+                datadict["proposal_url"] = self.GetProposalUrl(productName)
                 ZBres = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(datadict))
                 result = json.loads(ZBres.text)
                 if(result["result"] == False):
                     print(datadict["product_name"] + ": 保存失败")
-            # commissionList = ProductData["data"]["rateDetail"]["commission"] if "data" in ProductData else None
-            # result_dict = {
-            #     "program_id": 1005,
-            #     "product_id": int(product_id),
-            #     "product_name": productName
-            # }
-            # print(product_id)
-            # if commissionList:
-            #     for commission in commissionList:
-            #         result_dict["clauseId"] =  commission["clauseId"] if "clauseId" in commission else product_id
-            #         result_dict["clauseName"] = commission["clauseName"] if "clauseName" in commission else productName
-            #         result_dict["extraType"] = commission["extraType"]
-            #         feeList = commission["feeList"]
-            #         for fee in feeList:
-            #            result_dict["rateCodeDescView"] = fee["rateCodeDescView"] if "rateCodeDescView" in fee and fee["rateCodeDescView"] != "" else "-"
-            #            rateValueList = fee["rateValues"]
-            #            for rate in rateValueList:
-            #                result_dict["rateCode"] = rate["rateCode"]
-            #                result_dict["rateCodeDesc"] = rate["rateCodeDesc"] if "rateCodeDesc" in rate else "-"
-            #                result_dict["yearCode"] = rate["yearCode"] if rate["yearCode"] != "" else "-"
-            #                result_dict["yearCodeDesc"] = rate["yearCodeDesc"] if "yearCodeDesc" in rate and rate["yearCodeDesc"] != "" else "-"
-            #                result_dict["first_rate"] = float(rate["receivable"]["first"]) if "first" in rate["receivable"] and rate["receivable"]["first"] !="" else 0.0
-            #                result_dict["second_rate"] = float(rate["receivable"]["second"]) if "second" in rate["receivable"] and rate["receivable"]["second"] !="" else 0.0
-            #                result_dict["third_rate"] = float(rate["receivable"]["third"]) if "third" in rate["receivable"] and rate["receivable"]["third"] !="" else 0.0
-            #                result_dict["fourth_rate"] = float(rate["receivable"]["fourth"]) if "fourth" in rate["receivable"] and rate["receivable"]["fourth"] !="" else 0.0
-            #                result_dict["fifth_rate"] = float(rate["receivable"]["fifth"]) if "fifth" in rate["receivable"] and rate["receivable"]["fifth"] !="" else 0.0
-            #                res = requests.post(url="http://106.12.160.222:8001/insert/Zhongbao", data=json.dumps(result_dict))
-            #                resText = json.loads(res.text)
-            #                if resText["result"] == False:
-            #                     print(productName + " have getProductDetails error_2: ")
-            #                     print(resText)
             else:
                 print(productName+ ": 该产品下暂无详细费率, 暂不作保存")
     def run(self):

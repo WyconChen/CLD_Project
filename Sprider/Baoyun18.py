@@ -63,7 +63,9 @@ class BaoYun18:
 						if Product_Dict["planName"][productIdArr.index(product_id)] != datadict["product_name"]:
 							datadict["product_name"] = datadict["product_name"] + " - " + Product_Dict["planName"][productIdArr.index(product_id)]
 						Product_Details = self.Get_Product_Detail(tempId, product_id)
-						datadict["data"] = Product_Details
+						Product_Details_DATA = json.loads(Product_Details)
+						Product_Details_DATA["commodityLink"] = Product_Dict["commodityLink"]
+						datadict["data"] = json.dumps(Product_Details_DATA, ensure_ascii=False)
 						res = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(datadict))
 						result = json.loads(res.text)
 						if(result["result"] == False):

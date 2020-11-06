@@ -89,7 +89,7 @@
             {% elif product_dict["program_id"] == 1001 %}
               <button type="button" class="btn btn-default"><a target="_blank" href="https://cps.qixin18.com/apps/cps/ljj1048581/product/detail?prodId={{product_dict["data"]["data"]["productId"]}}&planId={{product_dict["data"]["data"]["planId"]}}&from=spks&tenantId=-1">点此投保</a></button>
             {% elif product_dict["program_id"] == 1002 %}
-              <button type="button" class="btn btn-default"><a target="_blank" href="https://www.baodan360.com/insurance/fin?id={{product_dict["program_id"]}}&chn=cps_154683494">点此投保</a></button>
+              <button type="button" class="btn btn-default"><a target="_blank" href="https://www.baodan360.com/insurance/fin?id={{product_dict["product_id"]}}&chn=cps_154683494">点此投保</a></button>
             {% endif %}
           </div>
           {% if product_dict["program_id"] == 1005 %}

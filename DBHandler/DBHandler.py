@@ -104,7 +104,7 @@ class DBHandler:
             cursor.execute(count_sql)
             total_num = cursor.fetchall()
             for product_dict in product_list:
-                product_dict["data"] = json.loads(product_dict["data"])
+                product_dict["data"] = json.loads(product_dict["data"], strict=False)
             return product_list, total_num[0]["total_num"]
 
     def GetDataFromDB(self, datadict:dict) -> dict:

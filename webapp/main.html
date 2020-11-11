@@ -363,13 +363,13 @@
                                       
                                       <div class="branch-box">
                                         <div>
+                                            {% for values_list in values %}
                                               <div class="tree-table fee-row">
-                                                  {% for values_list in values %}
                                                     {% for item in values_list %}
                                                       <div class="fee-td "><div>item</div></div>
                                                     {% endfor %}
-                                                  {% endfor %}
                                               </div>
+                                            {% endfor %}
                                       </div>
                                     </div>
                                 </div>

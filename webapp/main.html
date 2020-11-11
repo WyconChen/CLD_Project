@@ -68,6 +68,8 @@
                 Qixin18
               {% elif product_dict["program_id"] == 1002 %}
                 Niubao100
+              {% elif product_dict["program_id"] == 1003 %}
+                Yisheng
               {% elif product_dict["program_id"] == 1004 %}
                 Fengqi
               {% elif product_dict["program_id"] == 1005 %}
@@ -90,6 +92,10 @@
               <button type="button" class="btn btn-default"><a target="_blank" href="https://cps.qixin18.com/apps/cps/ljj1048581/product/detail?prodId={{product_dict["data"]["data"]["productId"]}}&planId={{product_dict["data"]["data"]["planId"]}}&from=spks&tenantId=-1">点此投保</a></button>
             {% elif product_dict["program_id"] == 1002 %}
               <button type="button" class="btn btn-default"><a target="_blank" href="https://www.baodan360.com/insurance/fin?id={{product_dict["product_id"]}}&chn=cps_154683494">点此投保</a></button>
+            {% elif product_dict["program_id"] == 1003 %}
+              {% if "productDetail" in product_dict["data"] %}
+                <button type="button" class="btn btn-default"><a target="_blank" href="{{product_dict["data"]["productDetail"]}}">点此投保</a></button>
+              {% endif %}
             {% endif %}
           </div>
           {% if product_dict["program_id"] == 1005 %}
@@ -227,9 +233,10 @@
                   {% for details_dict in product_dict["data"]["content"] %}
                     <tr>
                       <th scope="row">{{ loop.index }}</th>
-                      {% for key, value in details_dict.items() %}  
-                        <td>{{ value }}</td>
-                      {% endfor %}
+                        <td>{{ details_dict["payDesc"] }}</td>
+                        <td>{{ details_dict["insureDesc"] }}</td>
+                        <td>{{ details_dict["firstRate"] }}</td>
+                        <td>{{ details_dict["secondRate"] }}</td>
                     </tr>
                   {% endfor %}
               </tbody>
@@ -322,6 +329,56 @@
                     {% endfor %}
                 </tbody>
             </table>
+          {% elif product_dict["program_id"] == 1003 %}
+            <!-- Yisheng template -->
+            <div class="ant-spin-container">
+              <div class="table_div template-table-wrap">
+                <div class="edit-theader">
+                  <div class="tree-table" style="border-bottom: none;">
+                    <div class="th factor-col">产品名称</div>
+                    <div class="tree-table">
+                      <div class="th payperiod-col">保障期限</div>
+                      <div class="tree-table">
+                        <div class="th fee-td">缴费年限</div>
+                        <div class="th fee-td">第一年</div>
+                        <div class="th fee-td">第二年</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% for keys, values in product_dict["data"]["data"] %}
+                  <div class="table-body bordered">
+                    <div class="temp-table-context-wrap false undefined">
+                      
+                          <div class="tree-table">
+                            <div class="factor-col">
+                              {{ keys }}
+                            </div>
+                            <div class="branch-box">
+                              
+                                <div class="tree-table">
+                                      
+                                      <div class="branch-box">
+                                        <div>
+                                              <div class="tree-table fee-row">
+                                                  {% for values_list in values %}
+                                                    {% for item in values_list %}
+                                                      <div class="fee-td "><div>item</div></div>
+                                                    {% endfor %}
+                                                  {% endfor %}
+                                              </div>
+                                      </div>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                          </div>                          
+                      
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>		
+            </div>
           {% else %}
             暂无此平台数据
           {% endif %}

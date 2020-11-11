@@ -1,4 +1,5 @@
 import time
+import fastapi
 import xlrd
 import requests
 import json
@@ -39,7 +40,7 @@ class Yisheng:
             type_cell = current_row_list[0]
             product_name_cell = current_row_list[1]
             if not product_name or row_index == 1:
-                product_name = product_name_cell
+                product_name = product_name_cell.strip()
             period_cell = current_row_list[2]
             # print(period_cell)
             payment_cell = current_row_list[3]
@@ -55,7 +56,7 @@ class Yisheng:
                 else:
                     current_period = current_period.strip()
                 datadict["program_id"] = 1003
-                datadict["product_name"] = product_name
+                datadict["product_name"] = product_name.replace("\n", "").replace(" ", "")
                 datadict["product_id"] = int(time.time())+id_index
                 id_index += 1
                 datadict["data"][current_product] = []
@@ -104,9 +105,11 @@ class Yisheng:
             if "ProductList" in Products_Res_Data:
                 if Products_Res_Data["ProductList"]:
                     product_dict = Products_Res_Data["ProductList"][0]
-                    product_dict["data"] = data
+                    new_product_dict = {}
+                    new_product_dict["productDetail"] = product_dict["productDetail1"]
+                    new_product_dict["data"] = data
                     datadict["product_id"] = int(product_dict["productId"])
-                    datadict["data"] = json.dumps(product_dict, ensure_ascii=False)
+                    datadict["data"] = json.dumps(new_product_dict, ensure_ascii=False)
                 else:
                     product_dict = {}
                     product_dict["data"] = data

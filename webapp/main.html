@@ -29,6 +29,8 @@
                   Qixin18
                 {% elif DataDict["program_id"] == 1002 %}
                   Niubao100
+                {% elif DataDict["program_id"] == 1003 %}
+                  Yisheng
                 {% elif DataDict["program_id"] == 1004 %}
                   Fengqi
                 {% elif DataDict["program_id"] == 1005 %}
@@ -41,6 +43,7 @@
                 <button class="dropdown-item dropdown-item-platform" type="button" value="1000">Baoyun18</button>
                 <button class="dropdown-item dropdown-item-platform" type="button" value="1001">Qixin18</button>
                 <button class="dropdown-item dropdown-item-platform" type="button" value="1002">Niubao100</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1003">Yisheng</button>
                 <button class="dropdown-item dropdown-item-platform" type="button" value="1004">Fengqi</button>
                 <button class="dropdown-item dropdown-item-platform" type="button" value="1005">Zhongbao</button>
                 <button class="dropdown-item dropdown-item-platform" type="button" value="999">ALL</button>
@@ -346,7 +349,7 @@
                     </div>
                   </div>
                 </div>
-                {% for keys, values in product_dict["data"]["data"] %}
+                {% for keys, values in product_dict["data"]["data"].items() %}
                   <div class="table-body bordered">
                     <div class="temp-table-context-wrap false undefined">
                       

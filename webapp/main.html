@@ -340,8 +340,8 @@
                   <div class="tree-table" style="border-bottom: none;">
                     <div class="th factor-col">产品名称</div>
                     <div class="tree-table">
-                      <div class="th payperiod-col">保障期限</div>
                       <div class="tree-table">
+                        <div class="th fee-td">保障年限</div>
                         <div class="th fee-td">缴费年限</div>
                         <div class="th fee-td">第一年</div>
                         <div class="th fee-td">第二年</div>
@@ -366,7 +366,7 @@
                                             {% for values_list in values %}
                                               <div class="tree-table fee-row">
                                                     {% for item in values_list %}
-                                                      <div class="fee-td "><div>item</div></div>
+                                                      <div class="fee-td "><div>{{ item }}</div></div>
                                                     {% endfor %}
                                               </div>
                                             {% endfor %}

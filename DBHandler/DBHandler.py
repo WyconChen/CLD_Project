@@ -68,7 +68,7 @@ class DBHandler:
             return False
     
     def GetJsonDataFromDB(self, datadict:dict) -> dict:
-        if datadict["program_id"] not in [1000,1001,1002,1004,1005]:
+        if datadict["program_id"] not in [1000, 1001, 1002, 1003, 1004, 1005]:
              # 全平台
             select_sql = "SELECT `program_id`, `product_id`, `product_name`, `data` \
                     FROM `CLD_DATA` WHERE `product_name` LIKE \"%{product_key}%\" \

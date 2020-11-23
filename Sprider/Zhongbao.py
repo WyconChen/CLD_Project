@@ -26,6 +26,7 @@ class ZhongBao:
                 "Authorization":""
         }
         self.ZBSession = requests.session()
+        print("Zhongbao Start...")
 
     def Login(self) -> None:
         login_headers = {

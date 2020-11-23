@@ -16,6 +16,7 @@ class Niubao100:
         self.productDetail_url = "https://www.niubao100.com/item/getItemCommList"
         self.Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36"}
         self.Niubao_Session = requests.Session()
+        print("Niubao100 Start...")
     
     def Login(self):
         md5_passowrd= hashlib.md5(self.password.encode()).hexdigest()

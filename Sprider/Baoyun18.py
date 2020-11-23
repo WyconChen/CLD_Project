@@ -25,6 +25,8 @@ class BaoYun18:
 		self.Baoyun_Session = requests.Session();
 		self.Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36"}
 
+		print("Baoyun18 Start...")
+
 	def Login(self):
 		Login_PayLoad = {"userName": self.userName, "password": self.password, "isSend": "false", "ticket": "", "type": self.Login_Type}
 		Login_Res = self.Baoyun_Session.post(url=self.Login_Api, headers = self.Headers, data = Login_PayLoad)
@@ -74,3 +76,7 @@ class BaoYun18:
 				time.sleep(1)
 			else:
 				break
+
+if __name__ == "__main__":
+	Baoyun = BaoYun18()
+	Baoyun.run()

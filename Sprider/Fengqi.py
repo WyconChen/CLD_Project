@@ -23,6 +23,7 @@ class FengQi:
             "Accept-Language": "zh-CN,zh;q=0.9"
         }
         self.QxSession = requests.session()
+        print("FengQi Start...")
 
     def Login(self):
         formdata = {"account":"13539869933","password":"QWEqwe123","time":int(time.time()*1000)}

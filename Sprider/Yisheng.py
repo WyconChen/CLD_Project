@@ -7,7 +7,7 @@ import os
 
 class Yisheng:
 
-    def __init__(self, file_name, sheet_name) -> None:
+    def __init__(self) -> None:
         self.program_id = 1003
         self.userName = "13539869933"
         self.password = "QWEqwe123"
@@ -15,9 +15,10 @@ class Yisheng:
         self.product_menu_api = "http://www.inswindow.com/myproduct/productListShowAjax.shtml"
         self.Yisheng_Session = requests.Session()
         self.Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36"}
-        self.file_name = file_name
-        self.sheet_name = sheet_name
+        self.file_name = "baoxian.xls"
+        # self.sheet_name = sheet_name
         self.total_data_list = []
+        print("Yisheng Start...")
 
 
     def __Excel_Handler(self):
@@ -48,11 +49,11 @@ class Yisheng:
             if period_cell and product_name_cell:
                 current_product = product_name_cell.strip()
                 if str(type(current_payment)) == "<class 'float'>":
-                    current_payment = str(current_payment*100) + "%"
+                    current_payment = str(round(current_payment*100,2)) + "%"
                 else:
                     current_payment = current_payment.strip()
                 if str(type(current_period)) == "<class 'float'>":
-                    current_period = str(current_period*100) + "%"
+                    current_period = str(round(current_period*100,2)) + "%"
                 else:
                     current_period = current_period.strip()
                 datadict["program_id"] = 1003
@@ -69,6 +70,9 @@ class Yisheng:
                     continue
             if period_cell and period_cell != current_period:
                 current_period = period_cell
+            
+            if payment_cell and payment_cell != current_payment:
+                current_payment = payment_cell
 
             detail_list.append(current_period)
             detail_list.append(current_payment)
@@ -76,7 +80,7 @@ class Yisheng:
                 current_cell_value = table.cell_value(row_index, col_index)
                 if current_cell_value:
                     if str(type(current_cell_value)) == "<class 'float'>":
-                            current_cell_value = str(current_cell_value*100) + "%"
+                            current_cell_value = str(round(current_cell_value*100, 1)) + "%"
                             detail_list.append(current_cell_value)
                     else:
                             detail_list.append(current_cell_value)
@@ -125,5 +129,5 @@ class Yisheng:
 
 
 if __name__ == "__main__":
-    y = Yisheng(file_name="nov.xls", sheet_name="11月")
+    y = Yisheng()
     y.run()

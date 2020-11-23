@@ -1,19 +1,25 @@
 import requests
 import json
-
+import os
 
 class QiXin18:
 
-    def __init__(self, cookies_str: str):
+    def __init__(self):
         self.userName = "13539869933"
         self.password = "QWEqwe123"
         self.Products_Api = "https://www.qixin18.com/goods/selectProductList"
         self.Product_Detail_Api = "https://www.qixin18.com/goods/getPartnerProductFeeWithActivity"
-        
+        self.cookies_str = ""
+        self.read_cookies()
         self.QiXin_Session = requests.Session()
         self.Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
-                "Cookie": cookies_str
+                "Cookie": self.cookies_str
         }
+
+    def read_cookies(self):
+        filepath = os.path.dirname(__file__) + r"/Qixin18_Cookies.txt"
+        with open(filepath, 'r') as f:
+            self.cookies_str = f.read()
 
     def Get_Produts_Menu(self, page:int) -> list:
         Form_Data = {

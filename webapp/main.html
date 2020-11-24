@@ -200,7 +200,13 @@
                 {% set  detail_list = product_dict["data"]["data"][1] %}
                   {% for list in detail_dict["list"] %}
                     <table class="yjtablez fengqitable">
-                      <caption>{{ detail_dict["productGrade"] }}</caption>
+                      <caption>
+                        {% if detail_dict["name"] == "" %}
+                          {{ product_dict["product_name"] }}
+                        {% elif %}
+                          {{ detail_dict["name"] }}
+                        {% endif %}
+                      </caption>
                       <tr>
                         <td><span>缴费年限</span></td>
                         {% for term in detail_dict["term"] %}
@@ -222,14 +228,14 @@
                       {% endfor %}              
                     </table>
                   {% endfor %}
-                  {% if detail_list | length > 1 %}
+                  {% if detail_list | length > 0 %}
                     {% for each_dict in detail_list %}
                       
                         <table class="yjtablez fengqitable">
-                          <caption>附加险 - {{ detail_list["name"] }}</caption>
+                          <caption>附加险 - {{ each_dict["name"] }}</caption>
                           <tr>
                             <td><span>缴费年限</span></td>
-                            {% for term in detail_list["term"] %}
+                            {% for term in each_dict["term"] %}
                               <td><span>{{ term }}年</span></td>
                             {% endfor %}
                           </tr>

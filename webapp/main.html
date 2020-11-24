@@ -196,30 +196,62 @@
           {% elif product_dict["program_id"] == 1004 %}
             <!-- Fengqi template -->
             <div class="el-popover el-popper">
-                {% for detail_dict in product_dict["data"]["data"]["list"] %}
-                  <table class="yjtablez fengqitable">
-                    <caption>{{ detail_dict["productGrade"] }}</caption>
-                    <tr>
-                      <td><span>缴费年限</span></td>
-                      {% for term in product_dict["data"]["data"]["term"] %}
-                        <td><span>{{ term }}年</span></td>
-                      {% endfor %}
-                    </tr>
-                    {% for commissions in detail_dict["commissionList"] %}
+                {% set  detail_dict = product_dict["data"]["data"][0] %}
+                {% set  detail_list = product_dict["data"]["data"][1] %}
+                  {% for list in detail_dict["list"] %}
+                    <table class="yjtablez fengqitable">
+                      <caption>{{ detail_dict["productGrade"] }}</caption>
                       <tr>
-                        <td>
-                          {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
-                        </td>
-                        {% for commission in commissions["commissions"] %}
-                          <td>
-                            {% if commission["commission"] == "" %} - {% else %} {{ commission["commission"] }}%{% endif %}
-                            {% if commission["subsidyCommission"] == "" %}{% else %} + {{ commission["subsidyCommission"] }}%补贴 {% endif %}
-                          </td>
-                        {% endfor %}                     
+                        <td><span>缴费年限</span></td>
+                        {% for term in detail_dict["term"] %}
+                          <td><span>{{ term }}年</span></td>
+                        {% endfor %}
                       </tr>
-                    {% endfor %}              
-                  </table>
-                {% endfor %}
+                      {% for commissions in list["commissionList"] %}
+                        <tr>
+                          <td>
+                            {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
+                          </td>
+                          {% for commission in commissions["commissions"] %}
+                            <td>
+                              {% if commission["commission"] == "" %} - {% else %} {{ commission["commission"] }}%{% endif %}
+                              {% if commission["subsidyCommission"] == "" %}{% else %} + {{ commission["subsidyCommission"] }}%补贴 {% endif %}
+                            </td>
+                          {% endfor %}                     
+                        </tr>
+                      {% endfor %}              
+                    </table>
+                  {% endfor %}
+                  {% if detail_list | length > 1 %}
+                    {% for each_dict in detail_list %}
+                      
+                        <table class="yjtablez fengqitable">
+                          <caption>附加险 - {{ detail_list["name"] }}</caption>
+                          <tr>
+                            <td><span>缴费年限</span></td>
+                            {% for term in detail_list["term"] %}
+                              <td><span>{{ term }}年</span></td>
+                            {% endfor %}
+                          </tr>
+                          {% for list in each_dict["list"] %}
+                            {% for commissions in list["commissionList"] %}
+                              <tr>
+                                <td>
+                                  {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
+                                </td>
+                                {% for commission in commissions["commissions"] %}
+                                  <td>
+                                    {% if commission["commission"] == "" %} - {% else %} {{ commission["commission"] }}%{% endif %}
+                                    {% if commission["subsidyCommission"] == "" %}{% else %} + {{ commission["subsidyCommission"] }}%补贴 {% endif %}
+                                  </td>
+                                {% endfor %}                     
+                              </tr>
+                            {% endfor %}       
+                          {% endfor %}       
+                        </table>
+                      
+                    {% endfor %}
+                  {% endif %}
             </div>
           {% elif product_dict["program_id"] == 1000 %}
             <table class="table">

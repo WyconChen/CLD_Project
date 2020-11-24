@@ -201,8 +201,8 @@
                   {% for list in detail_dict["list"] %}
                     <table class="yjtablez fengqitable">
                       <caption>
-                        {% if list["productGrade"] == "" %}
-                          - 
+                        {% if list["productGrade"] == "other" %}
+                          {{ product_dict["product_name"] }} 
                         {% else %}
                           {{ list["productGrade"] }}
                         {% endif %}

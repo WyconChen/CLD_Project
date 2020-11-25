@@ -12,6 +12,22 @@ var previousButton = document.getElementById("PreBtn");
 var NextButton = document.getElementById("NextBtn");
 var pageJumper = document.getElementById("page_jumper");
 
+
+
+function urlBtnsClick(){
+	var urlBtns = document.getElementsByClassName("showLink")
+	for(var i=0; i<urlBtns.length;i++){
+		urlBtns[i].onclick = function(){
+			var newElement = document.createElement("div")
+			newElement.className = "alert alert-info"
+			newElement.setAttribute("role","alert")
+			newElement.innerText = this.getAttribute("url-value")
+			this.parentElement.appendChild(newElement)
+		}
+	}
+} 
+
+
 dropdownTitle.onclick = function(){
     for(var i=0; i<dropdownOptions.length;i++){
         dropdownOptions[i].onclick = function(){
@@ -137,4 +153,5 @@ pageJumper.onblur = function(){
 window.onload = function(){
 	switchPage();
 	initPageBtn();
+	urlBtnsClick();
 };

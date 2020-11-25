@@ -86,18 +86,24 @@
             {% if product_dict["program_id"] == 1005 %}
               {% for url in product_dict["data"]["proposal_url"] %}
                 <button type="button" class="btn btn-default" {% if product_dict["data"]["proposal_url"] | length == 0 %} disabled {% endif %} ><a target="_blank" href="{% if product_dict["data"]["proposal_url"] | length == 0 %} # {% else %} {{url["proposalUrl"]}} {% endif %}">点此投保</a></button>
+                <button type="button" class="btn btn-default showLink" url-value="{% if product_dict["data"]["proposal_url"] | length == 0 %} # {% else %} {{url["proposalUrl"]}} {% endif %}">显示链接</button>
               {% endfor %}
             {% elif product_dict["program_id"] == 1004 %}
               <button type="button" class="btn btn-default"><a target="_blank" href="https://www.fxyf99.com/product/bz0190725417/{{product_dict["product_id"]}}">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="https://www.fxyf99.com/product/bz0190725417/{{product_dict["product_id"]}}">显示链接</button>
             {% elif product_dict["program_id"] == 1000 %}
               <button type="button" class="btn btn-default"><a target="_blank" href="{{product_dict["data"]["commodityLink"]}}">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="{{product_dict["data"]["commodityLink"]}}">显示链接</button>
             {% elif product_dict["program_id"] == 1001 %}
               <button type="button" class="btn btn-default"><a target="_blank" href="https://cps.qixin18.com/apps/cps/ljj1048581/product/detail?prodId={{product_dict["data"]["data"]["productId"]}}&planId={{product_dict["data"]["data"]["planId"]}}&from=spks&tenantId=-1">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="https://cps.qixin18.com/apps/cps/ljj1048581/product/detail?prodId={{product_dict["data"]["data"]["productId"]}}&planId={{product_dict["data"]["data"]["planId"]}}&from=spks&tenantId=-1">显示链接</button>
             {% elif product_dict["program_id"] == 1002 %}
               <button type="button" class="btn btn-default"><a target="_blank" href="https://www.baodan360.com/insurance/fin?id={{product_dict["product_id"]}}&chn=cps_154683494">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="https://www.baodan360.com/insurance/fin?id={{product_dict["product_id"]}}&chn=cps_154683494">显示链接</button>
             {% elif product_dict["program_id"] == 1003 %}
               {% if "productDetail" in product_dict["data"] %}
                 <button type="button" class="btn btn-default"><a target="_blank" href="{{product_dict["data"]["productDetail"]}}">点此投保</a></button>
+                <button type="button" class="btn btn-default showLink" url-value="{{product_dict["data"]["productDetail"]}}">显示链接</button>
               {% endif %}
             {% endif %}
           </div>

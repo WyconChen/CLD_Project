@@ -23,6 +23,7 @@ function urlBtnsClick(){
 			newElement.setAttribute("role","alert")
 			newElement.innerText = this.getAttribute("url-value")
 			this.parentElement.appendChild(newElement)
+			urlBtns[i].setAttribute("disabled","")
 		}
 	}
 } 

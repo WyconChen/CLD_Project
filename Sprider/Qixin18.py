@@ -73,7 +73,7 @@ class QiXin18:
                 #                 resText = json.loads(res.text)
                 #                 if resText["result"] == "failed":
                 #                     print(result_dict["product_name"] + "： 保存失败")
-                res = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(result_dict))
+                res = requests.post(url="http://120.25.103.152:8002/save_json_data/", data=json.dumps(result_dict))
                 result = json.loads(res.text)
                 if(result["result"] == False):
                     print(result_dict["product_name"] + ": 保存失败")

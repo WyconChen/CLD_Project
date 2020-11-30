@@ -122,7 +122,7 @@ class Yisheng:
                 product_dict = {}
                 product_dict["data"] = data
                 datadict["data"] = json.dumps(product_dict, ensure_ascii=False)
-            res = requests.post(url="http://106.12.160.222:8002/save_json_data/", data=json.dumps(datadict))
+            res = requests.post(url="http://120.25.103.152:8002/save_json_data/", data=json.dumps(datadict))
             result = json.loads(res.text)
             if(result["result"] == False):
                 print(datadict["product_name"] + ": 保存失败")

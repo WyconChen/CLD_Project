@@ -18,7 +18,7 @@ templates = Jinja2Templates(directory=path)
 
 @appRouter.get("/test")
 async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None, pageSize:int = None):
-    DBHandler = DBHandler()
+    DBH = DBHandler()
     datadict = {
         "searchType": 1,
         "page": page or 1,
@@ -26,7 +26,7 @@ async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = Non
         "product_key": product_key or "",
         "pageSize": pageSize or 5
     }
-    result_dict = DBHandler.GetDataFromDB(datadict)
+    result_dict = DBH.GetDataFromDB(datadict)
     ProductsList = result_dict["result_list"] if result_dict["success"] else []
     total_num = result_dict["total_num"] if result_dict["success"] else 0
     pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]

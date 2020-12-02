@@ -7,7 +7,7 @@ SaveDataRouter = APIRouter()
 
 @SaveDataRouter.post("/save_json_data/")
 async def Save_Data_To_DB(request_data: JsonDataModel):
-    DBHandler = DBHandler()
+    DBH = DBHandler()
     datadict = dict(request_data)
-    result = DBHandler.SaveJsonDataToDB(datadict)
+    result = DBH.SaveJsonDataToDB(datadict)
     return {"result": result}

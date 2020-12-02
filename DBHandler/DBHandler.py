@@ -499,12 +499,9 @@ class DBHandler:
 
     def DelDataFrom_CLD_DATA(self):
         sql = "UPDATE CLD_DATA SET `active_flag` = 0 WHERE `active_flag` = 1 AND `program_id` <> 1001;"
-        try:
-            with self.DBConnection.cursor() as cursor:
-                cursor.execute(sql)
-            return True
-        except Exception as e:
-            return False
+        with self.DBConnection.cursor() as cursor:
+            cursor.execute(sql)
+        return False
 
     @staticmethod
     def changeDataDictToStr(DataDict:dict) -> str:

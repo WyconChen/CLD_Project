@@ -17,7 +17,7 @@ if __name__ == "__main__":
     ZhongBao = ZhongBao()
 
     res = requests.post(url="http://120.25.103.152:8002/set_json_data_status_to_1/")
-    res_data = json.loads(res)
+    res_data = json.loads(res.text)
     if res_data["result"]:
         BaoYun18_Thread = threading.Thread(target=BaoYun18.run)
         FengQi_Thread = threading.Thread(target=FengQi.run)

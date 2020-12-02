@@ -498,7 +498,7 @@ class DBHandler:
             return result
 
     def DelDataFrom_CLD_DATA(self):
-        sql = "UPDATE CLD_DATA SET `active_flag` = 0 WHERE `active_flag` = 1 AND `program_id` is not 1001;"
+        sql = "UPDATE CLD_DATA SET `active_flag` = 0 WHERE `active_flag` = 1 AND `program_id` <> 1001;"
         try:
             with self.DBConnection.cursor() as cursor:
                 cursor.execute(sql)

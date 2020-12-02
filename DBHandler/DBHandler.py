@@ -1,3 +1,4 @@
+import fastapi
 import pymysql
 import json
 from dbutils.pooled_db import PooledDB
@@ -71,20 +72,20 @@ class DBHandler:
         if datadict["program_id"] not in [1000, 1001, 1002, 1003, 1004, 1005]:
              # 全平台
             select_sql = "SELECT `program_id`, `product_id`, `product_name`, `data` \
-                    FROM `CLD_DATA` WHERE `product_name` LIKE \"%{product_key}%\" \
+                    FROM `CLD_DATA` WHERE `active_flag` = 1 AND `product_name` LIKE \"%{product_key}%\" \
                     LIMIT {pageSize} OFFSET {page};".format(
                         product_key = datadict["product_key"],
                         pageSize = datadict["pageSize"],
                         page = (datadict["page"]-1)*datadict["pageSize"]
                     )
             count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS total_num \
-                    FROM `CLD_DATA` WHERE `product_name` LIKE \"%{product_key}%\";".format(
+                    FROM `CLD_DATA` WHERE `active_flag` = 1 AND `product_name` LIKE \"%{product_key}%\";".format(
                         product_key = datadict["product_key"],
                     )
         else:
             # 单平台
             select_sql = "SELECT `program_id`, `product_id`, `product_name`, `data` \
-                    FROM `CLD_DATA` WHERE `program_id` = {program_id} AND `product_name` LIKE \"%{product_key}%\" \
+                    FROM `CLD_DATA` WHERE `active_flag` = 1 AND `program_id` = {program_id} AND `product_name` LIKE \"%{product_key}%\" \
                     LIMIT {pageSize} OFFSET {page};".format(
                         program_id = datadict["program_id"],
                         product_key = datadict["product_key"],
@@ -92,7 +93,7 @@ class DBHandler:
                         page = (datadict["page"]-1)*datadict["pageSize"]
                     )
             count_sql = "SELECT COUNT(DISTINCT(`product_id`)) AS total_num \
-                    FROM `CLD_DATA` WHERE `program_id`={program_id} AND `product_name` LIKE \"%{product_key}%\";".format(
+                    FROM `CLD_DATA` WHERE `active_flag` = 1 AND `program_id`={program_id} AND `product_name` LIKE \"%{product_key}%\";".format(
                         program_id = datadict["program_id"],
                         product_key = datadict["product_key"],
                     )
@@ -495,6 +496,15 @@ class DBHandler:
                 "total_num": 0,
             }
             return result
+
+    def DelDataFrom_CLD_DATA(self):
+        sql = "UPDATE CLD_DATA SET `active_flag` = 0 WHERE `active_flag` = 1 AND `program_id` is not 1001;"
+        try:
+            with self.DBConnection.cursor() as cursor:
+                cursor.execute(sql)
+            return True
+        except Exception as e:
+            return False
 
     @staticmethod
     def changeDataDictToStr(DataDict:dict) -> str:

@@ -367,7 +367,13 @@
                         <th scope="row">{{ loop.index }}</th>
                         {% for commCol in product_dict["data"]["data"]["commCols"] %}
                           {% if  commCol["key"] in details_dict.keys() %}
-                            <td>{{ details_dict[commCol["key"]]}}</td>
+                            <td>
+                              {% if details_dict[commCol["key"]] == None %}
+                                -
+                              {% else %}
+                               {{ details_dict[commCol["key"]] }}
+                              {% endif %}
+                            </td>
                           {% else %}
                             <td> - </td>
                           {% endif %}

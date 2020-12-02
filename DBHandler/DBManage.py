@@ -123,7 +123,7 @@ class CLD_DATA(Base):
     product_id = Column(BigInteger)
     product_name = Column(String(100), nullable = False)
     data = Column(Text, nullable = True)
-
+    active_flag = Column(Integer, default = 1)
 
 if __name__ == "__main__":
     Base.metadata.create_all(engine)

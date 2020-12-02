@@ -15,10 +15,10 @@ else:
 templates = Jinja2Templates(directory=path)
 # appRouter.mount("/static", StaticFiles(directory=path), name="static")
 
-DBHandler = DBHandler()
 
 @appRouter.get("/test")
 async def App_Run(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_id:int = None, product_key:str = None, pageSize:int = None):
+    DBHandler = DBHandler()
     datadict = {
         "searchType": 1,
         "page": page or 1,

@@ -513,5 +513,4 @@ class DBHandler:
         return key_result_str, value_result_str
 
     def __del__(self):
-        print("DBHandler Close....")
         self.DBConnection.close()

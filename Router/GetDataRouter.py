@@ -7,7 +7,7 @@ from starlette.templating import Jinja2Templates
 from DBHandler.DBHandler import DBHandler
 
 GetDataRouter = APIRouter()
-DBHandler = DBHandler()
+
 
 if platform.system() == "Windows":
     path = '{}/../webapp/'.format(os.path.dirname(__file__))
@@ -17,6 +17,7 @@ templates = Jinja2Templates(directory=path)
 
 @GetDataRouter.get("/baoxian/")
 async def BaoXianGetData(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_key:str = None, pageSize:int = None):
+    DBHandler = DBHandler()
     datadict = {
         "searchType": 1,
         "page": page or 1,
@@ -30,6 +31,7 @@ async def BaoXianGetData(request:Request, searchType: Optional[int] = 1, page:in
 
 @GetDataRouter.get("/baoxian/test")
 async def BaoXianGetData(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_key:str = None, pageSize:int = None):
+    DBHandler = DBHandler()
     datadict = {
         "searchType": 1,
         "page": page or 1,

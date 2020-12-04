@@ -502,6 +502,7 @@ class DBHandler:
         try:
             with self.DBConnection.cursor() as cursor:
                 cursor.execute(sql)
+            self.DBConnection.commit()
             return True
         except Exception as e:
             print("DEK DATA ERROR: " + str(e))

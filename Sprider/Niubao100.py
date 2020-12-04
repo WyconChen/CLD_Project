@@ -54,6 +54,10 @@ class Niubao100:
                 datadict["product_id"] = product_id
                 datadict["product_name"] = product_name
                 datadict["data"] = json.dumps(DetailsList_Dict, ensure_ascii=False)
+                if "url" in Item_Dict:
+                    datadict["data"]["url"] = Item_Dict["url"]
+                else:
+                    datadict["data"]["url"] = ""
                 res = requests.post(url="http://120.25.103.152:8002/save_json_data/", data=json.dumps(datadict))
                 result = json.loads(res.text)
                 if(result["result"] == False):

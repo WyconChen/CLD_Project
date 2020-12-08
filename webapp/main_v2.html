@@ -222,17 +222,30 @@
                         {% endfor %}
                       </tr>
                       {% for commissions in list["commissionList"] %}
-                        <tr>
-                          <td>
-                            {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
-                          </td>
-                          {% for commission in commissions["commissions"] %}
+                        {% if loop.first %}
+                          <tr>
                             <td>
-                              {% if commission["commission"] == "" %} - {% else %} {{ commission["commission"] }}%{% endif %}
-                              {% if commission["subsidyCommission"] == "" %}{% else %} + {{ commission["subsidyCommission"] }}%补贴 {% endif %}
+                              首年
                             </td>
-                          {% endfor %}                     
-                        </tr>
+                            {% for commission in commissions["commissions"] %}
+                              <td>
+                                {% if commission["commission"] == "" %}
+                                 - 
+                                {% else %}
+                                 {% set commission = commission["commission"] | float %}
+                                 {% set real_commission = commission*0.94 %}
+                                 {{ real_commission | round(2,'floor') }}%
+                                {% endif %}
+                                {% if commission["subsidyCommission"] == "" %}
+                                {% else %}
+                                {% set subsidyCommission = commission["subsidyCommission"] | float %}
+                                {% set real_subsidyCommission = subsidyCommission*0.94 %}
+                                 + {{ real_subsidyCommission | round(2, 'floor') }}%补贴 
+                                {% endif %}
+                              </td>
+                            {% endfor %}                     
+                          </tr>
+                        {% endif %}
                       {% endfor %}              
                     </table>
                   {% endfor %}
@@ -249,17 +262,30 @@
                           </tr>
                           {% for list in each_dict["list"] %}
                             {% for commissions in list["commissionList"] %}
+                              {% if loop.first %}
                               <tr>
                                 <td>
                                   {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
                                 </td>
                                 {% for commission in commissions["commissions"] %}
                                   <td>
-                                    {% if commission["commission"] == "" %} - {% else %} {{ commission["commission"] }}%{% endif %}
-                                    {% if commission["subsidyCommission"] == "" %}{% else %} + {{ commission["subsidyCommission"] }}%补贴 {% endif %}
+                                    {% if commission["commission"] == "" %}
+                                      - 
+                                    {% else %}
+                                      {% set commission = commission["commission"] | float %}
+                                      {% set real_commission = commission*0.94 %}
+                                      {{ real_commission | round(2,'floor') }}%
+                                    {% endif %}
+                                    {% if commission["subsidyCommission"] == "" %}
+                                      {% else %}
+                                      {% set subsidyCommission = commission["subsidyCommission"] | float %}
+                                      {% set real_subsidyCommission = subsidyCommission*0.94 %}
+                                      + {{ real_subsidyCommission | round(2, 'floor') }}%补贴 
+                                    {% endif %}
                                   </td>
                                 {% endfor %}                     
                               </tr>
+                              {% endif %}
                             {% endfor %}       
                           {% endfor %}       
                         </table>
@@ -362,6 +388,7 @@
                       <th scope="col">{{ commCol["name"] }}
                         {% if commCol["name"] is number %}
                           %
+                          
                         {% endif %}
                       </th>
                     {% endfor %}
@@ -432,12 +459,16 @@
                                                           {% set real_zhekou = real_rate_2*0.94 %}
                                                           <div class="fee-td "><div>{{ real_first_rate | round(2,"floor")}}%+{{real_zhekou | round(2,"floor")}}%</div></div>
                                                         {% else %}
-                                                          {% set firstrate_1 = firstrate | float %}
-                                                          {% set real_firstrate = firstrate_1*0.94 %}
-                                                          <div class="fee-td "><div>{{ real_firstrate | round(2,"floor") }}%</div></div>
+                                                          {% if "一" == firstrate %}
+                                                            <div class="fee-td "><div>{{ item }}</div></div>
+                                                          {% else %}
+                                                            {% set firstrate_1 = firstrate | float %}
+                                                            {% set real_firstrate = firstrate_1*0.94 %}
+                                                            <div class="fee-td "><div>{{ real_firstrate | round(2,"floor") }}%</div></div>
+                                                          {% endif %}
                                                         {% endif %}
                                                         
-                                                      {% elif loop.index == 4 %}
+                                                      {% elif loop.index > 3 %}
                                                         <div></div>
                                                       {% else %}
                                                         <div class="fee-td "><div>{{ item }}</div></div>

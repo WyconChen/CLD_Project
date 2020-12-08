@@ -433,7 +433,7 @@
                                                           <div class="fee-td "><div>{{ real_first_rate | round(2,"floor")}}%+{{real_zhekou | round(2,"floor")}}%</div></div>
                                                         {% else %}
                                                           {% set firstrate_1 = firstrate | float %}
-                                                          {% set real_firstrate = firstrate*0.94 %}
+                                                          {% set real_firstrate = firstrate_1*0.94 %}
                                                           <div class="fee-td "><div>{{ real_firstrate | round(2,"floor") }}%</div></div>
                                                         {% endif %}
                                                         

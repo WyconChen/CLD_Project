@@ -430,7 +430,7 @@
                                                           <div class="fee-td "><div>{{ real_rate_1*0.94 | round(1,"common")}}%+{{real_rate_2*0.94 | round(1,"common")}}%</div></div>
                                                         {% else %}
                                                           {% set real_rate = firstrate | float %}
-                                                          <div class="fee-td "><div>{{ real_rate*0.94|float | round(1,"common") }}%</div></div>
+                                                          <div class="fee-td "><div>{{ real_rate*0.94 | round(1,"common") }}%</div></div>
                                                         {% endif %}
                                                         
                                                       {% elif loop.index == 4 %}

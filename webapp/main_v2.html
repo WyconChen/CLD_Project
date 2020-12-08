@@ -287,7 +287,7 @@
                         <td>{{ details_dict["payDesc"] }}</td>
                         <td>{{ details_dict["insureDesc"] }}</td>
                         {% set firstRate_v2 =  details_dict["firstRate"] | float %}
-                        <td>{{ firstRate_v2*0.94 | round(1,"common")}}%</td>
+                        <td>{{ firstRate_v2*0.94 | round(1,"floor")}}%</td>
                         {# <td>{{ details_dict["secondRate"] }}</td> #}
                     </tr>
                   {% endfor %}

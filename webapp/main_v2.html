@@ -232,15 +232,15 @@
                                 {% if commission["commission"] == "" %}
                                  - 
                                 {% else %}
-                                 {% set commission = commission["commission"] | float %}
-                                 {% set real_commission = commission*0.94 %}
+                                 {% set commission_value = commission["commission"] | float %}
+                                 {% set real_commission = commission_value*0.94 %}
                                  {{ real_commission | round(2,'floor') }}%
                                 {% endif %}
                                 {% if commission["subsidyCommission"] == "" %}
                                 {% else %}
-                                {% set subsidyCommission = commission["subsidyCommission"] | float %}
-                                {% set real_subsidyCommission = subsidyCommission*0.94 %}
-                                 + {{ real_subsidyCommission | round(2, 'floor') }}%补贴 
+                                  {% set subsidyCommission_value = commission["subsidyCommission"] | float %}
+                                  {% set real_subsidyCommission = subsidyCommission_value*0.94 %}
+                                  + {{ real_subsidyCommission | round(2, 'floor') }}%补贴 
                                 {% endif %}
                               </td>
                             {% endfor %}                     
@@ -265,21 +265,21 @@
                               {% if loop.first %}
                               <tr>
                                 <td>
-                                  {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
+                                 首年
                                 </td>
                                 {% for commission in commissions["commissions"] %}
                                   <td>
                                     {% if commission["commission"] == "" %}
                                       - 
                                     {% else %}
-                                      {% set commission = commission["commission"] | float %}
-                                      {% set real_commission = commission*0.94 %}
+                                      {% set commission_values = commission["commission"] | float %}
+                                      {% set real_commission = commission_values*0.94 %}
                                       {{ real_commission | round(2,'floor') }}%
                                     {% endif %}
                                     {% if commission["subsidyCommission"] == "" %}
                                       {% else %}
-                                      {% set subsidyCommission = commission["subsidyCommission"] | float %}
-                                      {% set real_subsidyCommission = subsidyCommission*0.94 %}
+                                      {% set subsidyCommission_values = commission["subsidyCommission"] | float %}
+                                      {% set real_subsidyCommission = subsidyCommission_values*0.94 %}
                                       + {{ real_subsidyCommission | round(2, 'floor') }}%补贴 
                                     {% endif %}
                                   </td>

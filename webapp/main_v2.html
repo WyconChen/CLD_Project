@@ -122,10 +122,10 @@
                         <div class="tree-table">
                           <div class="th fee-td">首年(%)</div>
                           <div class="th fee-td">首年活动(%)</div>
-                          <div class="th fee-td">第二年(%)</div>
-                          <div class="th fee-td">第三年(%)</div>
-                          <div class="th fee-td">第四年(%)</div>
-                          <div class="th fee-td">第五年(%)</div>
+                          {# <div class="th fee-td">第二年(%)</div> #}
+                          {# <div class="th fee-td">第三年(%)</div> #}
+                          {# <div class="th fee-td">第四年(%)</div> #}
+                          {# <div class="th fee-td">第五年(%)</div> #}
                         </div>
                       </div>
                     {% elif product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length <= 2 %}
@@ -135,7 +135,7 @@
                         <div class="tree-table">
                           <div class="th fee-td">首年(%)</div>
                           <div class="th fee-td">首年折扣(%)</div>
-                          <div class="th fee-td">第二年(%)</div>
+                          {# <div class="th fee-td">第二年(%)</div> #}
                         </div>
                       </div>
                     {% else %}
@@ -169,24 +169,39 @@
                                         <div>
                                               <div class="tree-table fee-row">
                                                 {% if product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length > 2 %}
-                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
+                                                  <div class="fee-td "><div>
+                                                    {% set receivable_first = eachRate["receivable"]["first"] | float %}
+                                                    {% set real_receivable_first = receivable_first*0.94 %}
+                                                    {{ real_receivable_first | round(2,"floor") }}%
+                                                  </div></div>
                                                   {% if "activeValue" in eachRate["letout"].keys() %}
-                                                    <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }}</div></div>
+                                                    <div class="fee-td "><div>
+                                                      {% set activeValue = eachRate["letout"]["activeValue"] | float %} 
+                                                      {% set real_activeValue = activeValue*0.94 %}
+                                                      {{ real_activeValue | round(2, "floor") }}% </div></div>
                                                   {% else %}
                                                     <div class="fee-td "><div> - </div></div>
                                                   {% endif %}
-                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["second"] }}</div></div>
+                                                  {# <div class="fee-td "><div>{{ eachRate["receivable"]["second"] }}</div></div>
                                                   <div class="fee-td "><div>{{ eachRate["receivable"]["third"] }}</div></div>
                                                   <div class="fee-td "><div>{{ eachRate["receivable"]["fourth"] }}</div></div>
-                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["fifth"] }}</div></div>
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["fifth"] }}</div></div>  #}
                                                 {% else %}
-                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
+                                                  <div class="fee-td "><div>
+                                                    {% set receivable_first = eachRate["receivable"]["first"] | float %}
+                                                    {% set real_receivable_first = receivable_first*0.94 %}
+                                                    {{ real_receivable_first | round(2,"floor") }}%
+                                                  </div></div>
                                                   {% if "activeValue" in eachRate["letout"].keys() %}
-                                                    <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }} </div></div>
+                                                    <div class="fee-td "><div>
+                                                      {% set activeValue = eachRate["letout"]["activeValue"] | float %} 
+                                                      {% set real_activeValue = activeValue*0.94 %}
+                                                      {{ real_activeValue | round(2, "floor") }}%
+                                                    </div></div>
                                                   {% else %}
                                                     <div class="fee-td "><div> - </div></div>
                                                   {% endif %}
-                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["second"] }}</div></div>
+                                                  {# <div class="fee-td "><div>{{ eachRate["receivable"]["second"] }}</div></div> #}
                                                 {% endif %}
                                               </div>
                                       </div>

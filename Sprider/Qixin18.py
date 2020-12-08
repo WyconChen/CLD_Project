@@ -18,6 +18,7 @@ class QiXin18:
             "Accept": "application/json, text/plain, */*",
             "Content-Type": "application/json",
             "Connection": "keep-alive",
+            "Cookie": self.cookies_str
         }
 
     def Login(self):
@@ -68,7 +69,7 @@ class QiXin18:
             "Accept": "*/*",
             "Cookie": "env=preview; qx_trip_pc_sid=s%3A-LTclYqyFwl3XX1uXP55T_t8UTKmDHOu.4yETXALmFfE3S%2Bx1z0gJ%2Fjrm1FQ9%2FHKfkB3F1R7r9ew; fmpUid=gOes4hhMoPuuxUlWk_9GhmLKhGn22fnckPVMSBDuUhU&6775&98IWvNfA8De3gBLy012QH1; acw_tc=2f6a1fd616069845095241895e8bd427076002008b2eff5d8a7456641b837e"
         }
-        Products_Res = self.QiXin_Session.post(url=self.Products_Api, headers=Menu_Headers, data = json.dumps(Form_Data))
+        Products_Res = self.QiXin_Session.post(url=self.Products_Api, headers=self.Headers, data = json.dumps(Form_Data))
         Products_Res_Data = json.loads(Products_Res.text)
         Products_Data_List = Products_Res_Data["data"]["data"]
         return Products_Data_List
@@ -89,18 +90,16 @@ class QiXin18:
         # result_dict["company_id"] = Products_Data_Dict["companyId"]
         # result_dict["company_name"] = Products_Data_Dict["companyName"]
         Form_Data = {"productId": result_dict["product_id"], "planId": plan_Id}
-        Details_Res = self.QiXin_Session.post(url=self.Product_Detail_Api, headers = detailHeaders, data = json.dumps(Form_Data))
-        print(Details_Res.text)
+        Details_Res = self.QiXin_Session.post(url=self.Product_Detail_Api, headers = self.Headers, data = json.dumps(Form_Data))
         Details_Res_Data = json.loads(Details_Res.text)
         # 判断是否存在data
         try:
             if "data" in Details_Res_Data:
                 result_dict["data"] = Details_Res.text
-                print(result_dict["data"])
-                # res = requests.post(url="http://120.25.103.152:8002/save_json_data/", data=json.dumps(result_dict))
-                # result = json.loads(res.text)
-                # if(result["result"] == False):
-                #     print(result_dict["product_name"] + ": 保存失败")
+                res = requests.post(url="http://120.25.103.152:8002/save_json_data/", data=json.dumps(result_dict))
+                result = json.loads(res.text)
+                if(result["result"] == False):
+                    print(result_dict["product_name"] + ": 保存失败")
             else:
                 print(result_dict["product_name"] + "不存在detail数据, 暂不作保存")         
         except Exception as e:
@@ -108,16 +107,15 @@ class QiXin18:
             print(e)
 
     def run(self):
-        self.Login()
+        # self.Login()
         page = 1
         while True:
             Products_Data_List = self.Get_Produts_Menu(page = page)
             if len(Products_Data_List)>0:
                 Products_Data_Iter = iter(Products_Data_List)
                 for Products_Data_Dict in Products_Data_Iter:
-                    self.Get_Product_Details(Products_Data_Dict)            
+                    self.Get_Product_Details(Products_Data_Dict)          
                 page += 1
-                break
             else:
                 break
 

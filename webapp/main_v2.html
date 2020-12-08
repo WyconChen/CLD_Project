@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLD_PROJECT</title>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/normalize.css') }}>
+    
+    <!-- <link rel="stylesheet" href={{ url_for('static', path='/css/bootstrap.min.css') }} integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src={{ url_for('static', path="/js/jquery.slim.min.js") }} integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src={{ url_for('static', path="/js/popper.min.js") }} integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src={{ url_for('static', path="/js/bootstrap.min.js") }} integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href={{ url_for('static', path='/css/bootstrap.min.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/index.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/Fengqi.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', path='/css/zhongbao.css') }}>
+</head>
+<body>
+    
+   <div class="container">
+    <div id="searchPanel">
+        <div class="form-inline">
+          <p class="program_title">平台名称:</p>
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{ DataDict["program_id"] }}">
+                {% if DataDict["program_id"] == 1000 %}
+                Baoyun18
+                {% elif DataDict["program_id"] == 1001 %}
+                  Qixin18
+                {% elif DataDict["program_id"] == 1002 %}
+                  Niubao100
+                {% elif DataDict["program_id"] == 1003 %}
+                  Yisheng
+                {% elif DataDict["program_id"] == 1004 %}
+                  Fengqi
+                {% elif DataDict["program_id"] == 1005 %}
+                  Zhongbao
+                {% else %}
+                  ALL
+                {% endif %}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2" id="dropdown-menu">
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1000">Baoyun18</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1001">Qixin18</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1002">Niubao100</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1003">Yisheng</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1004">Fengqi</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="1005">Zhongbao</button>
+                <button class="dropdown-item dropdown-item-platform" type="button" value="999">ALL</button>
+              </div>
+          </div>
+          <div class="form-group mb-2">
+            <!-- <label for="staticEmail2" class="sr-only">Email</label> -->
+            <input type="text" readonly class="form-control-plaintext product_title" id="staticEmail2" value="产品名称">
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <!-- <label for="inputPassword2" class="sr-only">Password</label> -->
+            <input type="text" class="form-control search_input" id="inputPassword2" placeholder="请输入产品名称或关键字" value="{{ DataDict["product_key"] }}">
+          </div>
+          <button type="submit" class="btn btn-primary mb-2" id="searchBtn" onclick=searchBtnClickEvent()>搜索</button>
+        </div>
+  </div>
+  <div id="products_list_panel">
+    <div class="data_table">
+      {% for product_dict in ProductsList %}
+          <div class="table_title">
+            <p>平台名称：
+              {% if product_dict["program_id"] == 1000 %}
+                Baoyun18
+              {% elif product_dict["program_id"] == 1001 %}
+                Qixin18
+              {% elif product_dict["program_id"] == 1002 %}
+                Niubao100
+              {% elif product_dict["program_id"] == 1003 %}
+                Yisheng
+              {% elif product_dict["program_id"] == 1004 %}
+                Fengqi
+              {% elif product_dict["program_id"] == 1005 %}
+                Zhongbao
+              {% else %}
+                Unknown
+              {% endif %}
+            </p>
+            <span class="product_name">产品名称：{{ product_dict["product_name"]}}</span>
+            <!-- <button>在全平台搜索此产品</button> -->
+            {% if product_dict["program_id"] == 1005 %}
+              {% for url in product_dict["data"]["proposal_url"] %}
+                <button type="button" class="btn btn-default" {% if product_dict["data"]["proposal_url"] | length == 0 %} disabled {% endif %} ><a target="_blank" href="{% if product_dict["data"]["proposal_url"] | length == 0 %} # {% else %} {{url["proposalUrl"]}} {% endif %}">点此投保</a></button>
+                <button type="button" class="btn btn-default showLink" url-value="{% if product_dict["data"]["proposal_url"] | length == 0 %} # {% else %} {{url["proposalUrl"]}} {% endif %}">显示链接</button>
+              {% endfor %}
+            {% elif product_dict["program_id"] == 1004 %}
+              <button type="button" class="btn btn-default"><a target="_blank" href="https://www.fxyf99.com/product/bz0190725417/{{product_dict["product_id"]}}">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="https://www.fxyf99.com/product/bz0190725417/{{product_dict["product_id"]}}">显示链接</button>
+            {% elif product_dict["program_id"] == 1000 %}
+              <button type="button" class="btn btn-default"><a target="_blank" href="{{product_dict["data"]["commodityLink"]}}">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="{{product_dict["data"]["commodityLink"]}}">显示链接</button>
+            {% elif product_dict["program_id"] == 1001 %}
+              <button type="button" class="btn btn-default"><a target="_blank" href="https://cps.qixin18.com/apps/cps/ljj1048581/product/detail?prodId={{product_dict["data"]["data"]["productId"]}}&planId={{product_dict["data"]["data"]["planId"]}}&from=spks&tenantId=-1">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="https://cps.qixin18.com/apps/cps/ljj1048581/product/detail?prodId={{product_dict["data"]["data"]["productId"]}}&planId={{product_dict["data"]["data"]["planId"]}}&from=spks&tenantId=-1">显示链接</button>
+            {% elif product_dict["program_id"] == 1002 %}
+              {% if product_dict["data"]["url"] != "" %}
+                <button type="button" class="btn btn-default"><a target="_blank" href="{{product_dict["data"]["url"]}}">点此投保</a></button>
+                <button type="button" class="btn btn-default showLink" url-value="{{product_dict["data"]["url"]}}">显示链接</button>
+              {% endif %}
+            {% elif product_dict["program_id"] == 1003 %}
+              {% if "productDetail" in product_dict["data"] %}
+                <button type="button" class="btn btn-default"><a target="_blank" href="{{product_dict["data"]["productDetail"]}}">点此投保</a></button>
+                <button type="button" class="btn btn-default showLink" url-value="{{product_dict["data"]["productDetail"]}}">显示链接</button>
+              {% endif %}
+            {% endif %}
+          </div>
+          {% if product_dict["program_id"] == 1005 %}
+            <!-- zhongbao template -->
+            <div class="ant-spin-container">
+              <div class="table_div template-table-wrap">
+                <div class="edit-theader">
+                  <div class="tree-table" style="border-bottom: none;">
+                    {% if product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length > 2 %}
+                      <div class="th factor-col">影响因子</div>
+                      <div class="tree-table">
+                        <div class="th payperiod-col">缴费年期</div>
+                        <div class="tree-table">
+                          <div class="th fee-td">首年(%)</div>
+                          <div class="th fee-td">首年活动(%)</div>
+                          <div class="th fee-td">第二年(%)</div>
+                          <div class="th fee-td">第三年(%)</div>
+                          <div class="th fee-td">第四年(%)</div>
+                          <div class="th fee-td">第五年(%)</div>
+                        </div>
+                      </div>
+                    {% elif product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length <= 2 %}
+                      <div class="th factor-col">影响因子</div>
+                      <div class="tree-table">
+                        <div class="th payperiod-col">缴费年期</div>
+                        <div class="tree-table">
+                          <div class="th fee-td">首年(%)</div>
+                          <div class="th fee-td">首年折扣(%)</div>
+                          <div class="th fee-td">第二年(%)</div>
+                        </div>
+                      </div>
+                    {% else %}
+                      <div class="th factor-col">出现新的标题类型</div>
+                    {% endif %}
+                  </div>
+                </div>
+                {% for detail_dict in product_dict["data"]["data"]["rateDetail"]["commission"] %}
+                  <div class="table-body bordered">
+                    <div class="temp-table-context-wrap false undefined">
+                      <div class="main-sub">
+                        <span class="main" value="{{detail_dict["clauseId"]}}">
+                          {% if loop.first %}主 - {% else %}附 - {% endif %}
+                          {% if detail_dict["clauseName"] == "" %} - {% else %} {{ detail_dict["clauseName"] }}{% endif %}
+                        </span>
+                      </div>
+                      {% for RateDetail_dict in detail_dict["feeList"] %}
+                          <div class="tree-table">
+                            <div class="factor-col">
+                              {% if RateDetail_dict["rateCodeDescView"] == "" %}
+                                -
+                              {% else %}
+                                {{ RateDetail_dict["rateCodeDescView"] }}
+                              {% endif%}
+                            </div>
+                            <div class="branch-box">
+                              {% for eachRate in RateDetail_dict["rateValues"] %}  
+                                <div class="tree-table">
+                                      <div class="payperiod-col">{{ eachRate["rateCodeDesc"] }}</div>
+                                      <div class="branch-box">
+                                        <div>
+                                              <div class="tree-table fee-row">
+                                                {% if product_dict["data"]["data"]["rateDetail"]["commission"][0]["feeList"][0]["rateValues"][0]["receivable"] | length > 2 %}
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
+                                                  {% if "activeValue" in eachRate["letout"].keys() %}
+                                                    <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }}</div></div>
+                                                  {% else %}
+                                                    <div class="fee-td "><div> - </div></div>
+                                                  {% endif %}
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["second"] }}</div></div>
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["third"] }}</div></div>
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["fourth"] }}</div></div>
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["fifth"] }}</div></div>
+                                                {% else %}
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["first"] }}</div></div>
+                                                  {% if "activeValue" in eachRate["letout"].keys() %}
+                                                    <div class="fee-td "><div> {{ eachRate["letout"]["activeValue"] }} </div></div>
+                                                  {% else %}
+                                                    <div class="fee-td "><div> - </div></div>
+                                                  {% endif %}
+                                                  <div class="fee-td "><div>{{ eachRate["receivable"]["second"] }}</div></div>
+                                                {% endif %}
+                                              </div>
+                                      </div>
+                                    </div>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          </div>                          
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>		
+            </div>
+          {% elif product_dict["program_id"] == 1004 %}
+            <!-- Fengqi template -->
+            <div class="el-popover el-popper">
+                {% set  detail_dict = product_dict["data"]["data"][0] %}
+                {% set  detail_list = product_dict["data"]["data"][1] %}
+                  {% for list in detail_dict["list"] %}
+                    <table class="yjtablez fengqitable">
+                      <caption>
+                        {% if list["productGrade"] == "other" %}
+                          {{ product_dict["product_name"] }} 
+                        {% else %}
+                          {{ list["productGrade"] }}
+                        {% endif %}
+                      </caption>
+                      <tr>
+                        <td><span>缴费年限</span></td>
+                        {% for term in detail_dict["term"] %}
+                          <td><span>{{ term }}年</span></td>
+                        {% endfor %}
+                      </tr>
+                      {% for commissions in list["commissionList"] %}
+                        <tr>
+                          <td>
+                            {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
+                          </td>
+                          {% for commission in commissions["commissions"] %}
+                            <td>
+                              {% if commission["commission"] == "" %} - {% else %} {{ commission["commission"] }}%{% endif %}
+                              {% if commission["subsidyCommission"] == "" %}{% else %} + {{ commission["subsidyCommission"] }}%补贴 {% endif %}
+                            </td>
+                          {% endfor %}                     
+                        </tr>
+                      {% endfor %}              
+                    </table>
+                  {% endfor %}
+                  {% if detail_list | length > 0 %}
+                    {% for each_dict in detail_list %}
+                      
+                        <table class="yjtablez fengqitable">
+                          <caption>附加险 - {{ each_dict["name"] }}</caption>
+                          <tr>
+                            <td><span>缴费年限</span></td>
+                            {% for term in each_dict["term"] %}
+                              <td><span>{{ term }}年</span></td>
+                            {% endfor %}
+                          </tr>
+                          {% for list in each_dict["list"] %}
+                            {% for commissions in list["commissionList"] %}
+                              <tr>
+                                <td>
+                                  {% if loop.first%}首年{% else %}第{{ loop.index }}年{% endif %}
+                                </td>
+                                {% for commission in commissions["commissions"] %}
+                                  <td>
+                                    {% if commission["commission"] == "" %} - {% else %} {{ commission["commission"] }}%{% endif %}
+                                    {% if commission["subsidyCommission"] == "" %}{% else %} + {{ commission["subsidyCommission"] }}%补贴 {% endif %}
+                                  </td>
+                                {% endfor %}                     
+                              </tr>
+                            {% endfor %}       
+                          {% endfor %}       
+                        </table>
+                      
+                    {% endfor %}
+                  {% endif %}
+            </div>
+          {% elif product_dict["program_id"] == 1000 %}
+            <!-- Baoyun18 template -->
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">缴费年限</th>
+                  <th scope="col">保障期限</th>
+                  <th scope="col">首年 % </th>
+                  {# <th scope="col">次年 % </th> #}
+                  
+                </tr>
+              </thead>
+              <tbody>
+                  {% for details_dict in product_dict["data"]["content"] %}
+                    <tr>
+                      <th scope="row">{{ loop.index }}</th>
+                        <td>{{ details_dict["payDesc"] }}</td>
+                        <td>{{ details_dict["insureDesc"] }}</td>
+                        {% set firstRate_v2 =  details_dict["firstRate"] | float %}
+                        <td>{{ firstRate_v2*0.94 }}%</td>
+                        {# <td>{{ details_dict["secondRate"] }}</td> #}
+                    </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          {% elif product_dict["program_id"] == 1001 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">保单年度</th>
+                  <th scope="col">缴费年限</th>
+                  {% if product_dict["data"]["data"]["onlyInsureAge"] == false %}
+                    <th scope="col">费率纬度</th>
+                  {% endif %}
+                  {% if product_dict["data"]["data"]["trialItemNameList"] | length > 0 %}
+                    {% if product_dict["data"]["data"]["activityNameList"] | length > 0 %}
+                      {% for trialItemName in product_dict["data"]["data"]["trialItemNameList"] %}
+                      <th scope="col">{{ trialItemName }} - 基础服务费</th>
+                        {% for activityName in product_dict["data"]["data"]["activityNameList"] %}
+                         <th scope="col">{{ trialItemName }} - {{ activityName }}</th>
+                        {% endfor %}
+                      {% endfor %}
+                    {% else %}
+                      {% for trialItemName in product_dict["data"]["data"]["trialItemNameList"] %}
+                          <th scope="col">{{ trialItemName }}</th>
+                      {% endfor %}
+                    {% endif %}
+                  {% else %}
+                    {% if product_dict["data"]["data"]["activityNameList"] | length > 0 %}
+                     <th scope="col">基础服务费</th>
+                     {% for activityName in product_dict["data"]["data"]["activityNameList"] %}
+                      <th scope="col">{{ activityName }}</th>
+                     {% endfor %}
+                    {% else %}
+                      <th scope="col">基础服务费</th>
+                    {% endif %}
+                  {% endif %}
+                </tr>
+              </thead>
+              <tbody>
+                  {% for yearPolicyFeeDto in product_dict["data"]["data"]["yearPolicyFeeDtoList"] %}
+                    {% for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"] %}
+                      {% for partnerProductFeeItemDto in insureAgeFeeDto["partnerProductFeeItemDtoList"] %}
+                        <tr>
+                          <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
+                          <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
+                          {% if partnerProductFeeItemDto["economyText"] == "" %}
+                          {% else %}
+                            <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
+                          {% endif %}
+                          {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
+                            {% if feeRate %}
+                             <td>{{ feeRate }}%</td>
+                            {% else %}
+                             <td> - </td>
+                            {% endif %}
+                          {% endfor %}
+                        </tr>
+                      {% endfor %}
+                    {% endfor %}
+                  {% endfor %}
+              </tbody>
+            </table>
+          {% elif product_dict["program_id"] == 1002 %}
+          <!-- niubao100 -->
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">No.</th>
+                    {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                      <th scope="col">{{ commCol["name"] }}
+                        {% if commCol["name"] is number %}
+                          %
+                        {% endif %}
+                      </th>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for details_dict in  product_dict["data"]["data"]["skus"] %}
+                      <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                          {% if  commCol["key"] in details_dict.keys() %}
+                            <td>
+                              {% if details_dict[commCol["key"]] == None %}
+                                -
+                              {% else %}
+                               {{ details_dict[commCol["key"]] }}
+                              {% endif %}
+                            </td>
+                          {% else %}
+                            <td> - </td>
+                          {% endif %}
+                        {% endfor %}
+                      </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          {% elif product_dict["program_id"] == 1003 %}
+            <!-- Yisheng template -->
+            <div class="ant-spin-container">
+              <div class="table_div template-table-wrap">
+                <div class="edit-theader">
+                  <div class="tree-table" style="border-bottom: none;">
+                    <div class="th factor-col">产品名称</div>
+                    <div class="tree-table">
+                      <div class="tree-table">
+                        <div class="th fee-td">保障年限</div>
+                        <div class="th fee-td">缴费年限</div>
+                        <div class="th fee-td">第一年</div>
+                        {# <div class="th fee-td">第二年</div> #}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% for keys, values in product_dict["data"]["data"].items() %}
+                  <div class="table-body bordered">
+                    <div class="temp-table-context-wrap false undefined">
+                      
+                          <div class="tree-table">
+                            <div class="factor-col">
+                              {{ keys }}
+                            </div>
+                            <div class="branch-box">
+                              
+                                <div class="tree-table">
+                                      
+                                      <div class="branch-box">
+                                        <div>
+                                            {% for values_list in values %}
+                                              <div class="tree-table fee-row">
+                                                    {% for item in values_list %}
+                                                      {% if loop.index == 4 %}
+                                                        {% set firstrate = item | replace("%", "") %}
+                                                        {% if "+" in firstrate%}
+                                                          {% set firstrate_list = firstrate.split("+") %}
+                                                          {% set real_rate_1 = firstrate_list[0] | float %}
+                                                          {% set real_rate_2 = firstrate_list[1] | float %}
+                                                          <div class="fee-td "><div>{{ real_rate_1*0.94|float}}%+{{real_rate_2*0.94|float}}%</div></div>
+                                                        {% else %}
+                                                          {% set real_rate = firstrate | float %}
+                                                          <div class="fee-td "><div>{{ real_rate*0.94|float }}%</div></div>
+                                                        {% endif %}
+                                                        
+                                                      {% elif loop.index == 5 %}
+                                                        <!-- <div class="fee-td "><div>{{ item }}</div></div> -->
+                                                      {% else %}
+                                                        <div class="fee-td "><div>{{ item }}</div></div>
+                                                      {% endif %}
+                                                    {% endfor %}
+                                              </div>
+                                            {% endfor %}
+                                      </div>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                          </div>                          
+                      
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>		
+            </div>
+          {% else %}
+            暂无此平台数据
+          {% endif %}
+      {% endfor %}
+  </div>
+   <ul class="ant-pagination" id="page-foot">
+		<li class="ant-pagination-total-text" id="total-page" value="{{total_num}}">共 {{total_num}} 条</li>
+		<li class="ant-pagination-prev" id="PreBtn">
+			<a class="ant-pagination-item-link"><i aria-label="图标: left" class="anticon anticon-left"><svg viewBox="64 64 896 896" focusable="false" class="" data-icon="left" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 0 0 0 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path></svg></i></a>
+		</li>
+		<!-- [-1,0,1,2,3] -->
+		{% if pageList[0] > 0 %}
+			<li class="ant-pagination-item" value="{{pageList[0]}}"><a>{{pageList[0]}}</a></li>
+		{% endif %}
+		{% if pageList[1] > 0 %}
+			<li class="ant-pagination-item" value="{{pageList[1]}}"><a>{{pageList[1]}}</a></li>
+		{% endif %}
+			<li class="ant-pagination-item-active ant-pagination-item" value="{{pageList[2]}}"><a>{{pageList[2]}}</a></li>
+		{% if total_num-pageList[3]*DataDict["pageSize"] > 0 %}
+			<li class="ant-pagination-item" value="{{pageList[3]}}"><a>{{pageList[3]}}</a></li>
+		{% endif %}
+		{% if total_num-pageList[4]*DataDict["pageSize"] > 0 %}
+			<li class="ant-pagination-item" value="{{pageList[4]}}"><a>{{pageList[4]}}</a></li>
+		{% endif %}
+		<li class=" ant-pagination-next" id="NextBtn">
+			<a class="ant-pagination-item-link"><i aria-label="图标: right" class="anticon anticon-right"><svg viewBox="64 64 896 896" focusable="false" class="" data-icon="right" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></i></a>
+		</li>
+		<li class="ant-pagination-options">
+      <div class="dropdown" style="float: left; margin-right: 10px;">
+        <button class="btn btn-secondary dropdown-toggle dropdown-pagesize" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{ DataDict["pageSize"] }}" style="color:  rgba(0,0,0,.65); border: 1px solid #d9d9d9; background-color: #ffffff; height: 32px; line-height: 20px;">
+          {% if DataDict["pageSize"] == 5 %}
+           5条/页
+          {% elif DataDict["pageSize"] == 10 %}
+           10条/页
+          {% elif DataDict["pageSize"] == 20 %}
+           20条/页
+          {% elif DataDict["pageSize"] == 50 %}
+           50条/页
+          {% elif DataDict["pageSize"] == 100 %}
+           100条/页
+          {% else %}
+           5条/页
+          {% endif %}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu3" id="dropdown-menu3">
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="5">5条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="10">10条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="20">20条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="50">50条/页</button>
+          <button class="dropdown-item dropdown-item-pagesize" type="button" value="100">100条/页</button>
+        </div>
+      </div>
+			<div class="ant-pagination-options-quick-jumper">
+				跳转至
+				<input type="number" name="page_jumper" id="page_jumper" min="1">
+				页
+      </div>
+		</li>
+	</ul>
+</div>
+<script src={{ url_for('static', path="/js/jquery.slim.min.js") }} ></script>
+<script src={{ url_for('static', path="/js/popper.min.js") }}></script>
+<script src={{ url_for('static', path="/js/bootstrap.min.js") }}></script>
+<script src={{ url_for('static', path='/js/index.js') }}></script>
+</body>
+</html>

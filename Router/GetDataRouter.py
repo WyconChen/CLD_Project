@@ -50,3 +50,17 @@ async def BaoXianGetData(request:Request, searchType: Optional[int] = 1, page:in
     pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
     # return templates.TemplateResponse("index.html", {"request":request,"ProductsList": product_list, "DataDict":datadict, "pageList":pageList, "total_num":total_num})
     return product_list
+
+@GetDataRouter.get("/v2/baoxian/")
+async def BaoXianGetDataVersion_2(request:Request, searchType: Optional[int] = 1, page:int = None, program_id:int = None, product_key:str = None, pageSize:int = None):
+    DBH = DBHandler()
+    datadict = {
+        "searchType": 1,
+        "page": page or 1,
+        "program_id": program_id or 999,
+        "product_key": product_key or "",
+        "pageSize": pageSize or 5
+    }
+    product_list, total_num = DBH.GetJsonDataFromDB(datadict)
+    pageList = [datadict["page"]-2, datadict["page"]-1, datadict["page"], datadict["page"]+1, datadict["page"]+2]
+    return templates.TemplateResponse("main_v2.html", {"request":request,"ProductsList": product_list, "DataDict":datadict, "pageList":pageList, "total_num":total_num})

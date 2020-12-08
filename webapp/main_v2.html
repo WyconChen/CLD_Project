@@ -287,7 +287,8 @@
                         <td>{{ details_dict["payDesc"] }}</td>
                         <td>{{ details_dict["insureDesc"] }}</td>
                         {% set firstRate_v2 =  details_dict["firstRate"] | float %}
-                        <td>{{ firstRate_v2*0.94 | round(2,"floor")}}%</td>
+                        {% set real_rate = firstRate_v2 * 0.94 %}
+                        <td>{{ real_rate | round(2,"floor")}}%</td>
                         {# <td>{{ details_dict["secondRate"] }}</td> #}
                     </tr>
                   {% endfor %}
@@ -427,14 +428,17 @@
                                                           {% set firstrate_list = firstrate.split("+") %}
                                                           {% set real_rate_1 = firstrate_list[0] | float %}
                                                           {% set real_rate_2 = firstrate_list[1] | float %}
-                                                          <div class="fee-td "><div>{{ real_rate_1*0.94 | round(1,"common")}}%+{{real_rate_2*0.94 | round(1,"common")}}%</div></div>
+                                                          {% set real_first_rate = real_rate_1*0.94 %}
+                                                          {% set real_zhekou = real_rate_2*0.94 %}
+                                                          <div class="fee-td "><div>{{ real_first_rate | round(2,"floor")}}%+{{real_zhekou | round(2,"floor")}}%</div></div>
                                                         {% else %}
-                                                          {% set real_rate = firstrate | float %}
-                                                          <div class="fee-td "><div>{{ real_rate*0.94 | round(1,"common") }}%</div></div>
+                                                          {% set firstrate_1 = firstrate | float %}
+                                                          {% set real_firstrate = firstrate*0.94 %}
+                                                          <div class="fee-td "><div>{{ real_firstrate | round(2,"floor") }}%</div></div>
                                                         {% endif %}
                                                         
                                                       {% elif loop.index == 4 %}
-                                                        <!-- <div class="fee-td "><div>{{ item }}</div></div> -->
+                                                        
                                                       {% else %}
                                                         <div class="fee-td "><div>{{ item }}</div></div>
                                                       {% endif %}

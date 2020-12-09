@@ -403,7 +403,6 @@
                 <thead>
                   <tr>
                     <th scope="col">No.</th>
-                    {% set commCol_list = product_dict["data"]["data"]["commCols"] %}
                     
                     {% set delete_keyword_list = ["续保费率", "第二年推广费比例", "第三年推广费比例", "第四年推广费比例", "第五年推广费比例", "第六年推广费比例", "第七年推广费比例", "第八年推广费比例", "第十年推广费比例", "第九年推广费比例"] %}
                     
@@ -423,24 +422,25 @@
                       <tr>
                         <th scope="row">{{ loop.index }}</th>
                         {% for commCol in product_dict["data"]["data"]["commCols"] %}
-                          {% if  commCol["key"] in details_dict.keys() %}
-                            <td>
-                              {% if details_dict[commCol["key"]] == None %}
-                                -
-                              {% else %}
-                               {% if commCol["key"] in ["y1","y2","y3","y4","y5","actratio","ratio","renew_ratio","y6","y7","y8"] %}
-                                {% set rate = details_dict[commCol["key"]] | replace("%","") | float %}
-                                {% set real_rate = rate*0.94 %}
-                                {{ real_rate | round(2, "floor") }}%
-                               {% else %}
-                                {{ details_dict[commCol["key"]] }}
-                               {% endif %}
-                              {% endif %}
-                            </td>
-                          {% else %}
-                            <td> - </td>
+                          {% if commCol["name"] not in delete_keyword_list %}
+                            {% if  commCol["key"] in details_dict.keys() %}
+                              <td>
+                                {% if details_dict[commCol["key"]] == None %}
+                                  -
+                                {% else %}
+                                {% if commCol["key"] in ["y1","y2","y3","y4","y5","actratio","ratio","renew_ratio","y6","y7","y8"] %}
+                                  {% set rate = details_dict[commCol["key"]] | replace("%","") | float %}
+                                  {% set real_rate = rate*0.94 %}
+                                  {{ real_rate | round(2, "floor") }}%
+                                {% else %}
+                                  {{ details_dict[commCol["key"]] }}
+                                {% endif %}
+                                {% endif %}
+                              </td>
+                            {% else %}
+                              <td> - </td>
+                            {% endif %}
                           {% endif %}
-                        
                         {% endfor %}
                       </tr>
                     {% endfor %}

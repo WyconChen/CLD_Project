@@ -404,13 +404,13 @@
                   <tr>
                     <th scope="col">No.</th>
                     {% set commCol_list = product_dict["data"]["data"]["commCols"] %}
-                    {% set delete_index_list = [] %}
+                    {% set delete_index_list = [-1] %}
                     {% set delete_keyword_list = ["续保费率", "第二年", "次年", "第三年", "第四年", "第五年", "第六年", "第七年", "第八年", "第九年"] %}
                     {% for col in commCol_list %}
                       {% set current_index = loop.index %}
                       {% for keyword in delete_keyword_list %}
                         {% if keyword in col["name"] %}
-                          delete_index_list.append(current_index)
+                          {% delete_index_list.append(current_index) %}
                         {% endif %}
                       {% endfor %}
                     {% endfor %}

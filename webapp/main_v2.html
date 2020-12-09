@@ -405,7 +405,7 @@
                     <th scope="col">No.</th>
                     {% set commCol_list = product_dict["data"]["data"]["commCols"] %}
                     {% set delete_index_list = [] %}
-                    {% set delete_keyword_list = ["第二年", "次年", "第三年", "第四年", "第五年", "第六年", "第七年", "第八年", "第九年"] %}
+                    {% set delete_keyword_list = ["续保费率", "第二年", "次年", "第三年", "第四年", "第五年", "第六年", "第七年", "第八年", "第九年"] %}
                     {% for col in commCol_list %}
                       {% set current_index = loop.index %}
                       {% for keyword in delete_keyword_list %}
@@ -415,6 +415,7 @@
                       {% endfor %}
                     {% endfor %}
                     {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                    <div>123{{ delete_index_list }}</div>
                       {% if loop.index not in delete_index_list %}
                         <th scope="col">{{ commCol["name"] }}
                           {% if commCol["name"] is number %}
@@ -431,6 +432,7 @@
                         <th scope="row">{{ loop.index }}</th>
                         {% for commCol in product_dict["data"]["data"]["commCols"] %}
                         {% if loop.index not in delete_index_list %}
+                        <div>{{ delete_index_list }}</div>
                           {% if  commCol["key"] in details_dict.keys() %}
                             <td>
                               {% if details_dict[commCol["key"]] == None %}

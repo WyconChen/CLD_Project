@@ -423,8 +423,6 @@
                       <tr>
                         <th scope="row">{{ loop.index }}</th>
                         {% for commCol in product_dict["data"]["data"]["commCols"] %}
-                        
-                        <div>{{ delete_index_dict.values() }}</div>
                           {% if  commCol["key"] in details_dict.keys() %}
                             <td>
                               {% if details_dict[commCol["key"]] == None %}

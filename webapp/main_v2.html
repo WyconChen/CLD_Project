@@ -214,7 +214,7 @@
                     </div>
                   </div>
                 {% endfor %}
-              </div>		
+              </div>
             </div>
           {% elif product_dict["program_id"] == 1004 %}
             <!-- Fengqi template -->
@@ -371,25 +371,29 @@
               </thead>
               <tbody>
                   {% for yearPolicyFeeDto in product_dict["data"]["data"]["yearPolicyFeeDtoList"] %}
-                    {% for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"] %}
-                      {% for partnerProductFeeItemDto in insureAgeFeeDto["partnerProductFeeItemDtoList"] %}
-                        <tr>
-                          <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
-                          <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
-                          {% if partnerProductFeeItemDto["economyText"] == "" %}
-                          {% else %}
-                            <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
-                          {% endif %}
-                          {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
-                            {% if feeRate %}
-                             <td>{{ feeRate }}%</td>
+                    {% if loop.first %}
+                      {% for insureAgeFeeDto in yearPolicyFeeDto["insureAgeFeeDtoList"] %}
+                        {% for partnerProductFeeItemDto in insureAgeFeeDto["partnerProductFeeItemDtoList"] %}
+                          <tr>
+                            <td>{{ yearPolicyFeeDto["yearPolicyText"] }}</td>
+                            <td>{{ insureAgeFeeDto["insureAgeText"] }}</td>
+                            {% if partnerProductFeeItemDto["economyText"] == "" %}
                             {% else %}
-                             <td> - </td>
+                              <td>{{ partnerProductFeeItemDto["economyText"] }}</td>
                             {% endif %}
-                          {% endfor %}
-                        </tr>
+                            {% for feeRate in partnerProductFeeItemDto["feeRateList"] %}
+                              {% if feeRate %}
+                                {% set feeRate_float = feeRate | float %}
+                                {% set real_feeRate = feeRate_float*0.94 %}
+                                <td>{{ real_feeRate | round(2,"floor") }}%</td>
+                              {% else %}
+                              <td> - </td>
+                              {% endif %}
+                            {% endfor %}
+                          </tr>
+                        {% endfor %}
                       {% endfor %}
-                    {% endfor %}
+                    {% endif %}
                   {% endfor %}
               </tbody>
             </table>
@@ -399,13 +403,25 @@
                 <thead>
                   <tr>
                     <th scope="col">No.</th>
-                    {% for commCol in product_dict["data"]["data"]["commCols"] %}
-                      <th scope="col">{{ commCol["name"] }}
-                        {% if commCol["name"] is number %}
-                          %
-                          
+                    {% set commCol_list = product_dict["data"]["data"]["commCols"] %}
+                    {% set delete_index_list = [] %}
+                    {% set delete_keyword_list = ["第二年", "次年", "第三年", "第四年", "第五年", "第六年", "第七年", "第八年", "第九年"] %}
+                    {% for col in commCol_list %}
+                      {% set current_index = loop.index %}
+                      {% for keyword in delete_keyword_list %}
+                        {% if keyword in col["name"] %}
+                          delete_index_list.append(current_index)
                         {% endif %}
-                      </th>
+                      {% endfor %}
+                    {% endfor %}
+                    {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                      {% if loop.index not in delete_index_list %}
+                        <th scope="col">{{ commCol["name"] }}
+                          {% if commCol["name"] is number %}
+                            %
+                          {% endif %}
+                        </th>
+                      {% endif %}
                     {% endfor %}
                   </tr>
                 </thead>
@@ -414,17 +430,25 @@
                       <tr>
                         <th scope="row">{{ loop.index }}</th>
                         {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                        {% if loop.index not in delete_index_list %}
                           {% if  commCol["key"] in details_dict.keys() %}
                             <td>
                               {% if details_dict[commCol["key"]] == None %}
                                 -
                               {% else %}
-                               {{ details_dict[commCol["key"]] }}
+                               {% if commCol["key"] in ["y1","y2","y3","y4","y5","actratio","ratio","renew_ratio","y6","y7","y8"] %}
+                                {% set rate = details_dict[commCol["key"]] | replace("%","") | float %}
+                                {% set real_rate = rate*0.94 %}
+                                {{ real_rate | round(2, "floor") }}%
+                               {% else %}
+                                {{ details_dict[commCol["key"]] }}
+                               {% endif %}
                               {% endif %}
                             </td>
                           {% else %}
                             <td> - </td>
                           {% endif %}
+                        {% endif %}
                         {% endfor %}
                       </tr>
                     {% endfor %}

@@ -8,7 +8,6 @@ from DBHandler.DBHandler import DBHandler
 
 GetDataRouter = APIRouter()
 
-
 if platform.system() == "Windows":
     path = '{}/../webapp/'.format(os.path.dirname(__file__))
 else:

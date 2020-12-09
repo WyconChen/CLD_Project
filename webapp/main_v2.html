@@ -404,19 +404,20 @@
                   <tr>
                     <th scope="col">No.</th>
                     {% set commCol_list = product_dict["data"]["data"]["commCols"] %}
-                    {% set delete_index_list = [-1] %}
+                    {% set delete_index_dict = {}  %}
                     {% set delete_keyword_list = ["续保费率", "第二年", "次年", "第三年", "第四年", "第五年", "第六年", "第七年", "第八年", "第九年"] %}
                     {% for col in commCol_list %}
                       {% set current_index = loop.index %}
                       {% for keyword in delete_keyword_list %}
                         {% if keyword in col["name"] %}
-                          {% delete_index_list.append(current_index) %}
+                          {% set index_str = current_index | string }%}
+                          {% delete_index_dict[index_str] = current_index %}
                         {% endif %}
                       {% endfor %}
                     {% endfor %}
                     {% for commCol in product_dict["data"]["data"]["commCols"] %}
-                    <div>123{{ delete_index_list }}</div>
-                      {% if loop.index not in delete_index_list %}
+                    <div>123{{ delete_index_dict }}</div>
+                      {% if loop.index not in delete_index_dict.values() %}
                         <th scope="col">{{ commCol["name"] }}
                           {% if commCol["name"] is number %}
                             %
@@ -431,8 +432,8 @@
                       <tr>
                         <th scope="row">{{ loop.index }}</th>
                         {% for commCol in product_dict["data"]["data"]["commCols"] %}
-                        {% if loop.index not in delete_index_list %}
-                        <div>{{ delete_index_list }}</div>
+                        {% if loop.index not in delete_index_dict.values() %}
+                        <div>{{ delete_index_dict.values() }}</div>
                           {% if  commCol["key"] in details_dict.keys() %}
                             <td>
                               {% if details_dict[commCol["key"]] == None %}

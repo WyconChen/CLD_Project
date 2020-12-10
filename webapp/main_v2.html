@@ -172,13 +172,13 @@
                                                   <div class="fee-td "><div>
                                                     {% set receivable_first = eachRate["receivable"]["first"] | float %}
                                                     {% set real_receivable_first = receivable_first*0.94 %}
-                                                    {{ real_receivable_first | round(2,"floor") }}%
+                                                    {{ real_receivable_first | round(0,"floor") }}%
                                                   </div></div>
                                                   {% if "activeValue" in eachRate["letout"].keys() %}
                                                     <div class="fee-td "><div>
                                                       {% set activeValue = eachRate["letout"]["activeValue"] | float %} 
                                                       {% set real_activeValue = activeValue*0.94 %}
-                                                      {{ real_activeValue | round(2, "floor") }}% </div></div>
+                                                      {{ real_activeValue | round(0, "floor") }}% </div></div>
                                                   {% else %}
                                                     <div class="fee-td "><div> - </div></div>
                                                   {% endif %}
@@ -190,13 +190,13 @@
                                                   <div class="fee-td "><div>
                                                     {% set receivable_first = eachRate["receivable"]["first"] | float %}
                                                     {% set real_receivable_first = receivable_first*0.94 %}
-                                                    {{ real_receivable_first | round(2,"floor") }}%
+                                                    {{ real_receivable_first | round(0,"floor") }}%
                                                   </div></div>
                                                   {% if "activeValue" in eachRate["letout"].keys() %}
                                                     <div class="fee-td "><div>
                                                       {% set activeValue = eachRate["letout"]["activeValue"] | float %} 
                                                       {% set real_activeValue = activeValue*0.94 %}
-                                                      {{ real_activeValue | round(2, "floor") }}%
+                                                      {{ real_activeValue | round(0, "floor") }}%
                                                     </div></div>
                                                   {% else %}
                                                     <div class="fee-td "><div> - </div></div>
@@ -249,13 +249,13 @@
                                 {% else %}
                                  {% set commission_value = commission["commission"] | float %}
                                  {% set real_commission = commission_value*0.94 %}
-                                 {{ real_commission | round(2,'floor') }}%
+                                 {{ real_commission | round(0,'floor') }}%
                                 {% endif %}
                                 {% if commission["subsidyCommission"] == "" %}
                                 {% else %}
                                   {% set subsidyCommission_value = commission["subsidyCommission"] | float %}
                                   {% set real_subsidyCommission = subsidyCommission_value*0.94 %}
-                                  + {{ real_subsidyCommission | round(2, 'floor') }}%补贴 
+                                  + {{ real_subsidyCommission | round(0, 'floor') }}%补贴 
                                 {% endif %}
                               </td>
                             {% endfor %}                     
@@ -289,13 +289,13 @@
                                     {% else %}
                                       {% set commission_values = commission["commission"] | float %}
                                       {% set real_commission = commission_values*0.94 %}
-                                      {{ real_commission | round(2,'floor') }}%
+                                      {{ real_commission | round(0,'floor') }}%
                                     {% endif %}
                                     {% if commission["subsidyCommission"] == "" %}
                                       {% else %}
                                       {% set subsidyCommission_values = commission["subsidyCommission"] | float %}
                                       {% set real_subsidyCommission = subsidyCommission_values*0.94 %}
-                                      + {{ real_subsidyCommission | round(2, 'floor') }}%补贴 
+                                      + {{ real_subsidyCommission | round(0, 'floor') }}%补贴 
                                     {% endif %}
                                   </td>
                                 {% endfor %}                     
@@ -329,7 +329,7 @@
                         <td>{{ details_dict["insureDesc"] }}</td>
                         {% set firstRate_v2 =  details_dict["firstRate"] | float %}
                         {% set real_rate = firstRate_v2 * 0.94 %}
-                        <td>{{ real_rate | round(2,"floor")}}%</td>
+                        <td>{{ real_rate | round(0,"floor")}}%</td>
                         {# <td>{{ details_dict["secondRate"] }}</td> #}
                     </tr>
                   {% endfor %}
@@ -385,7 +385,7 @@
                               {% if feeRate %}
                                 {% set feeRate_float = feeRate | float %}
                                 {% set real_feeRate = feeRate_float*0.94 %}
-                                <td>{{ real_feeRate | round(2,"floor") }}%</td>
+                                <td>{{ real_feeRate | round(0,"floor") }}%</td>
                               {% else %}
                               <td> - </td>
                               {% endif %}
@@ -431,7 +431,7 @@
                                 {% if commCol["key"] in ["y1","y2","y3","y4","y5","actratio","ratio","renew_ratio","y6","y7","y8"] %}
                                   {% set rate = details_dict[commCol["key"]] | replace("%","") | float %}
                                   {% set real_rate = rate*0.94 %}
-                                  {{ real_rate | round(2, "floor") }}%
+                                  {{ real_rate | round(0, "floor") }}%
                                 {% else %}
                                   {{ details_dict[commCol["key"]] }}
                                 {% endif %}
@@ -488,14 +488,14 @@
                                                           {% set real_rate_2 = firstrate_list[1] | float %}
                                                           {% set real_first_rate = real_rate_1*0.94 %}
                                                           {% set real_zhekou = real_rate_2*0.94 %}
-                                                          <div class="fee-td "><div>{{ real_first_rate | round(2,"floor")}}%+{{real_zhekou | round(2,"floor")}}%</div></div>
+                                                          <div class="fee-td "><div>{{ real_first_rate | round(0,"floor")}}%+{{real_zhekou | round(0,"floor")}}%</div></div>
                                                         {% else %}
                                                           {% if "一" == firstrate %}
                                                             <div class="fee-td "><div>{{ item }}</div></div>
                                                           {% else %}
                                                             {% set firstrate_1 = firstrate | float %}
                                                             {% set real_firstrate = firstrate_1*0.94 %}
-                                                            <div class="fee-td "><div>{{ real_firstrate | round(2,"floor") }}%</div></div>
+                                                            <div class="fee-td "><div>{{ real_firstrate | round(0,"floor") }}%</div></div>
                                                           {% endif %}
                                                         {% endif %}
                                                         

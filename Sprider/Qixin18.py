@@ -84,8 +84,11 @@ class QiXin18:
         }
         result_dict = {}
         result_dict["program_id"] = 1001
-        result_dict["product_id"] = Products_Data_Dict["productId"]
-        result_dict["product_name"] = Products_Data_Dict["productName"]
+        result_dict["product_id"] = Products_Data_Dict["productId"] + Products_Data_Dict["planId"]
+        if Products_Data_Dict["planName"]:
+            result_dict["product_name"] = Products_Data_Dict["productName"] + "-" + Products_Data_Dict["planName"]
+        else:
+            result_dict["product_name"] = Products_Data_Dict["productName"]
         plan_Id = Products_Data_Dict["planId"]
         # result_dict["company_id"] = Products_Data_Dict["companyId"]
         # result_dict["company_name"] = Products_Data_Dict["companyName"]

@@ -537,10 +537,10 @@
 			<li class="ant-pagination-item" value="{{pageList[1]}}"><a>{{pageList[1]}}</a></li>
 		{% endif %}
 			<li class="ant-pagination-item-active ant-pagination-item" value="{{pageList[2]}}"><a>{{pageList[2]}}</a></li>
-		{% if total_num-pageList[3]*DataDict["pageSize"] > 0 %}
+		{% if total_num-pageList[3]*DataDict["pageSize"] >= 0 %}
 			<li class="ant-pagination-item" value="{{pageList[3]}}"><a>{{pageList[3]}}</a></li>
 		{% endif %}
-		{% if total_num-pageList[4]*DataDict["pageSize"] > 0 %}
+		{% if total_num-pageList[4]*DataDict["pageSize"] >= 0 %}
 			<li class="ant-pagination-item" value="{{pageList[4]}}"><a>{{pageList[4]}}</a></li>
 		{% endif %}
 		<li class=" ant-pagination-next" id="NextBtn">

@@ -89,8 +89,8 @@
                 <button type="button" class="btn btn-default showLink" url-value="{% if product_dict["data"]["proposal_url"] | length == 0 %} # {% else %} {{url["proposalUrl"]}} {% endif %}">显示链接</button>
               {% endfor %}
             {% elif product_dict["program_id"] == 1004 %}
-              <button type="button" class="btn btn-default"><a target="_blank" href="https://www.fxyf99.com/product/bz0190725417/{{product_dict["product_id"]}}">点此投保</a></button>
-              <button type="button" class="btn btn-default showLink" url-value="https://www.fxyf99.com/product/bz0190725417/{{product_dict["product_id"]}}">显示链接</button>
+              <button type="button" class="btn btn-default"><a target="_blank" href="https://www.fxyf99.com/bsite/products/bz0190725417/{{product_dict["product_id"]}}">点此投保</a></button>
+              <button type="button" class="btn btn-default showLink" url-value="https://www.fxyf99.com/bsite/products/bz0190725417/{{product_dict["product_id"]}}">显示链接</button>
             {% elif product_dict["program_id"] == 1000 %}
               <button type="button" class="btn btn-default"><a target="_blank" href="{{product_dict["data"]["commodityLink"]}}">点此投保</a></button>
               <button type="button" class="btn btn-default showLink" url-value="{{product_dict["data"]["commodityLink"]}}">显示链接</button>

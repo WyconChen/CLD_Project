@@ -10,7 +10,7 @@ class Yisheng:
     def __init__(self) -> None:
         self.program_id = 1003
         self.userName = "13539869933"
-        self.password = "QWEqwe123"
+        self.password = "QWEqwe123qwe"
         self.login_api = "http://www.inswindow.com/login/userLogin.shtml"
         self.product_menu_api = "http://www.inswindow.com/myproduct/productListShowAjax.shtml"
         self.Yisheng_Session = requests.Session()

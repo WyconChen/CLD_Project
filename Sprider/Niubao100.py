@@ -1,6 +1,6 @@
 import hashlib
 import json
-
+import sys
 import requests
 
 
@@ -11,7 +11,7 @@ class Niubao100:
     def __init__(self) -> None:
         self.loginURL = r"https://www.niubao100.com/user/login"
         self.user_name = "13539869933"
-        self.password = "QWEqwe123"
+        self.password = "QWEqwe123qwe"
         self.productList_url = "https://www.niubao100.com/item/pcListItem"
         self.productDetail_url = "https://www.niubao100.com/item/getItemCommList"
         self.Headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36"}
@@ -59,7 +59,8 @@ class Niubao100:
                     DetailsList_Dict["url"] = ""
                 # print(DetailsList_Dict)
                 datadict["data"] = json.dumps(DetailsList_Dict, ensure_ascii=False)
-
+                # print(datadict["data"])
+                # sys.exit(0)
                 res = requests.post(url="http://120.25.103.152:8002/save_json_data/", data=json.dumps(datadict))
                 result = json.loads(res.text)
                 if(result["result"] == False):

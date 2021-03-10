@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import sys
 
 class FengQi:
 
@@ -26,7 +27,7 @@ class FengQi:
         print("FengQi Start...")
 
     def Login(self):
-        formdata = {"account":"13539869933","password":"QWEqwe123","time":int(time.time()*1000)}
+        formdata = {"account":"13539869933","password":"QWEqwe123qwe","time":int(time.time()*1000)}
         res = self.QxSession.post(url=self.login_api, headers=self.Headers, data=json.dumps(formdata))
         # print(json.loads(res.text))
     
@@ -64,6 +65,8 @@ class FengQi:
                         datadict["product_id"] = product_id
                         datadict["product_name"] = product_name
                         datadict["data"] = res.text
+                        # print(datadict["data"])
+                        # sys.exit(0)
                         FQresult = requests.post(url="http://120.25.103.152:8002/save_json_data/", data=json.dumps(datadict))
                         result = json.loads(FQresult.text)
                         if(result["result"] == False):

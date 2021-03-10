@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import sys
 
 class BaoYun18:
 
@@ -10,7 +11,7 @@ class BaoYun18:
 
 		# User Info
 		self.userName = "13539869933"
-		self.password = "QWEqwe123"
+		self.password = "QWEqwe123qwe"
 
 		# Login Api
 		self.Login_Api = "https://api.baoyun18.com/cs/login.json"
@@ -58,7 +59,6 @@ class BaoYun18:
 					datadict = {"program_id": 1000}
 					datadict["product_name"] =  Product_Dict["commodityName"]
 					productIdArr = Product_Dict["productIdArr"]
-					#  横琴人寿嘉贝保少儿重疾保险
 					for product_id in productIdArr:
 						tempId = Product_Dict["tempId"]
 						datadict["product_id"] = product_id

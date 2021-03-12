@@ -353,8 +353,8 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">No.</th>
-                    {% for commCol in product_dict["data"]["data"]["commCols"] %}
+                    <th scope="col">序号</th>
+                    {% for commCol in product_dict["data"]["data"]["commissionHeader"] %}
                       <th scope="col">{{ commCol["name"] }}
                         {% if commCol["name"] is number %}
                           %
@@ -364,24 +364,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                    {% for details_dict in  product_dict["data"]["data"]["skus"] %}
-                      <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        {% for commCol in product_dict["data"]["data"]["commCols"] %}
-                          {% if  commCol["key"] in details_dict.keys() %}
-                            <td>
-                              {% if details_dict[commCol["key"]] == None %}
-                                -
-                              {% else %}
-                               {{ details_dict[commCol["key"]] }}
-                              {% endif %}
-                            </td>
-                          {% else %}
-                            <td> - </td>
-                          {% endif %}
-                        {% endfor %}
-                      </tr>
+                  {% for details_dict in  product_dict["data"]["data"]["commissionList"] %}
+                  <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    {% for item in product_dict["data"]["data"]["commissionHeader"] %}
+                      {% set itemKey = item["key"] %}
+                      <td>{{ details_dict[itemKey] }}</td>
                     {% endfor %}
+                  </tr>
+                {% endfor %}
                 </tbody>
             </table>
           {% elif product_dict["program_id"] == 1003 %}
